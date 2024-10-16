@@ -4,6 +4,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:teste_app_api/core/http/application/my_http.dart';
+import 'package:teste_app_api/models/produto.dart';
 import 'package:teste_app_api/models/usuario.dart';
 
 class PaginaInicialPage extends StatefulWidget {
@@ -15,6 +17,8 @@ class PaginaInicialPage extends StatefulWidget {
 
 class _PaginaInicialPageState extends State<PaginaInicialPage> {
   final listaUsuarios = <Usuario>[];
+  final listaProdutos = <Produto>[];
+
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +29,12 @@ class _PaginaInicialPageState extends State<PaginaInicialPage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ElevatedButton(
-              onPressed: funcaoClickBotao,
-              child: const Text('Testar API'),
+              onPressed: funcaoMostrarUsuarios,
+              child: const Text('Mostrar usuarios'),
             ),
             Expanded(
               child: ListView(
@@ -69,30 +74,26 @@ class _PaginaInicialPageState extends State<PaginaInicialPage> {
     );
   }
 
-  void funcaoClickBotao() async {
-    // Definindo endereço da API
-    final urlApi = Uri.http('192.168.0.236:8080', 'usuario');
-    // Buscando os registros na API
-    final resposta = await http.get(urlApi);
+  void funcaoMostrarUsuarios() async {
 
-    print('Response body: ${resposta.body}');
-    final jsonResposta = json.decode(resposta.body);
+//limpa lista
+    listaUsuarios.clear();
 
-    //limpa lista
-    // listaUsuarios.clear();
+    final myHttp = MyHttpService<Usuario>();
 
-    // Percorre a lista do json
-    for (final itemResposta in jsonResposta) {
-      // criando usuário
-      // final usuario = Usuario(
-      //   id_usuario: itemResposta['id_usuario'],
-      //   nome: itemResposta['nome'],
-      //   cpf: itemResposta['cpf'],
-      // );
-      final usuario = Usuario.fromMap(itemResposta);
-      // add usuário na lista
-      listaUsuarios.add(usuario);
-    }
+    final xlistaUsuarios = await  myHttp.get(entity: 'usuario', builder: Usuario.fromMap);
+
+    listaUsuarios.addAll(xlistaUsuarios);
+
     setState(() {});
+  }
+
+  void funcaoMostrarProdutos() async {
+    var url = Uri.http('192.168.0.236:8080', 'produtos');
+    var response = await http.post(url, body: {'': 'doodle', 'color': 'blue'});
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+
+    print(await http.read(Uri.https('example.com', 'foobar.txt')));
   }
 }

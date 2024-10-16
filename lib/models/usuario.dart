@@ -2,7 +2,9 @@
 
 import 'dart:convert';
 
-class Usuario {
+import 'package:teste_app_api/models/i_model.dart';
+
+class Usuario extends IModel {
   int id_usuario;
   String nome;
   String cpf;
@@ -13,6 +15,9 @@ class Usuario {
     required this.nome,
     required this.cpf,
   });
+
+
+
 
   /// Construtor
   factory Usuario.fromMap(Map<String, dynamic> map) {
@@ -39,4 +44,9 @@ class Usuario {
 
   @override
   String toString() => 'Usuario(id_usuario: $id_usuario, nome: $nome, cpf: $cpf)';
+
+  @override
+  fromMap(Map<String, dynamic> map) {
+    Usuario.fromMap(map);
+  }
 }
