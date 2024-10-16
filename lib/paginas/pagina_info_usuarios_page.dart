@@ -13,6 +13,7 @@ class PaginaDetalhesUsuario extends StatefulWidget {
 }
 
 class _PaginaDetalhesUsuarioState extends State<PaginaDetalhesUsuario> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +27,7 @@ class _PaginaDetalhesUsuarioState extends State<PaginaDetalhesUsuario> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Image.network(
-              'https://cdn.pixabay.com/photo/2012/04/26/19/43/profile-42914_960_720.png',
+              'https://cdn-icons-png.flaticon.com/512/8423/8423785.png',
               width: 30,
               height: 290,
               fit: BoxFit.fitHeight
@@ -34,7 +35,7 @@ class _PaginaDetalhesUsuarioState extends State<PaginaDetalhesUsuario> {
             Text(
               '\n\tID do usuario: ${widget.itemLista.id_usuario}'
               '\n\tNome completo do usuario: ${widget.itemLista.nome} '
-              '\n\tCPF do usuario: ${widget.itemLista.cpf}\n',
+              '\n\tCPF: ${widget.itemLista.cpf}\n',
               textScaleFactor: 1.5,
             ),
           ],
