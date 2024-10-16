@@ -16,9 +16,6 @@ class Usuario extends IModel {
     required this.cpf,
   });
 
-
-
-
   /// Construtor
   factory Usuario.fromMap(Map<String, dynamic> map) {
     return Usuario(
@@ -29,7 +26,8 @@ class Usuario extends IModel {
   }
 
   /// Construtor
-  factory Usuario.fromJson(String source) => Usuario.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Usuario.fromJson(String source) =>
+      Usuario.fromMap(json.decode(source) as Map<String, dynamic>);
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -41,9 +39,9 @@ class Usuario extends IModel {
 
   String toJson() => json.encode(toMap());
 
-
   @override
-  String toString() => 'Usuario(id_usuario: $id_usuario, nome: $nome, cpf: $cpf)';
+  String toString() =>
+      'Usuario(id_usuario: $id_usuario, nome: $nome, cpf: $cpf)';
 
   @override
   fromMap(Map<String, dynamic> map) {

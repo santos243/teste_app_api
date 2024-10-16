@@ -2,7 +2,9 @@
 
 import 'dart:convert';
 
-class Produto {
+import 'package:teste_app_api/models/i_model.dart';
+
+class Produto extends IModel {
   final int id_produto;
   final String nome;
   final String categoria;
@@ -42,4 +44,10 @@ class Produto {
   @override
   String toString() =>
       'Produto(id_produto: $id_produto, nome: $nome, categoria: $categoria, valor: $valor)';
+
+  @override
+  fromMap(Map<String, dynamic> map) {
+    Produto.fromMap(map);
+  }
+
 }

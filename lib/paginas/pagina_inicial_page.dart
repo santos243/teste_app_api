@@ -1,12 +1,10 @@
 // ignore_for_file: avoid_print
 
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:teste_app_api/core/http/application/my_http.dart';
-import 'package:teste_app_api/models/produto.dart';
 import 'package:teste_app_api/models/usuario.dart';
+import 'package:teste_app_api/paginas/pagina_info_usuarios_page.dart';
+import 'package:teste_app_api/paginas/pagina_produtos_page.dart';
 
 class PaginaInicialPage extends StatefulWidget {
   const PaginaInicialPage({super.key});
@@ -17,14 +15,13 @@ class PaginaInicialPage extends StatefulWidget {
 
 class _PaginaInicialPageState extends State<PaginaInicialPage> {
   final listaUsuarios = <Usuario>[];
-  final listaProdutos = <Produto>[];
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Teste API'),
+        title: const Text('Requisição de usuários'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: Center(
@@ -47,18 +44,23 @@ class _PaginaInicialPageState extends State<PaginaInicialPage> {
                     .map(
                       (itemLista) => Row(
                         children: [
-                          const FlutterLogo(
-                            size: 80,
+                          // const FlutterLogo(
+                          //   size: 80,
+                          // ),
+                          Image.network(
+                            "https://cdn.pixabay.com/photo/2012/04/26/19/43/profile-42914_960_720.png",
+                            height: 50,
+                            width: 50,
+                            fit: BoxFit.cover,
                           ),
-                          // Image.network(src)
                           Expanded(
                             child: ListTile(
                               title: Text(itemLista.nome),
                               subtitle: Text(
-                                  '${itemLista.id_usuario} - ${itemLista.cpf}'),
+                                  'ID do usuario - ${itemLista.id_usuario}'),
                               trailing: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Icons.alarm),
+                                onPressed: () => mostrarDetalhes(itemLista),
+                                icon: const Icon(Icons.info_outline_rounded),
                               ),
                             ),
                           ),
@@ -67,7 +69,11 @@ class _PaginaInicialPageState extends State<PaginaInicialPage> {
                     )
                     .toList(),
               ),
-            )
+            ),
+            ElevatedButton(
+              onPressed: () => irParaProdutos(),
+              child: const Text('Ir para produtos'),
+            ),
           ],
         ),
       ),
@@ -75,25 +81,40 @@ class _PaginaInicialPageState extends State<PaginaInicialPage> {
   }
 
   void funcaoMostrarUsuarios() async {
-
-//limpa lista
+    //limpa lista
     listaUsuarios.clear();
 
     final myHttp = MyHttpService<Usuario>();
 
-    final xlistaUsuarios = await  myHttp.get(entity: 'usuario', builder: Usuario.fromMap);
+    final xlistaUsuarios =
+        await myHttp.get(entity: 'usuario', builder: Usuario.fromMap);
 
     listaUsuarios.addAll(xlistaUsuarios);
 
     setState(() {});
   }
 
-  void funcaoMostrarProdutos() async {
-    var url = Uri.http('192.168.0.236:8080', 'produtos');
-    var response = await http.post(url, body: {'': 'doodle', 'color': 'blue'});
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
-
-    print(await http.read(Uri.https('example.com', 'foobar.txt')));
+  mostrarDetalhes(Usuario itemLista) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (_) => PaginaDetalhesUsuario(itemLista: itemLista)),
+    );
   }
+
+  void irParaProdutos() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const PaginaProdutosPage()),
+    );
+  }
+
+  // void funcaoMostrarProdutos() async {
+  //   var url = Uri.http('192.168.0.236:8080', 'produtos');
+  //   var response = await http.post(url, body: {'': 'doodle', 'color': 'blue'});
+  //   print('Response status: ${response.statusCode}');
+  //   print('Response body: ${response.body}');
+
+  //   print(await http.read(Uri.https('example.com', 'foobar.txt')));
+  // }
 }
