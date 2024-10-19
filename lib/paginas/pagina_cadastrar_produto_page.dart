@@ -47,15 +47,6 @@ class _PaginaCadastrarProdutoPageState
               onPressed: () async => {
                 // fazer com que a exception seja lançada em uma snack bar dentro do app
                 funcaoCadastroProduto(),
-                if (funcaoCadastroProduto() == HttpStatus.badRequest)
-                  {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text(
-                            'Ops! Parece que o campo preenchido é invalido ou esta vazio'),
-                      ),
-                    ),
-                  }
               },
               child: const Text('Cadastrar'),
             ),
@@ -73,7 +64,13 @@ class _PaginaCadastrarProdutoPageState
         nome: controllerNome.text,
         categoria: controllerCategoria.text,
         valor: double.parse(controllerValor.text));
+  try{
+     await myHttp.post(model: p, entity: 'produtos');
+  } catch (Exception){
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Campo invalido ou vazio, verifique os campos novamente!"),
+          ),
+      );
+  }
 
-    await myHttp.post(model: p, entity: 'produtos');
   }
 }
