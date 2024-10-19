@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:teste_app_api/core/http/application/my_http.dart';
 import 'package:teste_app_api/models/produto.dart';
+import 'package:teste_app_api/paginas/pagina_cadastrar_produto_page.dart';
 import 'package:teste_app_api/paginas/pagina_info_produto_page.dart';
 
 class PaginaProdutosPage extends StatefulWidget {
@@ -29,6 +30,10 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
               onPressed: () => funcaoMostrarProdutos(),
               child: const Text('Mostrar produtos'),
             ),
+            ElevatedButton(
+              onPressed: () => irParaCadastroProduto(),
+              child: Text('Cadastrar produto'),
+            ),
             Expanded(
               child: ListView(
                 children: listaProdutos
@@ -41,13 +46,14 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
                             height: 70,
                             width: 50,
                             fit: BoxFit.cover,
-                            ),
+                          ),
                           Expanded(
                             child: ListTile(
                               title: Text(itemProduto.nome),
                               subtitle: Text('ID - ${itemProduto.id_produto}'),
                               trailing: IconButton(
-                                onPressed: () => irParaInfoProdutos(itemProduto),
+                                onPressed: () =>
+                                    irParaInfoProdutos(itemProduto),
                                 icon: Icon(Icons.info_outlined),
                               ),
                             ),
@@ -78,7 +84,15 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
   void irParaInfoProdutos(Produto itemProduto) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => PaginaInfoProdutoPage(itemProduto: itemProduto)),
+      MaterialPageRoute(
+          builder: (_) => PaginaInfoProdutoPage(itemProduto: itemProduto)),
+    );
+  }
+
+  void irParaCadastroProduto() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const PaginaCadastrarProdutoPage()),
     );
   }
 }

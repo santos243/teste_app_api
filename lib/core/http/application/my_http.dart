@@ -27,6 +27,24 @@ class MyHttpService<T extends IModel> {
     return lista;
   }
 
+  Future<void> post({required T model, required String entity}) async {
+    final body = model.toMap();
+
+    final response = await http.post(
+      _getUri(entity: entity),
+      body: jsonEncode(body),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+    if (response.statusCode == 200) {
+      print('${response.statusCode} Produto adicionado com sucesso');
+    } else if (response.statusCode == 400) {
+      throw Exception(
+          "Ops! Ocorreu um erro inesperado, pode ser um campo vazio ou invalido");
+    }
+  }
+
   Uri _getUri({String? entity}) {
     if (entity == null) {
       return Uri.http(URL);

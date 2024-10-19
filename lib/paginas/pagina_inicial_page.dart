@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:teste_app_api/core/http/application/my_http.dart';
 import 'package:teste_app_api/models/usuario.dart';
+import 'package:teste_app_api/paginas/pagina_cadastrar_produto_page.dart';
+import 'package:teste_app_api/paginas/pagina_cadastrar_user_page.dart';
 import 'package:teste_app_api/paginas/pagina_info_usuarios_page.dart';
 import 'package:teste_app_api/paginas/pagina_produtos_page.dart';
 import 'package:teste_app_api/paginas/pagina_usuarios_page.dart';
@@ -22,12 +24,13 @@ class _PaginaInicialPageState extends State<PaginaInicialPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Requisição de usuários'),
+        title: const Text('Página inicial'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ElevatedButton(
@@ -38,6 +41,13 @@ class _PaginaInicialPageState extends State<PaginaInicialPage> {
               onPressed: () => irParaProdutos(),
               child: const Text('Ir para produtos'),
             ),
+            ElevatedButton(
+              onPressed: irParaCadastroUsuarios,
+              child: const Text('Cadastrar novo usuarios'),
+            ),
+            ElevatedButton(
+                onPressed: irParaCadastroProduto,
+                child: const Text('Cadastrar novo produto')),
           ],
         ),
       ),
@@ -56,6 +66,16 @@ class _PaginaInicialPageState extends State<PaginaInicialPage> {
       context,
       MaterialPageRoute(builder: (_) => const PaginaUsuariosPage()),
     );
+  }
+
+  void irParaCadastroUsuarios() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (_) => const PaginaCadastrarUserPage()));
+  }
+
+  void irParaCadastroProduto() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (_) => const PaginaCadastrarProdutoPage()));
   }
 
   // void funcaoMostrarProdutos() async {

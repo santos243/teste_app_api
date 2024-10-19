@@ -30,9 +30,10 @@ class Produto extends IModel {
   factory Produto.fromJson(String source) =>
       Produto.fromMap(json.decode(source) as Map<String, dynamic>);
 
+@override
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id_produto': id_produto,
+
       'nome': nome,
       'categoria': categoria,
       'valor': valor,

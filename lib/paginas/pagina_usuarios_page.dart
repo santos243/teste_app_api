@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:teste_app_api/core/http/application/my_http.dart';
 import 'package:teste_app_api/models/usuario.dart';
+import 'package:teste_app_api/paginas/pagina_cadastrar_user_page.dart';
 import 'package:teste_app_api/paginas/pagina_info_usuarios_page.dart';
 
 class PaginaUsuariosPage extends StatefulWidget {
@@ -29,6 +30,9 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
               onPressed: () => funcaoMostrarUsuarios(),
               child: const Text('Mostrar usuarios'),
             ),
+            ElevatedButton(
+                onPressed: irParaCadastroUsuarios,
+                child: const Text('Cadastrar novo usuario')),
             Expanded(
               child: ListView(
                 children: listaUsuarios
@@ -88,5 +92,10 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
       MaterialPageRoute(
           builder: (_) => PaginaDetalhesUsuario(itemLista: itemLista)),
     );
+  }
+
+  void irParaCadastroUsuarios() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (_) => const PaginaCadastrarUserPage()));
   }
 }

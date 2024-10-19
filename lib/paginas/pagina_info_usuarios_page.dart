@@ -33,7 +33,7 @@ class _PaginaDetalhesUsuarioState extends State<PaginaDetalhesUsuario> {
               fit: BoxFit.fitHeight
               ),
             Text(
-              '\n\tID do usuario: ${widget.itemLista.id_usuario}'
+              '\n\n\tID do usuario: ${widget.itemLista.id_usuario}'
               '\n\tNome completo do usuario: ${widget.itemLista.nome} '
               '\n\tCPF: ${widget.itemLista.cpf}\n',
               textScaleFactor: 1.5,
