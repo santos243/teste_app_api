@@ -50,6 +50,11 @@ class MyHttpService<T extends IModel> {
     }
   }
 
+  // Future<void> delete({required String entity}) async {
+  //   // final body = model.toMap();
+  //   final response = await http.delete(_getUri(entity: entity));
+  // }
+
   Uri _getUri({String? entity}) {
     if (entity == null) {
       return Uri.http(URL);

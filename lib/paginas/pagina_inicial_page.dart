@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:teste_app_api/models/usuario.dart';
 import 'package:teste_app_api/paginas/pagina_cadastrar_produto_page.dart';
 import 'package:teste_app_api/paginas/pagina_cadastrar_user_page.dart';
+import 'package:teste_app_api/paginas/pagina_deletar_produto_page.dart';
 import 'package:teste_app_api/paginas/pagina_produtos_page.dart';
 import 'package:teste_app_api/paginas/pagina_usuarios_page.dart';
 
@@ -44,8 +45,13 @@ class _PaginaInicialPageState extends State<PaginaInicialPage> {
               child: const Text('Cadastrar novo usuarios'),
             ),
             ElevatedButton(
-                onPressed: irParaCadastroProduto,
-                child: const Text('Cadastrar novo produto')),
+              onPressed: irParaCadastroProduto,
+              child: const Text('Cadastrar novo produto'),
+            ),
+            ElevatedButton(
+              onPressed: irParaDeleteProdutos,
+              child: const Text("Deletar produtos"),
+            ),
           ],
         ),
       ),
@@ -76,12 +82,9 @@ class _PaginaInicialPageState extends State<PaginaInicialPage> {
         MaterialPageRoute(builder: (_) => const PaginaCadastrarProdutoPage()));
   }
 
-  // void funcaoMostrarProdutos() async {
-  //   var url = Uri.http('192.168.0.236:8080', 'produtos');
-  //   var response = await http.post(url, body: {'': 'doodle', 'color': 'blue'});
-  //   print('Response status: ${response.statusCode}');
-  //   print('Response body: ${response.body}');
+  void irParaDeleteProdutos() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (_) => const PaginaDeletarProdutoPage()));
+  }
 
-  //   print(await http.read(Uri.https('example.com', 'foobar.txt')));
-  // }
 }

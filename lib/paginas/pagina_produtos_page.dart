@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:teste_app_api/core/http/application/my_http.dart';
 import 'package:teste_app_api/models/produto.dart';
 import 'package:teste_app_api/paginas/pagina_cadastrar_produto_page.dart';
