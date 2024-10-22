@@ -1,4 +1,4 @@
-import 'dart:io';
+// ignore_for_file: use_build_context_synchronously, avoid_types_as_parameter_names, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:teste_app_api/core/http/application/my_http.dart';
@@ -64,13 +64,15 @@ class _PaginaCadastrarProdutoPageState
         nome: controllerNome.text,
         categoria: controllerCategoria.text,
         valor: double.parse(controllerValor.text));
-  try{
-     await myHttp.post(model: p, entity: 'produtos');
-  } catch (Exception){
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Campo invalido ou vazio, verifique os campos novamente!"),
-          ),
+    try {
+      await myHttp.post(model: p, entity: 'produtos');
+    } catch (Exception) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content:
+              Text("Campo invalido ou vazio, verifique os campos e tente novamente!"),
+        ),
       );
-  }
-
+    }
   }
 }

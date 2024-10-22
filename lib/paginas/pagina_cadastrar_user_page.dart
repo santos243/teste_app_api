@@ -1,5 +1,8 @@
+// ignore_for_file: use_build_context_synchronously,avoid_types_as_parameter_names, non_constant_identifier_names, empty_catches
 
 import 'package:flutter/material.dart';
+import 'package:teste_app_api/core/http/application/my_http.dart';
+import 'package:teste_app_api/models/usuario.dart';
 // import 'package:http/http.dart' as http;
 
 class PaginaCadastrarUserPage extends StatefulWidget {
@@ -35,7 +38,7 @@ class _PaginaCadastrarUserPageState extends State<PaginaCadastrarUserPage> {
               controller: controllerCpf,
             ),
             ElevatedButton(
-              onPressed: () => printarDadosDigitados(),
+              onPressed: () => funcaoCadastroUsuario(),
               child: const Text('Cadastrar usuário'),
             ),
           ],
@@ -45,10 +48,39 @@ class _PaginaCadastrarUserPageState extends State<PaginaCadastrarUserPage> {
   }
 
   // apenas para teste
-  void printarDadosDigitados(){
-    print('nome: ${controllerNome.text}\n cpf: ${controllerCpf.text}');
+  // void printarDadosDigitados() {
+  //   print('nome: ${controllerNome.text}\n cpf: ${controllerCpf.text}');
+  // }
+
+  Future<void> funcaoCadastroUsuario() async {
+    final myHttp = MyHttpService<Usuario>();
+
+    final u = Usuario(
+        id_usuario: 1, nome: controllerNome.text, cpf: controllerCpf.text);
+
+    await myHttp.post(model: u, entity: 'usuario');
+
+    // lança um aviso de usuario cadastrado se os dados não forem vazios.
+    if (u.nome.isNotEmpty && u.cpf.isNotEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Usuário adicionado com sucesso no banco de dados"),
+        ),
+      );
+      controllerCpf.clear();
+      controllerNome.clear();
+    } else if (u.nome.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("O campo de nome está vazio."),
+        ),
+      );
+    } else if (u.cpf.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("O campo de CPF está vazio"),
+        ),
+      );
+    }
   }
-
-
-
 }

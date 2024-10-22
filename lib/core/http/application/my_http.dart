@@ -37,11 +37,8 @@ class MyHttpService<T extends IModel> {
         "Content-Type": "application/json",
       },
     );
-    if (response.statusCode == 200) {
-      print('${response.statusCode} Produto adicionado com sucesso');
-    } else if (response.statusCode == 400) {
-      throw Exception(
-          "Ops! Ocorreu um erro inesperado, pode ser um campo vazio ou invalido");
+    if (response.statusCode == 400) {
+      throw Exception("Campo invalido ou nao preenchido");
     }
   }
 
