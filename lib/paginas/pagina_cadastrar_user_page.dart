@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:teste_app_api/core/http/application/my_http.dart';
 import 'package:teste_app_api/models/usuario.dart';
+import 'package:teste_app_api/paginas/pagina_cadastro_usuario_efetuado_page.dart';
 // import 'package:http/http.dart' as http;
 
 class PaginaCadastrarUserPage extends StatefulWidget {
@@ -33,7 +34,8 @@ class _PaginaCadastrarUserPageState extends State<PaginaCadastrarUserPage> {
             TextField(
               controller: controllerNome,
             ),
-            const Text('Insira o CPF do usuario aqui:'),
+            const Text('Insira o CPF do usuario aqui:\n'
+            '\t\t\t\t\t\t\t\t\t\t11 digitos'),
             TextField(
               controller: controllerCpf,
             ),
@@ -58,29 +60,53 @@ class _PaginaCadastrarUserPageState extends State<PaginaCadastrarUserPage> {
     final u = Usuario(
         id_usuario: 1, nome: controllerNome.text, cpf: controllerCpf.text);
 
-    await myHttp.post(model: u, entity: 'usuario');
-
-    // lança um aviso de usuario cadastrado se os dados não forem vazios.
-    if (u.nome.isNotEmpty && u.cpf.isNotEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Usuário adicionado com sucesso no banco de dados"),
-        ),
-      );
-      controllerCpf.clear();
-      controllerNome.clear();
-    } else if (u.nome.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("O campo de nome está vazio."),
-        ),
-      );
-    } else if (u.cpf.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("O campo de CPF está vazio"),
+    if (u.nome.length < 8 || u.cpf.length < 11 || u.cpf.length > 11) {
+      throw Exception(
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+                "CPF ou nome invalido, por favor preencha os campos corretamente."),
+          ),
         ),
       );
     }
+
+    try {
+      await myHttp.post(model: u, entity: 'usuario');
+    } catch (Exception) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(Exception.toString()),
+        ),
+      );
+    }
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (_) => const PaginaCadastroUsuarioEfetuadoPage()));
+
+    // lança um aviso de usuario cadastrado se os dados não forem vazios.
+    // if (u.nome.isNotEmpty && u.cpf.isNotEmpty) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     const SnackBar(
+    //       content: Text("Usuário adicionado com sucesso no banco de dados"),
+    //     ),
+    //   );
+    //   controllerCpf.clear();
+    //   controllerNome.clear();
+    // } else if (u.nome.isEmpty) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     const SnackBar(
+    //       content: Text("O campo de nome está vazio."),
+    //     ),
+    //   );
+    // } else if (u.cpf.isEmpty) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     const SnackBar(
+    //       content: Text("O campo de CPF está vazio"),
+    //     ),
+    //   );
+    // }
   }
 }

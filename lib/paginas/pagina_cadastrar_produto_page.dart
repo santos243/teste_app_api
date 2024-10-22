@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:teste_app_api/core/http/application/my_http.dart';
 import 'package:teste_app_api/models/produto.dart';
+import 'package:teste_app_api/paginas/pagina_cadastro_produto_efetuado_page.dart';
 
 class PaginaCadastrarProdutoPage extends StatefulWidget {
   const PaginaCadastrarProdutoPage({super.key});
@@ -39,15 +40,13 @@ class _PaginaCadastrarProdutoPageState
             TextField(
               controller: controllerCategoria,
             ),
-            const Text('Insira o valor do produto:'),
+            const Text(
+                'Insira o valor do produto: \n\t\t\t\t\t\tminimo 1,00 real'),
             TextField(
               controller: controllerValor,
             ),
             ElevatedButton(
-              onPressed: () async => {
-                // fazer com que a exception seja lançada em uma snack bar dentro do app
-                funcaoCadastroProduto(),
-              },
+              onPressed: () => funcaoCadastroProduto(),
               child: const Text('Cadastrar'),
             ),
           ],
@@ -64,15 +63,34 @@ class _PaginaCadastrarProdutoPageState
         nome: controllerNome.text,
         categoria: controllerCategoria.text,
         valor: double.parse(controllerValor.text));
+
+    if (p.nome.length < 2 ||
+        p.categoria.length > 20 && p.categoria.length < 2 ||
+        p.valor < 1) {
+      throw Exception(
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+                "Verifique se os campos foram digitados corretamente e tente novamente"),
+          ),
+        ),
+      );
+    }
+
     try {
       await myHttp.post(model: p, entity: 'produtos');
     } catch (Exception) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content:
-              Text("Campo invalido ou vazio, verifique os campos e tente novamente!"),
+        SnackBar(
+          content: Text(Exception.toString()),
         ),
       );
     }
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const PaginaCadastroProdutoEfetuadoPage(),
+      ),
+    );
   }
 }
