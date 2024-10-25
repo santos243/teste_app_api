@@ -16,6 +16,8 @@ class _PaginaCadastroUsuarioEfetuadoPageState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
+        automaticallyImplyLeading: false,
         title: const Text("Voltar"),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
@@ -42,7 +44,7 @@ class _PaginaCadastroUsuarioEfetuadoPageState
   }
 
   void irParaCadastroUsuario() {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (_) => const PaginaCadastrarUserPage(),

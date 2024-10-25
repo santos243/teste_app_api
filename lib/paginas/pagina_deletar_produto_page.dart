@@ -1,6 +1,9 @@
+// ignore_for_file: use_build_context_synchronously, non_constant_identifier_names, avoid_types_as_parameter_names
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:teste_app_api/core/http/application/my_http.dart';
+import 'package:teste_app_api/models/produto.dart';
 
 class PaginaDeletarProdutoPage extends StatefulWidget {
   const PaginaDeletarProdutoPage({super.key});
@@ -17,6 +20,7 @@ class _PaginaDeletarProdutoPageState extends State<PaginaDeletarProdutoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text("Deletar produto"),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
@@ -30,7 +34,7 @@ class _PaginaDeletarProdutoPageState extends State<PaginaDeletarProdutoPage> {
               controller: controllerId,
             ),
             ElevatedButton(
-              onPressed: () => funcaoDeletarProduto(),
+              onPressed: () => funcaoDelete(),
               child: const Text("Deletar"),
             ),
           ],
@@ -46,16 +50,23 @@ class _PaginaDeletarProdutoPageState extends State<PaginaDeletarProdutoPage> {
 
   Future<void> funcaoDeletarProduto() async {
     final uri = Uri.parse(
-        "http://192.168.0.236:8080/delete/produtos/${int.parse(controllerId.text)}");
+        "http://192.168.0.236:8080/delete/produtos/${controllerId.text}");
 
     await http.delete(uri);
   }
 
-  // Future<void> funcaoDelete() async {
-  //   final myHttp = MyHttpService<Produto>();
+  Future<void> funcaoDelete() async {
+    final myHttp = MyHttpService<Produto>();
 
-  //   final p = Produto(id_produto: int.parse(controllerId.text),categoria: "",nome: "",valor: 0);
-
-  //   await myHttp.delete(entity: 'produtos/${p.id_produto}');
-  // }
+    try {
+      await myHttp.delete(entity: 'produtos', id: int.parse(controllerId.text));
+    } catch (Exception) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(Exception.toString()),
+        ),
+      );
+    }
+    controllerId.clear();
+  }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:teste_app_api/core/http/application/my_http.dart';
 import 'package:teste_app_api/models/produto.dart';
 import 'package:teste_app_api/paginas/pagina_cadastro_produto_efetuado_page.dart';
+import 'package:teste_app_api/paginas/pagina_produtos_page.dart';
 
 class PaginaCadastrarProdutoPage extends StatefulWidget {
   const PaginaCadastrarProdutoPage({super.key});
@@ -22,34 +23,67 @@ class _PaginaCadastrarProdutoPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text('Cadastrar novo produto'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        iconTheme: const IconThemeData(color: Colors.white),
+        centerTitle: true,
+        title: const Text(
+          'Cadastrar novo produto',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.black,
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text('Insira o nome do produto:'),
-            TextField(
-              controller: controllerNome,
-            ),
-            const Text(
-                'Insira qual categoria o produto pertence\n ex: Marcenaria, Eletrodoméstico, Eletrônico, etc'),
-            TextField(
-              controller: controllerCategoria,
-            ),
-            const Text(
-                'Insira o valor do produto: \n\t\t\t\t\t\tminimo 1,00 real'),
-            TextField(
-              controller: controllerValor,
-            ),
-            ElevatedButton(
-              onPressed: () => funcaoCadastroProduto(),
-              child: const Text('Cadastrar'),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text('Insira o nome do produto:',
+                    style: TextStyle(color: Colors.white)),
+              ),
+              TextField(
+                controller: controllerNome,
+                style: const TextStyle(color: Colors.white),
+              ),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                    'Insira qual categoria o produto pertence\n ex: Marcenaria, Eletrodoméstico, Eletrônico, etc',
+                    style: TextStyle(color: Colors.white)),
+              ),
+              TextField(
+                controller: controllerCategoria,
+                style: const TextStyle(color: Colors.white),
+              ),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  'Insira o valor do produto: \n\t\t\t\t\t\tminimo 1,00 real',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+              TextField(
+                controller: controllerValor,
+                style: const TextStyle(color: Colors.white),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blueAccent.shade200),
+                  onPressed: () => funcaoCadastroProduto(),
+                  child: const Text(
+                    'Cadastrar',
+                    style: TextStyle(color: Colors.white, fontSize: 17),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -86,11 +120,59 @@ class _PaginaCadastrarProdutoPageState
         ),
       );
     }
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => const PaginaCadastroProdutoEfetuadoPage(),
-      ),
+
+    final usuarioConfirmou = await _showMessageDialog();
+
+    if (!usuarioConfirmou!) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const PaginaProdutosPage(),
+        ),
+      );
+    }
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (_) => const PaginaCadastroProdutoEfetuadoPage(),
+    //   ),
+    // );
+  }
+
+  Future<bool?> _showMessageDialog() async {
+    return showDialog<bool>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Atenção'),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Produto cadastrado com sucesso.'),
+                Text('Deseja cadastrar outro produto?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Sim'),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+                // controllerCategoria.clear();
+                // controllerValor.clear();
+                // controllerNome.clear();
+              },
+            ),
+            TextButton(
+              child: const Text('Não'),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -16,24 +16,43 @@ class _PaginaInfoProdutoPageState extends State<PaginaInfoProdutoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text('Info ID ${widget.itemProduto.id_produto}'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        iconTheme: const IconThemeData(color: Colors.white),
+        centerTitle: true,
+        title: Text(
+          'Info ID ${widget.itemProduto.id_produto}',
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 30,
+            fontStyle: FontStyle.italic,
+          ),
+        ),
+        backgroundColor: Colors.black,
       ),
       body: Center(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.network(
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRbj_yi1IsynZEogJoBgYAu4f8-Ox5is10wg&s',
-              width: 50,
-              height: 250,
+            Padding(
+              padding: const EdgeInsets.all(17.0),
+              child: Image.network(
+                'https://cdn-icons-png.flaticon.com/512/5902/5902522.png',
+                width: 230,
+                height: 250,
+              ),
             ),
-            Text('\n\tID do produto: ${widget.itemProduto.id_produto}\n'
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                '\n\tID do produto: ${widget.itemProduto.id_produto}\n'
                 '\tNome do produto: ${widget.itemProduto.nome}\n'
                 '\tCategoria: ${widget.itemProduto.categoria}\n'
-                '\n\n\tValor: ${widget.itemProduto.valor} reais', textScaleFactor: 1.5),
+                '\n\n\tValor: ${widget.itemProduto.valor} reais',
+                textScaleFactor: 1.5,
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
           ],
         ),
       ),

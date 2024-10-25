@@ -19,50 +19,90 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       appBar: AppBar(
-        title: const Text('Requisição de produtos'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        iconTheme: IconThemeData(color: Colors.white),
+        centerTitle: true,
+        title: const Text(
+          'Requisição de produtos',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.black,
       ),
       body: Center(
         child: Column(
           children: [
-            ElevatedButton(
-              onPressed: () => funcaoMostrarProdutos(),
-              child: const Text('Mostrar produtos'),
-            ),
-            ElevatedButton(
-              onPressed: () => irParaCadastroProduto(),
-              child: Text('Cadastrar produto'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () => funcaoMostrarProdutos(),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blueAccent.shade400),
+                  child: const Text(
+                    'Mostrar produtos',
+                    style: TextStyle(color: Colors.white),
+                    textScaler: TextScaler.linear(1.2),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () => irParaCadastroProduto(),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blueAccent.shade400),
+                  child: Text(
+                    'Cadastrar produto',
+                    style: TextStyle(color: Colors.white),
+                    textScaler: TextScaler.linear(1.2),
+                  ),
+                ),
+              ],
             ),
             Expanded(
-              child: ListView(
-                children: listaProdutos
-                    .map(
-                      (itemProduto) => Row(
-                        // ignore: prefer_const_literals_to_create_immutables
-                        children: [
-                          Image.network(
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRbj_yi1IsynZEogJoBgYAu4f8-Ox5is10wg&s',
-                            height: 70,
-                            width: 50,
-                            fit: BoxFit.cover,
-                          ),
-                          Expanded(
-                            child: ListTile(
-                              title: Text(itemProduto.nome),
-                              subtitle: Text('ID - ${itemProduto.id_produto}'),
-                              trailing: IconButton(
-                                onPressed: () =>
-                                    irParaInfoProdutos(itemProduto),
-                                icon: Icon(Icons.info_outlined),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: ListView(
+                  children: listaProdutos
+                      .map(
+                        (itemProduto) => Row(
+                          // ignore: prefer_const_literals_to_create_immutables
+                          children: [
+                            Image.network(
+                              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRbj_yi1IsynZEogJoBgYAu4f8-Ox5is10wg&s',
+                              height: 70,
+                              width: 50,
+                              fit: BoxFit.cover,
+                            ),
+                            Expanded(
+                              child: ListTile(
+                                title: Text(itemProduto.nome),
+                                subtitle: Text('ID - ${itemProduto.id_produto}'),
+                                subtitleTextStyle: TextStyle(color: Colors.white),
+                                titleTextStyle: TextStyle(color: Colors.white),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    IconButton(
+                                      onPressed: () =>
+                                          irParaInfoProdutos(itemProduto),
+                                      icon: Icon(
+                                        Icons.info_outlined,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    IconButton(
+                                      onPressed: () => deleteProduto(itemProduto),
+                                      icon: Icon(Icons.delete_outline_rounded,
+                                          color: Colors.white),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    )
-                    .toList(),
+                          ],
+                        ),
+                      )
+                      .toList(),
+                ),
               ),
             ),
           ],
@@ -71,7 +111,7 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
     );
   }
 
-  void funcaoMostrarProdutos() async {
+  Future<void> funcaoMostrarProdutos() async {
     listaProdutos.clear();
 
     final myHttp = MyHttpService<Produto>();
@@ -80,6 +120,13 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
 
     listaProdutos.addAll(xlistaProdutos);
     setState(() {});
+  }
+
+  Future<void> deleteProduto(itemProduto) async {
+    final myHttp = MyHttpService<Produto>();
+
+    await myHttp.delete(entity: 'produtos', id: itemProduto.id_produto);
+    await funcaoMostrarProdutos();
   }
 
   void irParaInfoProdutos(Produto itemProduto) {
@@ -91,7 +138,7 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
   }
 
   void irParaCadastroProduto() {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (_) => const PaginaCadastrarProdutoPage()),
     );

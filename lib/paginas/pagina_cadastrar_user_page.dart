@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:teste_app_api/core/http/application/my_http.dart';
 import 'package:teste_app_api/models/usuario.dart';
-import 'package:teste_app_api/paginas/pagina_cadastro_usuario_efetuado_page.dart';
+import 'package:teste_app_api/paginas/pagina_usuarios_page.dart';
 // import 'package:http/http.dart' as http;
 
 class PaginaCadastrarUserPage extends StatefulWidget {
@@ -21,27 +21,46 @@ class _PaginaCadastrarUserPageState extends State<PaginaCadastrarUserPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text('Cadastrar novo usuario'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        iconTheme: const IconThemeData(color: Colors.white),
+        centerTitle: true,
+        title: const Text(
+          'Cadastrar novo usuario',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.black,
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text('Insira o nome do usuario:'),
+            const Text(
+              'Insira o nome do usuario:',
+              style: TextStyle(color: Colors.white, fontSize: 19),
+            ),
             TextField(
               controller: controllerNome,
+              style: const TextStyle(color: Colors.white),
             ),
-            const Text('Insira o CPF do usuario aqui:\n'
-            '\t\t\t\t\t\t\t\t\t\t11 digitos'),
+            const Text(
+              'Insira o CPF do usuario aqui:\n'
+              '\t\t\t\t\t\t\t\t\t\t11 digitos',
+              style: TextStyle(color: Colors.white, fontSize: 19),
+            ),
             TextField(
               controller: controllerCpf,
+              style: const TextStyle(color: Colors.white),
             ),
             ElevatedButton(
               onPressed: () => funcaoCadastroUsuario(),
-              child: const Text('Cadastrar usuário'),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent.shade400),
+              child: const Text(
+                'Cadastrar usuário',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ],
         ),
@@ -60,7 +79,7 @@ class _PaginaCadastrarUserPageState extends State<PaginaCadastrarUserPage> {
     final u = Usuario(
         id_usuario: 1, nome: controllerNome.text, cpf: controllerCpf.text);
 
-    if (u.nome.length < 8 || u.cpf.length < 11 || u.cpf.length > 11) {
+    if (u.nome.length < 8 || u.cpf.length != 11) {
       throw Exception(
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -81,10 +100,20 @@ class _PaginaCadastrarUserPageState extends State<PaginaCadastrarUserPage> {
       );
     }
 
-    Navigator.push(
-        context,
+    final usuarioConfirmou = await _showMyDialog();
+
+    if (!usuarioConfirmou!) {
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-            builder: (_) => const PaginaCadastroUsuarioEfetuadoPage()));
+          builder: (context) => const PaginaUsuariosPage(),
+        ),
+      );
+    }
+
+    // Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //         builder: (_) => const PaginaCadastroUsuarioEfetuadoPage()));
 
     // lança um aviso de usuario cadastrado se os dados não forem vazios.
     // if (u.nome.isNotEmpty && u.cpf.isNotEmpty) {
@@ -108,5 +137,41 @@ class _PaginaCadastrarUserPageState extends State<PaginaCadastrarUserPage> {
     //     ),
     //   );
     // }
+  }
+
+  Future<bool?> _showMyDialog() async {
+    return showDialog<bool>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Atenção'),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Usuario cadastrado com sucesso.'),
+                Text('Deseja cadastrar outro usuário?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Não'),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+                // controllerNome.clear();
+                // controllerCpf.clear();
+              },
+            ),
+            TextButton(
+              child: const Text('Sim'),
+              onPressed: () {
+               Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

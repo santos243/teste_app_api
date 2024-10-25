@@ -1,7 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 import 'dart:convert';
-
+import 'package:path/path.dart' as p;
 import 'package:http/http.dart' as http;
 import 'package:teste_app_api/models/i_model.dart';
 
@@ -13,7 +13,7 @@ class MyHttpService<T extends IModel> {
   Future<List<T>> get(
       {required String entity, required ModelBuilder<T> builder}) async {
     final lista = <T>[];
-    final result = await http.get(_getUri(entity: entity));
+    final result = await http.get(_getUri(path: entity));
 
     final jsonResposta = json.decode(result.body);
 
@@ -31,7 +31,7 @@ class MyHttpService<T extends IModel> {
     final body = model.toMap();
 
     final response = await http.post(
-      _getUri(entity: entity),
+      _getUri(path: entity),
       body: jsonEncode(body),
       headers: {
         "Content-Type": "application/json",
@@ -50,15 +50,25 @@ class MyHttpService<T extends IModel> {
     }
   }
 
-  // Future<void> delete({required String entity}) async {
-  //   // final body = model.toMap();
-  //   final response = await http.delete(_getUri(entity: entity));
-  // }
+  Future<void> delete({required String entity, required int id}) async {
+    final path = p.join(entity, id.toString());
 
-  Uri _getUri({String? entity}) {
-    if (entity == null) {
+    final response = await http.delete(_getUri(path: path));
+    if (response.statusCode == 400) {
+      throw Exception("Campo invalido ou não preenchido.");
+    } else if (response.statusCode == 500) {
+      throw Exception(
+          "Ops, parece que nosso servidor está passando por manutenções, tente novamente mais tarde.");
+    } else if (response.statusCode == 200) {
+      // throw Exception("Deleção efetuada com sucesso.");
+    }
+  }
+
+  Uri _getUri({String? path}) {
+    if (path == null) {
       return Uri.http(URL);
     }
-    return Uri.http(URL, entity);
+
+    return Uri.http(URL, path);
   }
 }
