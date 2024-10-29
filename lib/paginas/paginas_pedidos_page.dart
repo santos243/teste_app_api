@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:teste_app_api/core/http/application/my_http.dart';
+// import 'package:teste_app_api/core/http/application/my_http.dart';
 
 class PaginasPedidosPage extends StatefulWidget {
   const PaginasPedidosPage({super.key});
@@ -37,6 +37,7 @@ class _PaginasPedidosPageState extends State<PaginasPedidosPage> {
                     child: const Text(
                       'Mostrar Pedidos',
                       style: TextStyle(color: Colors.white),
+                      textScaler: TextScaler.linear(1.2),
                     ),
                   ),
                   ElevatedButton(
@@ -46,6 +47,7 @@ class _PaginasPedidosPageState extends State<PaginasPedidosPage> {
                     child: const Text(
                       'Cadastrar Pedido',
                       style: TextStyle(color: Colors.white),
+                      textScaler: TextScaler.linear(1.2),
                     ),
                   ),
                 ],
