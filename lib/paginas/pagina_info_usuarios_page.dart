@@ -24,12 +24,13 @@ class _PaginaDetalhesUsuarioState extends State<PaginaDetalhesUsuario> {
       ),
       body: Center(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
+              padding: const EdgeInsets.all(8.0),
               child: Image.network(
                 'https://cdn-icons-png.flaticon.com/512/8423/8423785.png',
-                width: 30,
+                width: 300,
                 height: 290,
                 fit: BoxFit.fitHeight,
                 color: Colors.blueAccent.shade400,

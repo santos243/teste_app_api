@@ -111,15 +111,7 @@ class _PaginaCadastrarProdutoPageState
       );
     }
 
-    try {
-      await myHttp.post(model: p, entity: 'produtos');
-    } catch (Exception) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(Exception.toString()),
-        ),
-      );
-    }
+    await myHttp.post(model: p, entity: 'produtos');
 
     final usuarioConfirmou = await _showMessageDialog();
 
@@ -159,6 +151,9 @@ class _PaginaCadastrarProdutoPageState
               child: const Text('Sim'),
               onPressed: () {
                 Navigator.of(context).pop(true);
+                controllerCategoria.clear();
+                controllerNome.clear();
+                controllerValor.clear();
                 // controllerCategoria.clear();
                 // controllerValor.clear();
                 // controllerNome.clear();

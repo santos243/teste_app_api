@@ -67,8 +67,8 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
                           // ignore: prefer_const_literals_to_create_immutables
                           children: [
                             Image.network(
-                              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRbj_yi1IsynZEogJoBgYAu4f8-Ox5is10wg&s',
-                              height: 70,
+                             'https://cdn-icons-png.flaticon.com/512/5902/5902522.png',
+                              height: 50,
                               width: 50,
                               fit: BoxFit.cover,
                             ),
@@ -138,7 +138,7 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
   }
 
   void irParaCadastroProduto() {
-    Navigator.pushReplacement(
+    Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => const PaginaCadastrarProdutoPage()),
     );

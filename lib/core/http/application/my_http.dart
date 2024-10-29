@@ -39,8 +39,6 @@ class MyHttpService<T extends IModel> {
     );
     if (response.statusCode == 400) {
       throw Exception("Campo invalido ou nao preenchido.");
-    } else if (response.statusCode == 200) {
-      throw Exception("Cadastro efetuado com sucesso!");
     } else if (response.statusCode == 500) {
       throw Exception(
           "Ops, parece que nosso servidor está passando por manutenções, tente novamente mais tarde.");
@@ -59,8 +57,6 @@ class MyHttpService<T extends IModel> {
     } else if (response.statusCode == 500) {
       throw Exception(
           "Ops, parece que nosso servidor está passando por manutenções, tente novamente mais tarde.");
-    } else if (response.statusCode == 200) {
-      // throw Exception("Deleção efetuada com sucesso.");
     }
   }
 

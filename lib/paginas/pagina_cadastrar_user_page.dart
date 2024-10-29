@@ -32,37 +32,46 @@ class _PaginaCadastrarUserPageState extends State<PaginaCadastrarUserPage> {
         backgroundColor: Colors.black,
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              'Insira o nome do usuario:',
-              style: TextStyle(color: Colors.white, fontSize: 19),
-            ),
-            TextField(
-              controller: controllerNome,
-              style: const TextStyle(color: Colors.white),
-            ),
-            const Text(
-              'Insira o CPF do usuario aqui:\n'
-              '\t\t\t\t\t\t\t\t\t\t11 digitos',
-              style: TextStyle(color: Colors.white, fontSize: 19),
-            ),
-            TextField(
-              controller: controllerCpf,
-              style: const TextStyle(color: Colors.white),
-            ),
-            ElevatedButton(
-              onPressed: () => funcaoCadastroUsuario(),
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blueAccent.shade400),
-              child: const Text(
-                'Cadastrar usuário',
-                style: TextStyle(color: Colors.white),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  'Insira o nome do usuario:',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
-            ),
-          ],
+              TextField(
+                controller: controllerNome,
+                style: const TextStyle(color: Colors.white),
+              ),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  'Insira o CPF do usuario aqui:\n'
+                  '\t\t\t\t\t\t\t\t\t\t11 digitos',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+              TextField(
+                controller: controllerCpf,
+                style: const TextStyle(color: Colors.white),
+              ),
+              ElevatedButton(
+                onPressed: () => funcaoCadastroUsuario(),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blueAccent.shade400),
+                child: const Text(
+                  'Cadastrar usuário',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -90,15 +99,7 @@ class _PaginaCadastrarUserPageState extends State<PaginaCadastrarUserPage> {
       );
     }
 
-    try {
-      await myHttp.post(model: u, entity: 'usuario');
-    } catch (Exception) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(Exception.toString()),
-        ),
-      );
-    }
+    await myHttp.post(model: u, entity: 'usuario');
 
     final usuarioConfirmou = await _showMyDialog();
 
@@ -166,7 +167,9 @@ class _PaginaCadastrarUserPageState extends State<PaginaCadastrarUserPage> {
             TextButton(
               child: const Text('Sim'),
               onPressed: () {
-               Navigator.of(context).pop(true);
+                Navigator.of(context).pop(true);
+                controllerCpf.clear();
+                controllerNome.clear();
               },
             ),
           ],

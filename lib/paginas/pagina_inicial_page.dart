@@ -9,6 +9,7 @@ import 'package:teste_app_api/paginas/pagina_deletar_produto_page.dart';
 import 'package:teste_app_api/paginas/pagina_deletar_usuarios_page.dart';
 import 'package:teste_app_api/paginas/pagina_produtos_page.dart';
 import 'package:teste_app_api/paginas/pagina_usuarios_page.dart';
+import 'package:teste_app_api/paginas/paginas_pedidos_page.dart';
 
 class PaginaInicialPage extends StatefulWidget {
   const PaginaInicialPage({super.key});
@@ -49,8 +50,19 @@ class _PaginaInicialPageState extends State<PaginaInicialPage> {
               ),
             ),
             ElevatedButton(
+              onPressed: irParaPedidos,
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent.shade400),
+              child: const Text(
+                'Pedidos',
+                style: TextStyle(color: Colors.white),
+                textScaler: TextScaler.linear(1.2),
+              ),
+            ),
+            ElevatedButton(
               onPressed: irParaUsuarios,
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.blueAccent.shade400),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent.shade400),
               child: const Text(
                 'Usuários',
                 textScaler: TextScaler.linear(1.2),
@@ -59,7 +71,8 @@ class _PaginaInicialPageState extends State<PaginaInicialPage> {
             ),
             ElevatedButton(
               onPressed: irParaProdutos,
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.blueAccent.shade400),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent.shade400),
               child: const Text(
                 'Produtos',
                 textScaler: TextScaler.linear(1.2),
@@ -68,7 +81,8 @@ class _PaginaInicialPageState extends State<PaginaInicialPage> {
             ),
             ElevatedButton(
               onPressed: irParaCadastroUsuarios,
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.blueAccent.shade400),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent.shade400),
               child: const Text(
                 'Cadastrar usuário',
                 textScaler: TextScaler.linear(1.2),
@@ -77,7 +91,8 @@ class _PaginaInicialPageState extends State<PaginaInicialPage> {
             ),
             ElevatedButton(
               onPressed: irParaCadastroProduto,
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.blueAccent.shade400),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent.shade400),
               child: const Text(
                 'Cadastrar produto',
                 textScaler: TextScaler.linear(1.2),
@@ -135,6 +150,11 @@ class _PaginaInicialPageState extends State<PaginaInicialPage> {
   void irParaDeleteProdutos() {
     Navigator.push(context,
         MaterialPageRoute(builder: (_) => const PaginaDeletarProdutoPage()));
+  }
+
+  void irParaPedidos() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (_) => const PaginasPedidosPage()));
   }
 
   // void irParaDeleteUsuarios() {
