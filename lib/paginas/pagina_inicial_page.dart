@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:teste_app_api/models/produto.dart';
 import 'package:teste_app_api/models/usuario.dart';
 import 'package:teste_app_api/paginas/pagina_cadastrar_produto_page.dart';
 import 'package:teste_app_api/paginas/pagina_cadastrar_user_page.dart';
@@ -10,6 +11,7 @@ import 'package:teste_app_api/paginas/pagina_deletar_usuarios_page.dart';
 import 'package:teste_app_api/paginas/pagina_produtos_page.dart';
 import 'package:teste_app_api/paginas/pagina_usuarios_page.dart';
 import 'package:teste_app_api/paginas/paginas_pedidos_page.dart';
+import 'package:teste_app_api/repositories/CarrinhoRepositoryTeste.dart';
 
 class PaginaInicialPage extends StatefulWidget {
   const PaginaInicialPage({super.key});
@@ -95,6 +97,43 @@ class _PaginaInicialPageState extends State<PaginaInicialPage> {
                   backgroundColor: Colors.blueAccent.shade400),
               child: const Text(
                 'Cadastrar produto',
+                textScaler: TextScaler.linear(1.2),
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                CarrinhoRepositoryTeste().saveAll([
+                  Produto(
+                      id_produto: 1,
+                      nome: 'Cenoura',
+                      categoria: 'Frutas',
+                      valor: 10),
+                  Produto(
+                      id_produto: 2,
+                      nome: 'Banana',
+                      categoria: 'Frutas',
+                      valor: 2342),
+                  Produto(
+                      id_produto: 3,
+                      nome: 'Lasanha',
+                      categoria: 'Comida',
+                      valor: 40),
+                  Produto(
+                      id_produto: 4,
+                      nome: 'Bife assado',
+                      categoria: 'Frutas',
+                      valor: 20),
+                ]);
+                // var index = CarrinhoRepositoryTeste().getIndexValue(35);
+                // print(index);
+                // var valor = CarrinhoRepositoryTeste().getValueIndex(3);
+                // print(valor);
+              },
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent.shade400),
+              child: const Text(
+                'Teste produto',
                 textScaler: TextScaler.linear(1.2),
                 style: TextStyle(color: Colors.white),
               ),
