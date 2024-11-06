@@ -68,7 +68,8 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
                             : ElevatedButton(
                                 onPressed: () => irParaCadastroProduto(),
                                 style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.blueAccent.shade400),
+                                    backgroundColor:
+                                        Colors.blueAccent.shade400),
                                 child: Row(
                                   children: const [
                                     Text(
@@ -109,9 +110,10 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
                                         //   setState(() {});
                                         // }
                                         // },
-                                        title: Text('${itemProduto.nome}  -  ${itemProduto.idProduto}'),
-                                        subtitle:
-                                            Text('Valor  -  ${itemProduto.valor} reais'),
+                                        title: Text(
+                                            '${itemProduto.nome}  -  ${itemProduto.idProduto}'),
+                                        subtitle: Text(
+                                            'Valor  -  ${itemProduto.valor} reais'),
                                         subtitleTextStyle:
                                             TextStyle(color: Colors.white60),
                                         titleTextStyle:
@@ -205,12 +207,17 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
                         : SizedBox.shrink(),
                     ElevatedButton(
                         onPressed: () async {
-                          Pedido pedido = Pedido(usuario: carrinhoProvider.pedido.usuario, itens: carrinhoProvider.pedido.itens);
+                          Pedido pedido = Pedido(
+                              usuario: carrinhoProvider.pedido.usuario,
+                              itens: carrinhoProvider.pedido.itens);
                           await confirmarPedido(pedido);
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blueAccent.shade400),
-                        child: Text("Confirmar pedido", style: TextStyle(color: Colors.white, fontSize: 16),)),
+                        child: Text(
+                          "Confirmar pedido",
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        )),
                   ],
                 ),
               );
