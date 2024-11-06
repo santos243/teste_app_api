@@ -2,16 +2,12 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:teste_app_api/models/produto.dart';
+import 'package:provider/provider.dart';
 import 'package:teste_app_api/models/usuario.dart';
 import 'package:teste_app_api/paginas/pagina_cadastrar_produto_page.dart';
 import 'package:teste_app_api/paginas/pagina_cadastrar_user_page.dart';
-import 'package:teste_app_api/paginas/pagina_deletar_produto_page.dart';
-import 'package:teste_app_api/paginas/pagina_deletar_usuarios_page.dart';
 import 'package:teste_app_api/paginas/pagina_produtos_page.dart';
 import 'package:teste_app_api/paginas/pagina_usuarios_page.dart';
-import 'package:teste_app_api/paginas/paginas_pedidos_page.dart';
-import 'package:teste_app_api/repositories/CarrinhoRepositoryTeste.dart';
 
 class PaginaInicialPage extends StatefulWidget {
   const PaginaInicialPage({super.key});
@@ -51,22 +47,22 @@ class _PaginaInicialPageState extends State<PaginaInicialPage> {
                 fit: BoxFit.fitWidth,
               ),
             ),
-            ElevatedButton(
-              onPressed: irParaPedidos,
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blueAccent.shade400),
-              child: const Text(
-                'Pedidos',
-                style: TextStyle(color: Colors.white),
-                textScaler: TextScaler.linear(1.2),
-              ),
-            ),
+            // ElevatedButton(
+            //   onPressed: irParaPedidos,
+            //   style: ElevatedButton.styleFrom(
+            //       backgroundColor: Colors.blueAccent.shade400),
+            //   child: const Text(
+            //     'Pedidos',
+            //     style: TextStyle(color: Colors.white),
+            //     textScaler: TextScaler.linear(1.2),
+            //   ),
+            // ),
             ElevatedButton(
               onPressed: irParaUsuarios,
               style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueAccent.shade400),
               child: const Text(
-                'Usuários',
+                'Consultar usuários',
                 textScaler: TextScaler.linear(1.2),
                 style: TextStyle(color: Colors.white),
               ),
@@ -76,7 +72,7 @@ class _PaginaInicialPageState extends State<PaginaInicialPage> {
               style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueAccent.shade400),
               child: const Text(
-                'Produtos',
+                'Consultar produtos',
                 textScaler: TextScaler.linear(1.2),
                 style: TextStyle(color: Colors.white),
               ),
@@ -101,61 +97,17 @@ class _PaginaInicialPageState extends State<PaginaInicialPage> {
                 style: TextStyle(color: Colors.white),
               ),
             ),
+
             ElevatedButton(
-              onPressed: () {
-                CarrinhoRepositoryTeste().saveAll([
-                  Produto(
-                      id_produto: 1,
-                      nome: 'Cenoura',
-                      categoria: 'Frutas',
-                      valor: 10),
-                  Produto(
-                      id_produto: 2,
-                      nome: 'Banana',
-                      categoria: 'Frutas',
-                      valor: 2342),
-                  Produto(
-                      id_produto: 3,
-                      nome: 'Lasanha',
-                      categoria: 'Comida',
-                      valor: 40),
-                  Produto(
-                      id_produto: 4,
-                      nome: 'Bife assado',
-                      categoria: 'Frutas',
-                      valor: 20),
-                ]);
-                // var index = CarrinhoRepositoryTeste().getIndexValue(35);
-                // print(index);
-                // var valor = CarrinhoRepositoryTeste().getValueIndex(3);
-                // print(valor);
-              },
+              onPressed: () => irParaCadastrarPedidos(),
               style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueAccent.shade400),
               child: const Text(
-                'Teste produto',
+                'Novo pedido',
                 textScaler: TextScaler.linear(1.2),
                 style: TextStyle(color: Colors.white),
               ),
             ),
-            // ElevatedButton(
-            //   onPressed: irParaDeleteProdutos,
-            //   style: ElevatedButton.styleFrom(backgroundColor: Colors.blueAccent.shade400),
-            //   child: const Text(
-            //     "Deletar produtos",
-            //     textScaler: TextScaler.linear(1.2),
-            //     style: TextStyle(color: Colors.white),
-            //   ),
-            // ),
-            // ElevatedButton(
-            //   onPressed: irParaDeleteUsuarios,
-            //   style: ElevatedButton.styleFrom(backgroundColor: Colors.blueAccent.shade400),
-            //   child: const Text(
-            //     "Deletar usuários",
-            //     textScaler: TextScaler.linear(1.2),
-            //     style: TextStyle(color: Colors.white),
-            //   ),
-            // ),
           ],
         ),
       ),
@@ -165,14 +117,28 @@ class _PaginaInicialPageState extends State<PaginaInicialPage> {
   void irParaProdutos() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => const PaginaProdutosPage()),
+      MaterialPageRoute(
+          builder: (_) => const PaginaProdutosPage(
+                tipoLista: TipoLista.CONSULTA_PRODUTOS,
+              )),
     );
   }
 
   void irParaUsuarios() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => const PaginaUsuariosPage()),
+      MaterialPageRoute(
+          builder: (_) =>
+              const PaginaUsuariosPage(tipoListagem: TipoListagem.CONSULTA)),
+    );
+  }
+
+  void irParaCadastrarPedidos() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (_) => const PaginaUsuariosPage(
+              tipoListagem: TipoListagem.CRIACAO_PEDIDO)),
     );
   }
 
@@ -185,19 +151,4 @@ class _PaginaInicialPageState extends State<PaginaInicialPage> {
     Navigator.push(context,
         MaterialPageRoute(builder: (_) => const PaginaCadastrarProdutoPage()));
   }
-
-  void irParaDeleteProdutos() {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (_) => const PaginaDeletarProdutoPage()));
-  }
-
-  void irParaPedidos() {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (_) => const PaginasPedidosPage()));
-  }
-
-  // void irParaDeleteUsuarios() {
-  //   Navigator.push(context,
-  //       MaterialPageRoute(builder: (_) => const PaginaDeletarUsuariosPage()));
-  // }
 }

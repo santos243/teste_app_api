@@ -21,7 +21,7 @@ class _PaginaInfoProdutoPageState extends State<PaginaInfoProdutoPage> {
         iconTheme: const IconThemeData(color: Colors.white),
         centerTitle: true,
         title: Text(
-          'Info ID ${widget.itemProduto.id_produto}',
+          'Info ID ${widget.itemProduto.idProduto}',
           style: const TextStyle(
             color: Colors.white,
             fontSize: 30,
@@ -43,7 +43,7 @@ class _PaginaInfoProdutoPageState extends State<PaginaInfoProdutoPage> {
               ),
             ),
             Text(
-              '\n\tID do produto: ${widget.itemProduto.id_produto}\n'
+              '\n\tID do produto: ${widget.itemProduto.idProduto}\n'
               '\tNome do produto: ${widget.itemProduto.nome}\n'
               '\tCategoria: ${widget.itemProduto.categoria}\n'
               '\n\n\tValor: ${widget.itemProduto.valor} reais',

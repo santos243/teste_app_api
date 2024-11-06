@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:teste_app_api/core/http/application/my_http.dart';
 import 'package:teste_app_api/models/produto.dart';
-import 'package:teste_app_api/paginas/pagina_cadastro_produto_efetuado_page.dart';
 import 'package:teste_app_api/paginas/pagina_produtos_page.dart';
 
 class PaginaCadastrarProdutoPage extends StatefulWidget {
@@ -93,7 +92,7 @@ class _PaginaCadastrarProdutoPageState
     final myHttp = MyHttpService<Produto>();
 
     final p = Produto(
-        id_produto: 1,
+        idProduto: 1,
         nome: controllerNome.text,
         categoria: controllerCategoria.text,
         valor: double.parse(controllerValor.text));
@@ -119,7 +118,9 @@ class _PaginaCadastrarProdutoPageState
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const PaginaProdutosPage(),
+          builder: (context) => const PaginaProdutosPage(
+            tipoLista: TipoLista.CONSULTA_PRODUTOS,
+          ),
         ),
       );
     }

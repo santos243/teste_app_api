@@ -18,46 +18,46 @@
 //   @override
 //   Widget build(BuildContext context) {
 //     return const
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: const Text("Deletar usuario BETA"),
-  //       centerTitle: true,
-  //       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-  //     ),
-  //     body: Center(
-  //       child: Column(
-  //         mainAxisAlignment: MainAxisAlignment.center,
-  //         children: [
-  //           Text("Insira o ID do usuário"),
-  //           TextField(
-  //             controller: controller,
-  //           ),
-  //           ElevatedButton(
-  //             onPressed: () {},
-  //             child: const Text("Deletar"),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
+//   return Scaffold(
+//     appBar: AppBar(
+//       title: const Text("Deletar usuario BETA"),
+//       centerTitle: true,
+//       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+//     ),
+//     body: Center(
+//       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: [
+//           Text("Insira o ID do usuário"),
+//           TextField(
+//             controller: controller,
+//           ),
+//           ElevatedButton(
+//             onPressed: () {},
+//             child: const Text("Deletar"),
+//           ),
+//         ],
+//       ),
+//     ),
+//   );
+// }
 
-  // função delete chama o método do HTTP service que executa e devolve alguma exception
-  // Future<void> funcaoDeletarUsuarios() async {
-  //   final myHttp = MyHttpService<Usuario>();
-  //   try {
-  //     myHttp.delete(entity: 'usuario', id: int.parse(controller.text));
-  //     // ignore: empty_catches
-  //   } catch (Exception) {
-  //     ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-  //       SnackBar(
-  //         content: Text(
-  //           Exception.toString(),
-  //         ),
-  //       ),
-  //     );
-  //   }
-  // }
+// função delete chama o método do HTTP service que executa e devolve alguma exception
+// Future<void> funcaoDeletarUsuarios() async {
+//   final myHttp = MyHttpService<Usuario>();
+//   try {
+//     myHttp.delete(entity: 'usuario', id: int.parse(controller.text));
+//     // ignore: empty_catches
+//   } catch (Exception) {
+//     ScaffoldMessenger.maybeOf(context)?.showSnackBar(
+//       SnackBar(
+//         content: Text(
+//           Exception.toString(),
+//         ),
+//       ),
+//     );
+//   }
+// }
 // // }
 // import 'package:flutter/material.dart';
 // import 'package:teste_app_api/core/http/application/my_http.dart';

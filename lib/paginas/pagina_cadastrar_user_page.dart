@@ -106,7 +106,9 @@ class _PaginaCadastrarUserPageState extends State<PaginaCadastrarUserPage> {
     if (!usuarioConfirmou!) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => const PaginaUsuariosPage(),
+          builder: (context) => const PaginaUsuariosPage(
+            tipoListagem: TipoListagem.CONSULTA,
+          ),
         ),
       );
     }
