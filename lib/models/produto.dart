@@ -20,7 +20,7 @@ class Produto extends IModel {
   // Construtor
   factory Produto.fromMap(Map<String, dynamic> map) {
     return Produto(
-        idProduto: map['id_produto'] as int,
+        idProduto: map['idProduto'] as int,
         nome: map['nome'] as String,
         categoria: map['categoria'] as String,
         valor: map['valor'] as double);

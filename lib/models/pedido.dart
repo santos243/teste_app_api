@@ -13,7 +13,7 @@ class Pedido extends IModel {
 
   factory Pedido.fromMap(Map<String, dynamic> map) {
     return Pedido(
-        idPedido: map['id_pedido'] as int,
+        idPedido: map['idPedido'] as int,
         usuario: map['usuario'] as Usuario,
         itens: map['itens'] as List<ItemPedido>);
   }

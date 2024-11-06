@@ -19,7 +19,7 @@ class Usuario extends IModel {
   /// Construtor
   factory Usuario.fromMap(Map<String, dynamic> map) {
     return Usuario(
-      idUsuario: map['id_usuario'] as int,
+      idUsuario: map['idUsuario'] as int,
       nome: map['nome'] as String,
       cpf: map['cpf'] as String,
     );
@@ -31,7 +31,7 @@ class Usuario extends IModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id_usuario': idUsuario,
+      'idUsuario': idUsuario,
       'nome': nome,
       'cpf': cpf,
     };
@@ -41,7 +41,7 @@ class Usuario extends IModel {
 
   @override
   String toString() =>
-      'Usuario(id_usuario: $idUsuario, nome: $nome, cpf: $cpf)';
+      'Usuario(idUsuario: $idUsuario, nome: $nome, cpf: $cpf)';
 
   @override
   fromMap(Map<String, dynamic> map) {
