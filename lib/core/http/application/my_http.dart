@@ -32,7 +32,7 @@ class MyHttpService<T extends IModel> {
 
     final response = await http.post(
       _getUri(path: entity),
-      body: jsonEncode(body),
+      body: json.encode(body),
       headers: {
         "Content-Type": "application/json",
       },

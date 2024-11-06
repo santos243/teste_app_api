@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_final_fields, unused_field
 
 import 'dart:collection';
+import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:teste_app_api/models/ItemPedido.dart';
@@ -10,6 +11,8 @@ import 'package:teste_app_api/models/usuario.dart';
 
 class PedidoProvider extends ChangeNotifier {
   late Pedido _pedido;
+
+  NumberFormat format = NumberFormat("00.00");
   // var carrinho = [];
   // UnmodifiableListView<Produto> get lista => UnmodifiableListView([]);
 
@@ -44,6 +47,7 @@ class PedidoProvider extends ChangeNotifier {
     } else {
       // Adiciona o item se não existir ainda na lista
       _pedido.itens.add(ItemPedido(
+        idItemPedido: itemPedido.produto.idProduto,
         produto: itemPedido.produto,
         quantidade: itemPedido.quantidade,
       ));
@@ -74,6 +78,16 @@ class PedidoProvider extends ChangeNotifier {
     return _pedido.itens
         .where((ip) => ip.produto.idProduto == produto.idProduto)
         .firstOrNull;
+  }
+
+  String getTotalValor(List<ItemPedido> itens) {
+    // Inicializando uma varivel que irá acumular o valor total dos itens.
+    double valorTotal = 0;
+    // percorre a lista de itens, adicionando o valor * quantidade de cada item pedido à variável valorTotal.
+    for (var p in itens) {
+     valorTotal += p.produto.valor * p.quantidade;
+    }
+    return format.format(valorTotal);
   }
 
   // produtos.forEach((p) => print(p.id_produto));

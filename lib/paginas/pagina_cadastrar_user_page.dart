@@ -86,7 +86,7 @@ class _PaginaCadastrarUserPageState extends State<PaginaCadastrarUserPage> {
     final myHttp = MyHttpService<Usuario>();
 
     final u = Usuario(
-        id_usuario: 1, nome: controllerNome.text, cpf: controllerCpf.text);
+        idUsuario: 1, nome: controllerNome.text, cpf: controllerCpf.text);
 
     if (u.nome.length < 8 || u.cpf.length != 11) {
       throw Exception(

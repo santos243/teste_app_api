@@ -7,7 +7,7 @@ import 'package:teste_app_api/models/usuario.dart';
 import 'package:teste_app_api/paginas/pagina_cadastrar_user_page.dart';
 import 'package:teste_app_api/paginas/pagina_info_usuarios_page.dart';
 import 'package:teste_app_api/paginas/pagina_produtos_page.dart';
-import 'package:teste_app_api/repositories/PedidoProvider.dart';
+import 'package:teste_app_api/providers/PedidoProvider.dart';
 
 enum TipoListagem { CONSULTA, CRIACAO_PEDIDO }
 
@@ -131,7 +131,7 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
                                           const TextStyle(color: Colors.white),
                                     ),
                                     subtitle: Text(
-                                      'ID do usuario - ${itemLista.id_usuario}',
+                                      'ID do usuario - ${itemLista.idUsuario}',
                                       style:
                                           const TextStyle(color: Colors.white),
                                     ),
