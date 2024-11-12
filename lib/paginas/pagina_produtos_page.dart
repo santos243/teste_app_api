@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, unrelated_type_equality_checks, avoid_types_as_parameter_names, non_constant_identifier_names
+// ignore_for_file: prefer_const_constructors, unrelated_type_equality_checks, avoid_types_as_parameter_names, non_constant_identifier_names, empty_catches, unused_catch_clause, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -202,7 +202,7 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
                   final pedidoPronto = Pedido(
                       idUsuario: carrinhoProvider.pedido.idUsuario,
                       itens: carrinhoProvider.pedido.itens);
-                  // verificar o motivo da requisição estar retornando uma NullPointerException
+                  // verificar o motivo da requisição estar retornando uma NullPointerException(CORRIGIDO)
                   await confirmarPedido(pedidoPronto);
                 },
                 style: ElevatedButton.styleFrom(
@@ -243,6 +243,9 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
     final myHttp = MyHttpService<Pedido>();
 
     await myHttp.post(model: pedido, entity: 'pedido');
+    pedido.itens.clear();
+    setState(() {});
+    Navigator.pop(context);
   }
 
   Widget getItemPedidoQtdWidget(Produto produto) {
