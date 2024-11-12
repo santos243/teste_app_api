@@ -27,17 +27,22 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
   Widget build(BuildContext context) {
     final carrinhoProvider =
         Provider.of<PedidoProvider>(context, listen: false);
-
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(31, 0, 0, 0),
-        title: const Text(
+        title: widget.tipoListagem == TipoListagem.CONSULTA ?
+        const Text(
           'Usuários',
           style: TextStyle(color: Colors.white),
-        ),
+        )
+        :
+        const Text(
+          'Selecione o usuário',
+          style: TextStyle(color: Colors.white),
+        )
       ),
       body: Center(
         child: FutureBuilder(
@@ -121,7 +126,7 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
                                       if (widget.tipoListagem ==
                                           TipoListagem.CRIACAO_PEDIDO) {
                                         carrinhoProvider
-                                            .createPedido(itemLista);
+                                            .createPedido(itemLista.idUsuario);
                                         irParaCriacaoPedido();
                                       }
                                     },
@@ -152,8 +157,10 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
                                                 TipoListagem.CRIACAO_PEDIDO
                                             ? const SizedBox.shrink()
                                             : IconButton(
-                                                onPressed: () async =>
-                                                    await deleteUser(itemLista),
+                                                onPressed: () async {
+                                                  await deleteUser(itemLista);
+                                                  await funcaoMostrarUsuarios();
+                                                },
                                                 icon: const Icon(
                                                     Icons.delete_outline,
                                                     color: Colors.white),
@@ -211,8 +218,7 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
   Future<void> deleteUser(itemLista) async {
     final myHttp = MyHttpService<Usuario>();
 
-    await myHttp.delete(entity: 'usuario', id: itemLista.id_usuario);
-    await funcaoMostrarUsuarios();
+    await myHttp.delete(entity: 'usuario', id: itemLista.idUsuario);
   }
 
   void irParaCadastroUsuarios() {

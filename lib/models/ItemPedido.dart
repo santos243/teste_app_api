@@ -4,18 +4,23 @@ import 'package:teste_app_api/models/i_model.dart';
 import 'package:teste_app_api/models/produto.dart';
 
 class ItemPedido extends IModel {
-  final int? idItemPedido;
-  Produto produto;
+  int? idItemPedido;
+  Produto? produto;
+  int idProduto;
   int quantidade;
 
   ItemPedido(
-      {this.idItemPedido, required this.produto, required this.quantidade});
+      {required this.idProduto,
+      this.produto,
+      this.idItemPedido,
+      required this.quantidade});
 
   factory ItemPedido.fromMap(Map<String, dynamic> map) {
     return ItemPedido(
-        idItemPedido: map['idItemPedido'] as int?,
-        produto: map['produto'] as Produto,
-        quantidade: map['quantidade'] as int);
+        idItemPedido: map['idItemPedido'] as int,
+        idProduto: map['idProduto'] as int,
+        quantidade: map['quantidade'] as int,
+    );
   }
 
   factory ItemPedido.fromJson(String source) =>
@@ -27,12 +32,12 @@ class ItemPedido extends IModel {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'idItemPedido': idItemPedido,
-      'produto': produto,
+      'idProduto': idProduto,
       'quantidade': quantidade
     };
   }
 
-  Produto setProduto(Produto produtoInput) {
+  Produto? setProduto(Produto produtoInput) {
     produto = produtoInput;
     return produto;
   }

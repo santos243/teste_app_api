@@ -29,6 +29,7 @@ class Usuario extends IModel {
   factory Usuario.fromJson(String source) =>
       Usuario.fromMap(json.decode(source) as Map<String, dynamic>);
 
+  @override
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'idUsuario': idUsuario,

@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:teste_app_api/models/ItemPedido.dart';
 import 'package:teste_app_api/models/Pedido.dart';
 import 'package:teste_app_api/models/produto.dart';
-import 'package:teste_app_api/models/usuario.dart';
 
 class PedidoProvider extends ChangeNotifier {
   late Pedido _pedido;
@@ -19,9 +18,9 @@ class PedidoProvider extends ChangeNotifier {
   Pedido get pedido => _pedido;
 
   // Cria um objeto pedido a partir do usuario selecionado.
-  void createPedido(Usuario usuario) {
+  void createPedido(int idUsuario) {
     // inicialmente ele inicia com a lista de itens vazia.
-    _pedido = Pedido(usuario: usuario, itens: []);
+    _pedido = Pedido(idPedido: 1, idUsuario: idUsuario, itens: []);
     notifyListeners();
   }
 
@@ -47,9 +46,10 @@ class PedidoProvider extends ChangeNotifier {
     } else {
       // Adiciona o item se não existir ainda na lista
       _pedido.itens.add(ItemPedido(
-        idItemPedido: itemPedido.produto.idProduto,
-        produto: itemPedido.produto,
+        idItemPedido: pedido.idPedido,
+        idProduto: itemPedido.produto!.idProduto,
         quantidade: itemPedido.quantidade,
+        produto: itemPedido.produto,
       ));
     }
 
@@ -76,7 +76,7 @@ class PedidoProvider extends ChangeNotifier {
   ItemPedido? getItemPedido(Produto produto) {
     // retorno
     return _pedido.itens
-        .where((ip) => ip.produto.idProduto == produto.idProduto)
+        .where((ip) => ip.produto!.idProduto == produto.idProduto)
         .firstOrNull;
   }
 
@@ -85,7 +85,7 @@ class PedidoProvider extends ChangeNotifier {
     double valorTotal = 0;
     // percorre a lista de itens, adicionando o valor * quantidade de cada item pedido à variável valorTotal.
     for (var p in itens) {
-     valorTotal += p.produto.valor * p.quantidade;
+      valorTotal += p.produto!.valor * p.quantidade;
     }
     return format.format(valorTotal);
   }
@@ -118,7 +118,6 @@ class PedidoProvider extends ChangeNotifier {
   //     )
   //     .toList());
 }
-
 
 // Exercicio
 List<int> inteiros = [1, 2, 430, 4];

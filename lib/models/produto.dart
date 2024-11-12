@@ -5,10 +5,10 @@ import 'dart:convert';
 import 'package:teste_app_api/models/i_model.dart';
 
 class Produto extends IModel {
-  final int idProduto;
-  final String nome;
-  final String categoria;
-  final double valor;
+  int idProduto;
+  String nome;
+  String categoria;
+  double valor;
 
   Produto({
     required this.idProduto,

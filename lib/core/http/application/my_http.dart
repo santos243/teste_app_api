@@ -29,10 +29,11 @@ class MyHttpService<T extends IModel> {
 
   Future<void> post({required T model, required String entity}) async {
     final body = model.toMap();
+    final json = jsonEncode(body);
 
     final response = await http.post(
       _getUri(path: entity),
-      body: json.encode(body),
+      body: json,
       headers: {
         "Content-Type": "application/json",
       },
@@ -41,7 +42,7 @@ class MyHttpService<T extends IModel> {
       throw Exception("Campo invalido ou nao preenchido.");
     } else if (response.statusCode == 500) {
       throw Exception(
-          "Ops, parece que nosso servidor está passando por manutenções, tente novamente mais tarde.");
+          "incompatibilidade ou configuração incorreta.");
     } else if (response.statusCode == 405) {
       throw Exception(
           "Ops! Parece que o serviço está fora do ar temporariamente, tente novamente mais tarde.");

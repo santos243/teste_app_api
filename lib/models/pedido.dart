@@ -2,20 +2,21 @@ import 'dart:convert';
 
 import 'package:teste_app_api/models/ItemPedido.dart';
 import 'package:teste_app_api/models/i_model.dart';
-import 'package:teste_app_api/models/usuario.dart';
 
 class Pedido extends IModel {
-  final int? idPedido;
-  final Usuario usuario;
+  int? idPedido;
+  int idUsuario;
   List<ItemPedido> itens;
 
-  Pedido({this.idPedido, required this.usuario, required this.itens});
+  Pedido({this.idPedido, required this.idUsuario, required this.itens});
 
   factory Pedido.fromMap(Map<String, dynamic> map) {
     return Pedido(
-        idPedido: map['idPedido'] as int,
-        usuario: map['usuario'] as Usuario,
-        itens: map['itens'] as List<ItemPedido>);
+      idPedido: map['idPedido'],
+      idUsuario: map['idUsuario'],
+      // aqui
+      itens: map['itens'],
+    );
   }
 
   factory Pedido.fromJson(String source) =>
@@ -27,8 +28,8 @@ class Pedido extends IModel {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'idPedido': idPedido,
-      'usuario': usuario,
-      'itens': itens,
+      'idUsuario': idUsuario,
+      'itens': itens.map((e) => e.toMap()).toList(),
     };
   }
 
