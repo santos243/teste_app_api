@@ -6,20 +6,20 @@ import 'package:teste_app_api/models/produto.dart';
 class ItemPedido extends IModel {
   int? idItemPedido;
   Produto? produto;
-  int idProduto;
+  int? idProduto;
   int quantidade;
 
   ItemPedido(
-      {required this.idProduto,
+      {this.idProduto,
       this.produto,
       this.idItemPedido,
       required this.quantidade});
 
   factory ItemPedido.fromMap(Map<String, dynamic> map) {
     return ItemPedido(
-        idItemPedido: map['idItemPedido'] as int,
-        idProduto: map['idProduto'] as int,
-        quantidade: map['quantidade'] as int,
+        idItemPedido: map['idItemPedido'],
+        produto: Produto.fromMap(map['produtoEntity']),
+        quantidade: map['quantidade'],
     );
   }
 

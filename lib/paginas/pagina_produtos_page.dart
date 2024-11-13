@@ -202,7 +202,6 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
                   final pedidoPronto = Pedido(
                       idUsuario: carrinhoProvider.pedido.idUsuario,
                       itens: carrinhoProvider.pedido.itens);
-                  // verificar o motivo da requisição estar retornando uma NullPointerException(CORRIGIDO)
                   await confirmarPedido(pedidoPronto);
                 },
                 style: ElevatedButton.styleFrom(

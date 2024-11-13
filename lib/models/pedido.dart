@@ -2,20 +2,25 @@ import 'dart:convert';
 
 import 'package:teste_app_api/models/ItemPedido.dart';
 import 'package:teste_app_api/models/i_model.dart';
+import 'package:teste_app_api/models/usuario.dart';
 
 class Pedido extends IModel {
   int? idPedido;
-  int idUsuario;
+  Usuario? usuario;
+  int? idUsuario;
   List<ItemPedido> itens;
 
-  Pedido({this.idPedido, required this.idUsuario, required this.itens});
+  Pedido({this.idPedido, this.usuario, this.idUsuario, required this.itens});
 
   factory Pedido.fromMap(Map<String, dynamic> map) {
     return Pedido(
-      idPedido: map['idPedido'],
-      idUsuario: map['idUsuario'],
-      // aqui
-      itens: map['itens'],
+      idPedido: map['idPedido'] as int,
+      usuario: Usuario.fromMap(map['usuario']),
+      /**
+       * Os itens terão que ser mapeados um por um, se o problema pesistir, é importante
+       * verificar se o ItemPedido tem um fromMap de produto.
+       */
+      itens: (map['itens'] as List).map((p) => ItemPedido.fromMap(p)).toList(),
     );
   }
 

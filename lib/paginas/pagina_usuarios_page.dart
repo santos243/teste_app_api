@@ -6,6 +6,7 @@ import 'package:teste_app_api/core/http/application/my_http.dart';
 import 'package:teste_app_api/models/usuario.dart';
 import 'package:teste_app_api/paginas/pagina_cadastrar_user_page.dart';
 import 'package:teste_app_api/paginas/pagina_info_usuarios_page.dart';
+import 'package:teste_app_api/paginas/pagina_pedidos_efetuados_page.dart';
 import 'package:teste_app_api/paginas/pagina_produtos_page.dart';
 import 'package:teste_app_api/providers/PedidoProvider.dart';
 
@@ -30,20 +31,18 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       appBar: AppBar(
-        iconTheme: const IconThemeData(color: Colors.white),
-        centerTitle: true,
-        backgroundColor: const Color.fromARGB(31, 0, 0, 0),
-        title: widget.tipoListagem == TipoListagem.CONSULTA ?
-        const Text(
-          'Usuários',
-          style: TextStyle(color: Colors.white),
-        )
-        :
-        const Text(
-          'Selecione o usuário',
-          style: TextStyle(color: Colors.white),
-        )
-      ),
+          iconTheme: const IconThemeData(color: Colors.white),
+          centerTitle: true,
+          backgroundColor: const Color.fromARGB(31, 0, 0, 0),
+          title: widget.tipoListagem == TipoListagem.CONSULTA
+              ? const Text(
+                  'Usuários',
+                  style: TextStyle(color: Colors.white),
+                )
+              : const Text(
+                  'Selecione o usuário',
+                  style: TextStyle(color: Colors.white),
+                )),
       body: Center(
         child: FutureBuilder(
           future: funcaoMostrarUsuarios(),
@@ -225,4 +224,5 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
     Navigator.push(context,
         MaterialPageRoute(builder: (_) => const PaginaCadastrarUserPage()));
   }
+
 }

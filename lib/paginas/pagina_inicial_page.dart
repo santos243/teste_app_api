@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:teste_app_api/models/usuario.dart';
 import 'package:teste_app_api/paginas/pagina_cadastrar_produto_page.dart';
 import 'package:teste_app_api/paginas/pagina_cadastrar_user_page.dart';
+import 'package:teste_app_api/paginas/pagina_pedidos_efetuados_page.dart';
 import 'package:teste_app_api/paginas/pagina_produtos_page.dart';
 import 'package:teste_app_api/paginas/pagina_usuarios_page.dart';
 
@@ -95,13 +96,22 @@ class _PaginaInicialPageState extends State<PaginaInicialPage> {
                 style: TextStyle(color: Colors.white),
               ),
             ),
-
             ElevatedButton(
               onPressed: () => irParaCadastrarPedidos(),
               style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueAccent.shade400),
               child: const Text(
                 'Novo pedido',
+                textScaler: TextScaler.linear(1.2),
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () => irParaPedidosEfetuados(),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent.shade400),
+              child: const Text(
+                "Pedidos efetuados",
                 textScaler: TextScaler.linear(1.2),
                 style: TextStyle(color: Colors.white),
               ),
@@ -148,5 +158,10 @@ class _PaginaInicialPageState extends State<PaginaInicialPage> {
   void irParaCadastroProduto() {
     Navigator.push(context,
         MaterialPageRoute(builder: (_) => const PaginaCadastrarProdutoPage()));
+  }
+
+  void irParaPedidosEfetuados() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (_) => const PaginaPedidosEfetuadosPage()));
   }
 }

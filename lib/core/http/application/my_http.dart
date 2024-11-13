@@ -1,4 +1,4 @@
-// ignore_for_file: constant_identifier_names
+// ignore_for_file: constant_identifier_names, depend_on_referenced_packages
 
 import 'dart:convert';
 import 'package:path/path.dart' as p;
@@ -16,12 +16,12 @@ class MyHttpService<T extends IModel> {
     final result = await http.get(_getUri(path: entity));
 
     final jsonResposta = json.decode(result.body);
+    // final jsonResposta2 = jsonDecode(result.body);
 
     // Percorre a lista do json
     for (final itemResposta in jsonResposta) {
-      final x = builder(itemResposta);
-
-      lista.add(x);
+      final p = builder(itemResposta);
+      lista.add(p);
     }
 
     return lista;
