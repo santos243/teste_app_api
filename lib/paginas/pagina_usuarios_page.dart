@@ -6,7 +6,6 @@ import 'package:teste_app_api/core/http/application/my_http.dart';
 import 'package:teste_app_api/models/usuario.dart';
 import 'package:teste_app_api/paginas/pagina_cadastrar_user_page.dart';
 import 'package:teste_app_api/paginas/pagina_info_usuarios_page.dart';
-import 'package:teste_app_api/paginas/pagina_pedidos_efetuados_page.dart';
 import 'package:teste_app_api/paginas/pagina_produtos_page.dart';
 import 'package:teste_app_api/providers/PedidoProvider.dart';
 

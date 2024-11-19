@@ -8,6 +8,7 @@ import 'package:teste_app_api/models/pedido.dart';
 import 'package:teste_app_api/models/produto.dart';
 import 'package:teste_app_api/paginas/pagina_cadastrar_produto_page.dart';
 import 'package:teste_app_api/paginas/pagina_info_produto_page.dart';
+import 'package:teste_app_api/paginas/pagina_usuarios_page.dart';
 import 'package:teste_app_api/providers/PedidoProvider.dart';
 
 // ignore: constant_identifier_names
@@ -122,7 +123,7 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
                             title: Text(
                                 '${itemProduto.nome}  -  ${itemProduto.idProduto}'),
                             subtitle:
-                                Text('Valor  -  ${itemProduto.valor} reais'),
+                                Text('R\$ ${itemProduto.valor}'),
                             subtitleTextStyle: TextStyle(color: Colors.white60),
                             titleTextStyle: TextStyle(color: Colors.white),
                             trailing: Row(
@@ -197,19 +198,29 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
             widget.tipoLista == TipoLista.CRIACAO_PED
                 ? getValorTotalPedido(carrinhoProvider.pedido.itens)
                 : SizedBox.shrink(),
-            ElevatedButton(
-                onPressed: () async {
-                  final pedidoPronto = Pedido(
-                      idUsuario: carrinhoProvider.pedido.idUsuario,
-                      itens: carrinhoProvider.pedido.itens);
-                  await confirmarPedido(pedidoPronto);
-                },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueAccent.shade400),
-                child: Text(
-                  "Confirmar pedido",
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                )),
+            widget.tipoLista == TipoLista.CRIACAO_PED
+                ? ElevatedButton(
+                    onPressed: () async {
+                      final pedidoPronto = Pedido(
+                          idUsuario: carrinhoProvider.pedido.idUsuario,
+                          itens: carrinhoProvider.pedido.itens);
+                      await confirmarPedido(pedidoPronto);
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blueAccent.shade400),
+                    child: Text(
+                      "Confirmar pedido",
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ))
+                : ElevatedButton(
+                    onPressed: () => irParaEfetuarPedido(),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blueAccent.shade400),
+                    child: Text(
+                      'Fazer pedido',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                  ),
           ],
         ),
       )),
@@ -238,15 +249,37 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
     );
   }
 
+  void irParaEfetuarPedido() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (_) =>
+            PaginaUsuariosPage(tipoListagem: TipoListagem.CRIACAO_PEDIDO),
+      ),
+    );
+  }
+
+  // confirma o pedido
   Future<void> confirmarPedido(Pedido pedido) async {
     final myHttp = MyHttpService<Pedido>();
 
+    // percorre a lista de itens do pedido, validando se a quantidade de cada um é maior que 0.
+    for (ItemPedido item in pedido.itens) {
+      if (item.quantidade < 1) {
+        pedido.itens.remove(item);
+      }
+    }
+
+    // requisição
     await myHttp.post(model: pedido, entity: 'pedido');
+
+    // depois que a requisição é feita, o carrinho é restaurado.
     pedido.itens.clear();
-    setState(() {});
+    // fecha a tela do carrinho, voltando para tela seleção de usuarios.
     Navigator.pop(context);
   }
 
+  // widget contador que exibe a quantidade de cada produto no carrinho(PedidoProvider).
   Widget getItemPedidoQtdWidget(Produto produto) {
     return Consumer<PedidoProvider>(
       builder: (_, provider, child) {
@@ -259,13 +292,14 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
     );
   }
 
+  // widget contador que calcula o valor total de todos os itens dentro do carrinho.
   Widget getValorTotalPedido(List<ItemPedido> itens) {
     return Consumer<PedidoProvider>(
       builder: (context, value, child) {
         final valorTotal = value.getTotalValor(itens);
         return Text(
-          "Total: $valorTotal reais",
-          style: TextStyle(color: Colors.white, fontSize: 35),
+          "Total: R\$ $valorTotal",
+          style: TextStyle(color: Colors.white, fontSize: 30),
         );
       },
     );

@@ -46,7 +46,7 @@ class _PaginaInfoProdutoPageState extends State<PaginaInfoProdutoPage> {
               '\n\tID do produto: ${widget.itemProduto.idProduto}\n'
               '\tNome do produto: ${widget.itemProduto.nome}\n'
               '\tCategoria: ${widget.itemProduto.categoria}\n'
-              '\n\n\tValor: ${widget.itemProduto.valor} reais',
+              '\n\n\tValor unitário: R\$ ${widget.itemProduto.valor}',
               textScaleFactor: 1.5,
               style: const TextStyle(color: Colors.white),
             ),

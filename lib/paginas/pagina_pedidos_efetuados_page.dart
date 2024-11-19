@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:teste_app_api/core/http/application/my_http.dart';
 import 'package:teste_app_api/models/pedido.dart';
 import 'package:teste_app_api/paginas/pagina_info_pedido_page.dart';
+import 'package:teste_app_api/paginas/pagina_usuarios_page.dart';
+import 'package:teste_app_api/providers/PedidoProvider.dart';
 
 class PaginaPedidosEfetuadosPage extends StatefulWidget {
   const PaginaPedidosEfetuadosPage({super.key});
@@ -43,7 +45,7 @@ class _PaginaPedidosEfetuadosPageState
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         centerTitle: true,
-        title: const Text("Pedidos pendentes",
+        title: const Text("Pedidos Finalizados",
             textScaler: TextScaler.linear(1.1),
             style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.black,
@@ -58,7 +60,7 @@ class _PaginaPedidosEfetuadosPageState
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => irParaEfetuarPedido(),
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blueAccent.shade400),
                     child: const Text(
@@ -88,7 +90,7 @@ class _PaginaPedidosEfetuadosPageState
                               textScaler: const TextScaler.linear(1.2),
                             ),
                             subtitle: Text(
-                              "${pedido.itens.length} produtos",
+                              "${pedido.itens.length} produtos - Total: R\$ ${PedidoProvider().getTotalValor(pedido.itens)}",
                               style: const TextStyle(color: Colors.white54),
                             ),
                             leading: Image.network(
@@ -97,10 +99,20 @@ class _PaginaPedidosEfetuadosPageState
                           ),
                         ),
                       ),
+                      // IconButton(
+                      //   onPressed: () => irParaInfoPedido(pedido),
+                      //   icon: const Icon(
+                      //     Icons.info_outline,
+                      //     color: Colors.white,
+                      //   ),
+                      // ),
                       IconButton(
-                        onPressed: () => irParaInfoPedido(pedido),
+                        onPressed: () async {
+                          await deletarPedido(pedido);
+                          await funcaoMostrarPedidos();
+                        },
                         icon: const Icon(
-                          Icons.info_outline,
+                          Icons.delete_outline,
                           color: Colors.white,
                         ),
                       ),
@@ -115,8 +127,26 @@ class _PaginaPedidosEfetuadosPageState
     );
   }
 
+  void irParaEfetuarPedido() {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const PaginaUsuariosPage(
+              tipoListagem: TipoListagem.CRIACAO_PEDIDO),
+        ));
+  }
+
   void irParaInfoPedido(Pedido pedido) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => PaginaInfoPedidoPage(pedido: pedido)));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (_) => PaginaInfoPedidoPage(pedido: pedido)));
+  }
+
+  Future<void> deletarPedido(Pedido pedido) async {
+    final myHttp = MyHttpService<Pedido>();
+
+    await myHttp.delete(entity: 'pedido', id: pedido.idPedido!);
+    listaPedidos.clear();
   }
 }
-

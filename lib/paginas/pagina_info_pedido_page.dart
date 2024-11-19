@@ -1,11 +1,8 @@
-// ignore_for_file: must_be_immutable, prefer_const_constructors, prefer_const_literals_to_create_immutables
-
-import 'dart:math';
+// ignore_for_file: must_be_immutable, prefer_const_constructors, prefer_const_literals_to_create_immutables, unrelated_type_equality_checks
 
 import 'package:flutter/material.dart';
-import 'package:teste_app_api/models/ItemPedido.dart';
 import 'package:teste_app_api/models/pedido.dart';
-import 'package:teste_app_api/models/produto.dart';
+import 'package:teste_app_api/providers/PedidoProvider.dart';
 
 class PaginaInfoPedidoPage extends StatefulWidget {
   PaginaInfoPedidoPage({super.key, required this.pedido});
@@ -19,7 +16,7 @@ class PaginaInfoPedidoPage extends StatefulWidget {
 class _PaginaInfoPedidoPageState extends State<PaginaInfoPedidoPage> {
   @override
   Widget build(BuildContext context) {
-    var produtos = (widget.pedido.itens).map((p) => p.produto).toList();
+    widget.pedido.itens.sort((a, b) => b.quantidade.compareTo(a.quantidade));
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -35,6 +32,7 @@ class _PaginaInfoPedidoPageState extends State<PaginaInfoPedidoPage> {
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Image.network(
                 'https://cdn-icons-png.flaticon.com/512/4718/4718464.png',
@@ -47,6 +45,11 @@ class _PaginaInfoPedidoPageState extends State<PaginaInfoPedidoPage> {
                 textScaler: TextScaler.linear(1.5),
               ),
             ),
+            Text(
+              'Cód. Cliente: ${widget.pedido.usuario!.idUsuario}',
+              style: const TextStyle(color: Colors.white),
+              textScaler: TextScaler.linear(1.5),
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
@@ -55,21 +58,60 @@ class _PaginaInfoPedidoPageState extends State<PaginaInfoPedidoPage> {
                 textScaler: TextScaler.linear(1.5),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "Produtos pedidos:",
-                style: TextStyle(color: Colors.white),
-                textScaler: TextScaler.linear(1.5),
+            SizedBox(
+              height: 400,
+              width: 400,
+              child: Center(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: widget.pedido.itens.length,
+                  itemBuilder: (context, int index) {
+                    final produto = widget.pedido.itens[index];
+                    return Row(
+                      // crossAxisAlignment: CrossAxisAlignment.baseline,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Center(
+                          child: Text(
+                            produto.produto!.nome,
+                            style: TextStyle(color: Colors.white),
+                            textScaler: TextScaler.linear(1.4),
+                          ),
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            SizedBox(
+                              child: Center(
+                                child: Text(
+                                  '   ${produto.quantidade}x',
+                                  style: TextStyle(color: Colors.white),
+                                  textScaler: TextScaler.linear(1.3),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  },
+                ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(
-                " ",
-                style: TextStyle(color: Colors.white),
-                textScaler: TextScaler.linear(1.5),
+              child: Center(
+                child: Text(
+                  "Valor total do pedido:",
+                  style: TextStyle(color: Colors.white),
+                  textScaler: TextScaler.linear(1.5),
+                ),
               ),
+            ),
+            Text(
+              'R\$ ${PedidoProvider().getTotalValor(widget.pedido.itens)}',
+              style: TextStyle(color: Colors.white),
+              textScaler: TextScaler.linear(2),
             ),
           ],
         ),
