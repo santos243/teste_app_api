@@ -262,6 +262,7 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
   // confirma o pedido
   Future<void> confirmarPedido(Pedido pedido) async {
     final myHttp = MyHttpService<Pedido>();
+
     // percorre a lista de itens dentro do pedido validando cada item pedido.
     for (ItemPedido itemZerado in pedido.itens) {
       if (itemZerado.quantidade < 1) {
@@ -269,6 +270,7 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
         pedido.itens.remove(itemZerado);
       }
     }
+
     // requisição
     await myHttp.post(model: pedido, entity: 'pedido');
 

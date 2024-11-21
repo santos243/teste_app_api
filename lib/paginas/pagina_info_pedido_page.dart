@@ -88,6 +88,7 @@ class _PaginaInfoPedidoPageState extends State<PaginaInfoPedidoPage> {
                                 ),
                               ),
                             ),
+
                           ],
                         ),
                       ],
