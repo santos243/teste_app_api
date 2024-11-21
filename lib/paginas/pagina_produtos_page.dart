@@ -137,11 +137,11 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
                                             carrinhoProvider.removeItemPedido(
                                                 carrinhoProvider.getItemPedido(
                                                     itemProduto)!);
-                                          } on Exception catch (Exception) {
+                                          } catch (Exception) {
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(SnackBar(
                                                     content: Text(
-                                                        Exception.toString())));
+                                                        'Não foi possivel diminuir a quantidade do produto.')));
                                           }
 
                                           // var produtoE = carrinhoProvider.getItemPedido(itemProduto)!.quantidade;
@@ -262,29 +262,29 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
   // confirma o pedido
   Future<void> confirmarPedido(Pedido pedido) async {
     final myHttp = MyHttpService<Pedido>();
-    // percorre a lista de itens do pedido, validando se a quantidade de cada item é maior que 0.
-    for (ItemPedido item in pedido.itens) {
-      if (item.quantidade < 1) {
-    // se o valor 0 for encontrado, o item é removido da lista.
-        pedido.itens.remove(item);
+    // percorre a lista de itens dentro do pedido validando cada item pedido.
+    for (ItemPedido itemZerado in pedido.itens) {
+      if (itemZerado.quantidade < 1) {
+        // se a quantidade do item do pedido for abaixo de 1(igual a 0), o mesmo será removido da lista de item pedido.
+        pedido.itens.remove(itemZerado);
       }
     }
-
     // requisição
     await myHttp.post(model: pedido, entity: 'pedido');
+
+    // depois que a requisição é feita, o carrinho é restaurado.
+    pedido.itens.clear();
 
     // quando terminar a requisição, será mostrado um dialog
     final usuarioConfirmou = await _showMyDialog();
 
     // se for falso*
     if (!usuarioConfirmou!) {
-    // fecha a tela do carrinho se a condição for satisfeita.
+      // fecha a tela do carrinho se a condição for satisfeita.
       Navigator.pop(context);
     }
     // se a condição anterior for satisfeita, agora fechará a tela de usuários, senão fecha apenas a tela de produtos.
     Navigator.pop(context);
-    // depois que a requisição é feita, o carrinho é restaurado.
-    pedido.itens.clear();
   }
 
   // widget contador que exibe a quantidade de cada produto no carrinho(PedidoProvider).

@@ -45,12 +45,14 @@ class PedidoProvider extends ChangeNotifier {
       produtoEncontrado.quantidade += itemPedido.quantidade;
     } else {
       // Adiciona o item se não existir ainda na lista
-      _pedido.itens.add(ItemPedido(
-        idItemPedido: pedido.idPedido,
-        idProduto: itemPedido.produto!.idProduto,
-        quantidade: itemPedido.quantidade,
-        produto: itemPedido.produto,
-      ));
+      _pedido.itens.add(
+        ItemPedido(
+          idItemPedido: pedido.idPedido,
+          idProduto: itemPedido.produto!.idProduto,
+          quantidade: itemPedido.quantidade,
+          produto: itemPedido.produto,
+        ),
+      );
     }
 
     // Notifica os ouvintes para atualizar os widgets
@@ -64,7 +66,7 @@ class PedidoProvider extends ChangeNotifier {
     if (itemPedidoEncontrado.quantidade > 0) {
       // Diminui a quantidade se ela for maior que 0.
       itemPedidoEncontrado.quantidade = itemPedidoEncontrado.quantidade - 1;
-    } else {
+    } else if (itemPedido.quantidade < 1) {
       // Se a quantidade for igual a 0 ele lança uma exception.
       throw Exception("Não foi possivel diminuir a quantidade do produto.");
     }
