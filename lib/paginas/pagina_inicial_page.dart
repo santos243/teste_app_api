@@ -35,7 +35,6 @@ class _PaginaInicialPageState extends State<PaginaInicialPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
-          // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
               color: Colors.black,

@@ -134,7 +134,7 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
                                           const TextStyle(color: Colors.white),
                                     ),
                                     subtitle: Text(
-                                      'ID do usuario - ${itemLista.idUsuario}',
+                                      'ID - ${itemLista.idUsuario}',
                                       style:
                                           const TextStyle(color: Colors.white),
                                     ),

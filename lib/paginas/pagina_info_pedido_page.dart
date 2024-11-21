@@ -40,22 +40,22 @@ class _PaginaInfoPedidoPageState extends State<PaginaInfoPedidoPage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "Cód. Pedido: ${widget.pedido.idPedido}",
-                style: const TextStyle(color: Colors.white),
-                textScaler: TextScaler.linear(1.5),
+                "ID pedido: ${widget.pedido.idPedido}",
+                style: const TextStyle(color: Colors.yellow),
+                textScaler: TextScaler.linear(1.3),
               ),
             ),
             Text(
-              'Cód. Cliente: ${widget.pedido.usuario!.idUsuario}',
-              style: const TextStyle(color: Colors.white),
-              textScaler: TextScaler.linear(1.5),
+              'ID usuário: ${widget.pedido.usuario!.idUsuario}',
+              style: const TextStyle(color: Colors.yellow),
+              textScaler: TextScaler.linear(1.3),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 "Qtd. de Produtos: ${widget.pedido.itens.length}",
-                style: TextStyle(color: Colors.white),
-                textScaler: TextScaler.linear(1.5),
+                style: TextStyle(color: Colors.yellow),
+                textScaler: TextScaler.linear(1.3),
               ),
             ),
             SizedBox(
@@ -68,7 +68,6 @@ class _PaginaInfoPedidoPageState extends State<PaginaInfoPedidoPage> {
                   itemBuilder: (context, int index) {
                     final produto = widget.pedido.itens[index];
                     return Row(
-                      // crossAxisAlignment: CrossAxisAlignment.baseline,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Center(
@@ -79,7 +78,6 @@ class _PaginaInfoPedidoPageState extends State<PaginaInfoPedidoPage> {
                           ),
                         ),
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             SizedBox(
                               child: Center(

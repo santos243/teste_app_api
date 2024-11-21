@@ -41,8 +41,7 @@ class MyHttpService<T extends IModel> {
     if (response.statusCode == 400) {
       throw Exception("Campo invalido ou nao preenchido.");
     } else if (response.statusCode == 500) {
-      throw Exception(
-          "incompatibilidade ou configuração incorreta.");
+      throw Exception("incompatibilidade ou configuração incorreta.");
     } else if (response.statusCode == 405) {
       throw Exception(
           "Ops! Parece que o serviço está fora do ar temporariamente, tente novamente mais tarde.");

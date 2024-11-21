@@ -122,8 +122,8 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
                             // },
                             title: Text(
                                 '${itemProduto.nome}  -  ${itemProduto.idProduto}'),
-                            subtitle:
-                                Text('R\$ ${itemProduto.valor}'),
+                            subtitle: Text('R\$ ${itemProduto.valor}'),
+                            onTap: () => irParaInfoProdutos(itemProduto),
                             subtitleTextStyle: TextStyle(color: Colors.white60),
                             titleTextStyle: TextStyle(color: Colors.white),
                             trailing: Row(
@@ -262,10 +262,10 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
   // confirma o pedido
   Future<void> confirmarPedido(Pedido pedido) async {
     final myHttp = MyHttpService<Pedido>();
-
-    // percorre a lista de itens do pedido, validando se a quantidade de cada um é maior que 0.
+    // percorre a lista de itens do pedido, validando se a quantidade de cada item é maior que 0.
     for (ItemPedido item in pedido.itens) {
       if (item.quantidade < 1) {
+    // se o valor 0 for encontrado, o item é removido da lista.
         pedido.itens.remove(item);
       }
     }
@@ -273,14 +273,23 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
     // requisição
     await myHttp.post(model: pedido, entity: 'pedido');
 
+    // quando terminar a requisição, será mostrado um dialog
+    final usuarioConfirmou = await _showMyDialog();
+
+    // se for falso*
+    if (!usuarioConfirmou!) {
+    // fecha a tela do carrinho se a condição for satisfeita.
+      Navigator.pop(context);
+    }
+    // se a condição anterior for satisfeita, agora fechará a tela de usuários, senão fecha apenas a tela de produtos.
+    Navigator.pop(context);
     // depois que a requisição é feita, o carrinho é restaurado.
     pedido.itens.clear();
-    // fecha a tela do carrinho, voltando para tela seleção de usuarios.
-    Navigator.pop(context);
   }
 
   // widget contador que exibe a quantidade de cada produto no carrinho(PedidoProvider).
   Widget getItemPedidoQtdWidget(Produto produto) {
+    // consome informações do PedidoProvider
     return Consumer<PedidoProvider>(
       builder: (_, provider, child) {
         final itemPedido = provider.getItemPedido(produto);
@@ -300,6 +309,42 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
         return Text(
           "Total: R\$ $valorTotal",
           style: TextStyle(color: Colors.white, fontSize: 30),
+        );
+      },
+    );
+  }
+
+  Future<bool?> _showMyDialog() async {
+    return showDialog<bool>(
+      context: context,
+      barrierDismissible: false, // o usuario precisa pressionar sim ou não.
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Atenção'),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              mainAxis: Axis.vertical,
+              children: <Widget>[
+                Text('Pedido efetuado'),
+                Text('Deseja realizar um novo pedido?'),
+              ],
+            ),
+          ),
+          // botões de ação
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Não'),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+            TextButton(
+              child: const Text('Sim'),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
         );
       },
     );
