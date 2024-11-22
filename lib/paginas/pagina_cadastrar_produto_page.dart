@@ -91,12 +91,14 @@ class _PaginaCadastrarProdutoPageState
   Future<void> funcaoCadastroProduto() async {
     final myHttp = MyHttpService<Produto>();
 
+    // instancia um produto com os atributos do TextField.
     final p = Produto(
         idProduto: 1,
         nome: controllerNome.text,
         categoria: controllerCategoria.text,
         valor: double.parse(controllerValor.text));
 
+    // valida se os campos estão preenchidos corretamente
     if (p.nome.length < 2 ||
         p.categoria.length > 20 && p.categoria.length < 2 ||
         p.valor < 1) {
@@ -110,10 +112,12 @@ class _PaginaCadastrarProdutoPageState
       );
     }
 
+    // requisição
     await myHttp.post(model: p, entity: 'produtos');
-
+    // após a requisição, abre um dialog se o usuário quer efetuar um novo cadastro ou não.
     final usuarioConfirmou = await _showMessageDialog();
 
+    // se for falso
     if (!usuarioConfirmou!) {
       Navigator.pushReplacement(
         context,
@@ -124,18 +128,12 @@ class _PaginaCadastrarProdutoPageState
         ),
       );
     }
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (_) => const PaginaCadastroProdutoEfetuadoPage(),
-    //   ),
-    // );
   }
 
   Future<bool?> _showMessageDialog() async {
     return showDialog<bool>(
       context: context,
-      barrierDismissible: true, // user must tap button!
+      barrierDismissible: true, // o usuário precisa escolher entre sim ou não.
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Atenção'),
@@ -155,9 +153,6 @@ class _PaginaCadastrarProdutoPageState
                 controllerCategoria.clear();
                 controllerNome.clear();
                 controllerValor.clear();
-                // controllerCategoria.clear();
-                // controllerValor.clear();
-                // controllerNome.clear();
               },
             ),
             TextButton(

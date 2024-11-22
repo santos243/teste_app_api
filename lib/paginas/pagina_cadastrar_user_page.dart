@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:teste_app_api/core/http/application/my_http.dart';
 import 'package:teste_app_api/models/usuario.dart';
 import 'package:teste_app_api/paginas/pagina_usuarios_page.dart';
-// import 'package:http/http.dart' as http;
 
 class PaginaCadastrarUserPage extends StatefulWidget {
   const PaginaCadastrarUserPage({super.key});
@@ -112,40 +111,12 @@ class _PaginaCadastrarUserPageState extends State<PaginaCadastrarUserPage> {
         ),
       );
     }
-
-    // Navigator.push(
-    //     context,
-    //     MaterialPageRoute(
-    //         builder: (_) => const PaginaCadastroUsuarioEfetuadoPage()));
-
-    // lança um aviso de usuario cadastrado se os dados não forem vazios.
-    // if (u.nome.isNotEmpty && u.cpf.isNotEmpty) {
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     const SnackBar(
-    //       content: Text("Usuário adicionado com sucesso no banco de dados"),
-    //     ),
-    //   );
-    //   controllerCpf.clear();
-    //   controllerNome.clear();
-    // } else if (u.nome.isEmpty) {
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     const SnackBar(
-    //       content: Text("O campo de nome está vazio."),
-    //     ),
-    //   );
-    // } else if (u.cpf.isEmpty) {
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     const SnackBar(
-    //       content: Text("O campo de CPF está vazio"),
-    //     ),
-    //   );
-    // }
   }
 
   Future<bool?> _showMyDialog() async {
     return showDialog<bool>(
       context: context,
-      barrierDismissible: false, // user must tap button!
+      barrierDismissible: false, // o usuario precisa escolher entre sim ou não.
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Atenção'),
@@ -161,14 +132,14 @@ class _PaginaCadastrarUserPageState extends State<PaginaCadastrarUserPage> {
             TextButton(
               child: const Text('Não'),
               onPressed: () {
+                // fecha o dialog com resultado 'falso'
                 Navigator.of(context).pop(false);
-                // controllerNome.clear();
-                // controllerCpf.clear();
               },
             ),
             TextButton(
               child: const Text('Sim'),
               onPressed: () {
+                // fecha o dialog com resultado verdadeiro
                 Navigator.of(context).pop(true);
                 controllerCpf.clear();
                 controllerNome.clear();
