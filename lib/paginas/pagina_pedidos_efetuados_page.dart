@@ -64,7 +64,7 @@ class _PaginaPedidosEfetuadosPageState
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blueAccent.shade400),
                     child: const Text(
-                      "Efetuar pedido",
+                      "Fazer pedido",
                       style: TextStyle(color: Colors.white),
                     ),
                   ),

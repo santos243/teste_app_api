@@ -17,19 +17,24 @@ class MyHttpService<T extends IModel> {
     final lista = <T>[];
     final result = await http.get(_getUri(path: entity));
 
+    // de json para map
     final jsonResposta = json.decode(result.body);
 
     // Percorre a lista do json
     for (final itemResposta in jsonResposta) {
+      // de map para objeto Dart
       final t = builder(itemResposta);
+      // adiciona os objetos dentro da lista
       lista.add(t);
     }
-
+    // retorna essa lista
     return lista;
   }
 
   Future<void> post({required T model, required String entity}) async {
+    // model T para um mapa
     final body = model.toMap();
+    // mapa para json
     final json = jsonEncode(body);
 
     final response = await http.post(
@@ -39,6 +44,7 @@ class MyHttpService<T extends IModel> {
         "Content-Type": "application/json",
       },
     );
+    // caso ocorra algum erro na requisiçao
     if (response.statusCode == 400) {
       throw Exception("Campo invalido ou nao preenchido.");
     } else if (response.statusCode == 500) {

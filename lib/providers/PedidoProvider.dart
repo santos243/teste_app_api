@@ -60,15 +60,17 @@ class PedidoProvider extends ChangeNotifier {
   }
 
   void removeItemPedido(ItemPedido itemPedido) {
-    // Procura o somente o primeiro item pedido, cujo o produto tem o mesmo produto do item pedido do parametro.
+    // Joga na variavel somente o primeiro item pedido, dado a condição do firstWhere
+    // o produto tem o mesmo produto do item pedido do parametro.
     var itemPedidoEncontrado =
         _pedido.itens.firstWhere((ip) => ip.produto == itemPedido.produto);
     if (itemPedidoEncontrado.quantidade > 0) {
       // Diminui a quantidade se ela for maior que 0.
       itemPedidoEncontrado.quantidade = itemPedidoEncontrado.quantidade - 1;
-    } else if (itemPedido.quantidade < 1) {
-      // Se a quantidade for igual a 0 ele lança uma exception.
-      throw Exception("Não foi possivel diminuir a quantidade do produto.");
+    }
+    if (itemPedidoEncontrado.quantidade == 0) {
+      // se a quantidade do item pedido estiver zerada, sera removido da lista de itens dentro do pedido.
+      pedido.itens.remove(itemPedidoEncontrado);
     }
     // Notifica todos os ouvintes para atualizar os widgets.
     notifyListeners();
@@ -127,15 +129,15 @@ List<int> inteiros = [1, 2, 430, 4];
 int? getIndexValue(int valor) {
   for (var i = 0; i < inteiros.length; i++) {
     if (valor == inteiros[i]) {
-      return i;
+      return inteiros[i];
     }
   }
   return null;
 }
 
-int? getValueIndex(int index) {
+int? getValueIndex(int index){
   for (var i = 0; i < inteiros.length; i++) {
-    if (i == index) {
+    if(i == index) {
       return inteiros[i];
     }
   }

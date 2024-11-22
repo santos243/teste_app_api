@@ -264,12 +264,12 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
     final myHttp = MyHttpService<Pedido>();
 
     // percorre a lista de itens dentro do pedido validando cada item pedido.
-    for (ItemPedido itemZerado in pedido.itens) {
-      if (itemZerado.quantidade < 1) {
-        // se a quantidade do item do pedido for abaixo de 1(igual a 0), o mesmo será removido da lista de item pedido.
-        pedido.itens.remove(itemZerado);
-      }
-    }
+    // for (ItemPedido itemZerado in pedido.itens) {
+    //   if (itemZerado.quantidade < 1) {
+    //     // se a quantidade do item do pedido for abaixo de 1(igual a 0), o mesmo será removido da lista de item pedido.
+    //     pedido.itens.remove(itemZerado);
+    //   }
+    // }
 
     // requisição
     await myHttp.post(model: pedido, entity: 'pedido');

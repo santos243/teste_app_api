@@ -1,4 +1,4 @@
-// ignore_for_file: constant_identifier_names
+// ignore_for_file: constant_identifier_names, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -49,7 +49,7 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const CircularProgressIndicator();
             }
-            final usuarios = snapshot.data;
+            final listaUsuarios = snapshot.data;
             return Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               // crossAxisAlignment: CrossAxisAlignment.center,
@@ -101,9 +101,9 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(10.0),
                     child: ListView(
-                      children: usuarios!
+                      children: listaUsuarios!
                           .map(
                             (itemLista) => Row(
                               children: [
@@ -126,6 +126,8 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
                                         carrinhoProvider
                                             .createPedido(itemLista.idUsuario);
                                         irParaCriacaoPedido();
+                                      } else {
+                                        mostrarDetalhes(itemLista);
                                       }
                                     },
                                     title: Text(
@@ -142,15 +144,32 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
                                       mainAxisSize: MainAxisSize
                                           .min, // Para ajustar o tamanho corretamente
                                       children: [
-                                        IconButton(
-                                          onPressed: () =>
-                                              mostrarDetalhes(itemLista),
-                                          icon: const Icon(
-                                            Icons.info_outline_rounded,
-                                            color: Colors.white,
-                                          ),
-                                        ),
+                                        // IconButton(
+                                        //   onPressed: () =>
+                                        //       mostrarDetalhes(itemLista),
+                                        //   icon: const Icon(
+                                        //     Icons.info_outline_rounded,
+                                        //     color: Colors.white,
+                                        //   ),
+                                        // ),
                                         // Aqui você pode adicionar outros botões se necessário
+                                        widget.tipoListagem ==
+                                                TipoListagem.CONSULTA
+                                            ? ElevatedButton(
+                                                onPressed: () => {
+                                                  carrinhoProvider.createPedido(itemLista.idUsuario),
+                                                      irParaCriacaoPedido(),
+                                                    },
+                                                style: ElevatedButton.styleFrom(
+                                                    backgroundColor: Colors
+                                                        .blueAccent.shade400),
+                                                child: const Text(
+                                                  'Fazer pedido',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 10.2),
+                                                ))
+                                            : const SizedBox.shrink(),
                                         widget.tipoListagem ==
                                                 TipoListagem.CRIACAO_PEDIDO
                                             ? const SizedBox.shrink()
@@ -196,7 +215,17 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
     return await myHttp.get(entity: 'usuario', builder: Usuario.fromMap);
   }
 
-  mostrarDetalhes(Usuario itemLista) {
+  void irParaUsuariosCriarPedido() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (_) =>
+            const PaginaUsuariosPage(tipoListagem: TipoListagem.CRIACAO_PEDIDO),
+      ),
+    );
+  }
+
+  void mostrarDetalhes(Usuario itemLista) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -215,13 +244,52 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
   Future<void> deleteUser(itemLista) async {
     final myHttp = MyHttpService<Usuario>();
 
-    await myHttp.delete(entity: 'usuario', id: itemLista.idUsuario);
-    listaUsuarios.clear();
+    final usuarioConfirmou = await _showMyDialog();
+    if (usuarioConfirmou! == true) {
+      await myHttp.delete(entity: 'usuario', id: itemLista.idUsuario);
+    }
     await funcaoMostrarUsuarios();
   }
 
   void irParaCadastroUsuarios() {
     Navigator.push(context,
         MaterialPageRoute(builder: (_) => const PaginaCadastrarUserPage()));
+  }
+
+  Future<bool?> _showMyDialog() async {
+    return showDialog<bool>(
+      context: context,
+      barrierDismissible: false, // o usuario precisa pressionar sim ou não.
+      barrierColor: Colors.black,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Atenção'),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              mainAxis: Axis.vertical,
+              children: <Widget>[
+                Text('Você está prestes a excluir o usuário'),
+                Text('Deseja continuar?'),
+              ],
+            ),
+          ),
+          // botões de ação
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Sim'),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+            TextButton(
+              child: const Text('Não'),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
