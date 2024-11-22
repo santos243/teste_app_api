@@ -157,7 +157,6 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
                                             : IconButton(
                                                 onPressed: () async {
                                                   await deleteUser(itemLista);
-                                                  await funcaoMostrarUsuarios();
                                                 },
                                                 icon: const Icon(
                                                     Icons.delete_outline,
@@ -217,11 +216,12 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
     final myHttp = MyHttpService<Usuario>();
 
     await myHttp.delete(entity: 'usuario', id: itemLista.idUsuario);
+    listaUsuarios.clear();
+    await funcaoMostrarUsuarios();
   }
 
   void irParaCadastroUsuarios() {
     Navigator.push(context,
         MaterialPageRoute(builder: (_) => const PaginaCadastrarUserPage()));
   }
-
 }

@@ -10,18 +10,19 @@ typedef ModelBuilder<T> = T Function(Map<String, dynamic> map);
 class MyHttpService<T extends IModel> {
   static const String URL = '192.168.0.236:8080';
 
+  // retorna uma lista de T(qualquer coisa que herda IModel).
   Future<List<T>> get(
       {required String entity, required ModelBuilder<T> builder}) async {
+    // instanciando uma lista de T(qualquer coisa que extends IModel).
     final lista = <T>[];
     final result = await http.get(_getUri(path: entity));
 
     final jsonResposta = json.decode(result.body);
-    // final jsonResposta2 = jsonDecode(result.body);
 
     // Percorre a lista do json
     for (final itemResposta in jsonResposta) {
-      final p = builder(itemResposta);
-      lista.add(p);
+      final t = builder(itemResposta);
+      lista.add(t);
     }
 
     return lista;
