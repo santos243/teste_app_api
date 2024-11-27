@@ -60,7 +60,7 @@ class _PaginaInicialPageState extends State<PaginaInicialPage> {
               style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueAccent.shade400),
               child: const Text(
-                'Consultar usuários',
+                'Usuários',
                 textScaler: TextScaler.linear(1.2),
                 style: TextStyle(color: Colors.white),
               ),
@@ -70,7 +70,7 @@ class _PaginaInicialPageState extends State<PaginaInicialPage> {
               style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueAccent.shade400),
               child: const Text(
-                'Consultar produtos',
+                'Produtos',
                 textScaler: TextScaler.linear(1.2),
                 style: TextStyle(color: Colors.white),
               ),

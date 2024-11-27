@@ -30,89 +30,91 @@ class _PaginaInfoPedidoPageState extends State<PaginaInfoPedidoPage> {
         ),
       ),
       body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Image.network(
-                'https://cdn-icons-png.flaticon.com/512/4718/4718464.png',
-                scale: 2),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "ID pedido: ${widget.pedido.idPedido}",
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Image.network(
+                  'https://cdn-icons-png.flaticon.com/512/4718/4718464.png',
+                  scale: 2),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "ID pedido: ${widget.pedido.idPedido}",
+                  style: const TextStyle(color: Colors.yellow),
+                  textScaler: TextScaler.linear(1.3),
+                ),
+              ),
+              Text(
+                'ID usuário: ${widget.pedido.usuario!.idUsuario}',
                 style: const TextStyle(color: Colors.yellow),
                 textScaler: TextScaler.linear(1.3),
               ),
-            ),
-            Text(
-              'ID usuário: ${widget.pedido.usuario!.idUsuario}',
-              style: const TextStyle(color: Colors.yellow),
-              textScaler: TextScaler.linear(1.3),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "Qtd. de Produtos: ${widget.pedido.itens.length}",
-                style: TextStyle(color: Colors.yellow),
-                textScaler: TextScaler.linear(1.3),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Qtd. de Produtos: ${widget.pedido.itens.length}",
+                  style: TextStyle(color: Colors.yellow),
+                  textScaler: TextScaler.linear(1.3),
+                ),
               ),
-            ),
-            SizedBox(
-              height: 400,
-              width: 400,
-              child: Center(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: widget.pedido.itens.length,
-                  itemBuilder: (context, int index) {
-                    final produto = widget.pedido.itens[index];
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Center(
-                          child: Text(
-                            produto.produto!.nome,
-                            style: TextStyle(color: Colors.white),
-                            textScaler: TextScaler.linear(1.4),
+              SizedBox(
+                height: 400,
+                width: 400,
+                child: Center(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: widget.pedido.itens.length,
+                    itemBuilder: (context, int index) {
+                      final produto = widget.pedido.itens[index];
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Center(
+                            child: Text(
+                              produto.produto!.nome,
+                              style: TextStyle(color: Colors.white),
+                              textScaler: TextScaler.linear(1.4),
+                            ),
                           ),
-                        ),
-                        Row(
-                          children: [
-                            SizedBox(
-                              child: Center(
-                                child: Text(
-                                  '   ${produto.quantidade}x',
-                                  style: TextStyle(color: Colors.white),
-                                  textScaler: TextScaler.linear(1.3),
+                          Row(
+                            children: [
+                              SizedBox(
+                                child: Center(
+                                  child: Text(
+                                    '   ${produto.quantidade}x',
+                                    style: TextStyle(color: Colors.white),
+                                    textScaler: TextScaler.linear(1.3),
+                                  ),
                                 ),
                               ),
-                            ),
 
-                          ],
-                        ),
-                      ],
-                    );
-                  },
+                            ],
+                          ),
+                        ],
+                      );
+                    },
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                child: Text(
-                  "Valor total do pedido:",
-                  style: TextStyle(color: Colors.white),
-                  textScaler: TextScaler.linear(1.5),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text(
+                    "Valor total do pedido:",
+                    style: TextStyle(color: Colors.white),
+                    textScaler: TextScaler.linear(1.5),
+                  ),
                 ),
               ),
-            ),
-            Text(
-              'R\$ ${PedidoProvider().getTotalValor(widget.pedido.itens)}',
-              style: TextStyle(color: Colors.white),
-              textScaler: TextScaler.linear(2),
-            ),
-          ],
+              Text(
+                'R\$ ${PedidoProvider().getTotalValor(widget.pedido.itens)}',
+                style: TextStyle(color: Colors.white),
+                textScaler: TextScaler.linear(2),
+              ),
+            ],
+          ),
         ),
       ),
     );

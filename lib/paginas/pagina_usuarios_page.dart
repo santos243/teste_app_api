@@ -22,6 +22,24 @@ class PaginaUsuariosPage extends StatefulWidget {
 
 class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
   final listaUsuarios = <Usuario>[];
+  final myHttp = MyHttpService<Usuario>();
+
+  Future<void> funcaoMostrarUsuarios() async {
+    listaUsuarios.clear();
+    final usuariosEncontrados =
+        await myHttp.get(entity: 'usuario', builder: Usuario.fromMap);
+    usuariosEncontrados.sort((a, b) => a.idUsuario.compareTo(b.idUsuario));
+    listaUsuarios.addAll(usuariosEncontrados);
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await funcaoMostrarUsuarios();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,177 +61,167 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
                   style: TextStyle(color: Colors.white),
                 )),
       body: Center(
-        child: FutureBuilder(
-          future: funcaoMostrarUsuarios(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
-            }
-            final listaUsuarios = snapshot.data;
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              // crossAxisAlignment: CrossAxisAlignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    // widget.tipoListagem == TipoListagem.CRIACAO_PEDIDO
-                    //     ? const SizedBox.shrink()
-                    //     :
-                    // ElevatedButton(
-                    //   onPressed: () => funcaoMostrarUsuarios(),
-                    //   style: ElevatedButton.styleFrom(
-                    //       backgroundColor: Colors.blueAccent.shade400),
-                    //   child: const Text(
-                    //     'Mostrar usuarios',
-                    //     style: TextStyle(color: Colors.white),
-                    //     textScaler: TextScaler.linear(1.2),
-                    //   ),
-                    // ),
-                    // const SizedBox(width: 10),
-                    widget.tipoListagem == TipoListagem.CRIACAO_PEDIDO
-                        ? const SizedBox.shrink()
-                        : ElevatedButton(
-                            onPressed: irParaCadastroUsuarios,
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blueAccent.shade400),
-                            child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text(
-                                  'Cadastrar ',
-                                  style: TextStyle(color: Colors.white),
-                                  textScaler: TextScaler.linear(1.2),
-                                ),
-                                Icon(
-                                  Icons.person_add,
-                                  color: Colors.white,
-                                )
-                              ],
+                // widget.tipoListagem == TipoListagem.CRIACAO_PEDIDO
+                //     ? const SizedBox.shrink()
+                //     :
+                // ElevatedButton(
+                //   onPressed: () => funcaoMostrarUsuarios(),
+                //   style: ElevatedButton.styleFrom(
+                //       backgroundColor: Colors.blueAccent.shade400),
+                //   child: const Text(
+                //     'Mostrar usuarios',
+                //     style: TextStyle(color: Colors.white),
+                //     textScaler: TextScaler.linear(1.2),
+                //   ),
+                // ),
+                // const SizedBox(width: 10),
+                widget.tipoListagem == TipoListagem.CRIACAO_PEDIDO
+                    ? const SizedBox.shrink()
+                    : ElevatedButton(
+                        onPressed: irParaCadastroUsuarios,
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blueAccent.shade400),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              'Cadastrar ',
+                              style: TextStyle(color: Colors.white),
+                              textScaler: TextScaler.linear(1.2),
                             ),
-                            // child: const Text(
-                            //   'Cadastrar novo usuario',
-                            //   style: TextStyle(color: Colors.white),
-                            //   textScaler: TextScaler.linear(1.2),
-                            // ),
-                          ),
-                  ],
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: ListView(
-                      children: listaUsuarios!
-                          .map(
-                            (itemLista) => Row(
-                              children: [
-                                // const FlutterLogo(
-                                //   size: 80,
-                                // ),
-
-                                Expanded(
-                                  child: ListTile(
-                                    leading: Image.network(
-                                      "https://cdn.pixabay.com/photo/2012/04/26/19/43/profile-42914_960_720.png",
-                                      height: 50,
-                                      width: 50,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    onTap: () {
-                                      // se as condiçoes forem verdadeiras, um pedido deve se iniciar redirecionando o usuario para pagina de produtos.
-                                      if (widget.tipoListagem ==
-                                          TipoListagem.CRIACAO_PEDIDO) {
-                                        carrinhoProvider
-                                            .createPedido(itemLista.idUsuario);
-                                        irParaCriacaoPedido();
-                                      } else {
-                                        mostrarDetalhes(itemLista);
-                                      }
-                                    },
-                                    title: Text(
-                                      itemLista.nome,
-                                      style:
-                                          const TextStyle(color: Colors.white),
-                                    ),
-                                    subtitle: Text(
-                                      'ID - ${itemLista.idUsuario}',
-                                      style:
-                                          const TextStyle(color: Colors.white),
-                                    ),
-                                    trailing: Row(
-                                      mainAxisSize: MainAxisSize
-                                          .min, // Para ajustar o tamanho corretamente
-                                      children: [
-                                        // IconButton(
-                                        //   onPressed: () =>
-                                        //       mostrarDetalhes(itemLista),
-                                        //   icon: const Icon(
-                                        //     Icons.info_outline_rounded,
-                                        //     color: Colors.white,
-                                        //   ),
-                                        // ),
-                                        // Aqui você pode adicionar outros botões se necessário
-                                        widget.tipoListagem ==
-                                                TipoListagem.CONSULTA
-                                            ? ElevatedButton(
-                                                onPressed: () => {
-                                                  carrinhoProvider.createPedido(itemLista.idUsuario),
-                                                      irParaCriacaoPedido(),
-                                                    },
-                                                style: ElevatedButton.styleFrom(
-                                                    backgroundColor: Colors
-                                                        .blueAccent.shade400),
-                                                child: const Text(
-                                                  'Fazer pedido',
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 10.2),
-                                                ))
-                                            : const SizedBox.shrink(),
-                                        widget.tipoListagem ==
-                                                TipoListagem.CRIACAO_PEDIDO
-                                            ? const SizedBox.shrink()
-                                            : IconButton(
-                                                onPressed: () async {
-                                                  await deleteUser(itemLista);
-                                                },
-                                                icon: const Icon(
-                                                    Icons.delete_outline,
-                                                    color: Colors.white),
-                                              ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                ),
+                            Icon(
+                              Icons.person_add,
+                              color: Colors.white,
+                            )
+                          ],
+                        ),
+                        // child: const Text(
+                        //   'Cadastrar novo usuario',
+                        //   style: TextStyle(color: Colors.white),
+                        //   textScaler: TextScaler.linear(1.2),
+                        // ),
+                      ),
               ],
-            );
-          },
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: ListView(
+                  children: listaUsuarios
+                      .map(
+                        (itemLista) => Row(
+                          children: [
+                            // const FlutterLogo(
+                            //   size: 80,
+                            // ),
+
+                            Expanded(
+                              child: ListTile(
+                                leading: Image.network(
+                                  "https://cdn.pixabay.com/photo/2012/04/26/19/43/profile-42914_960_720.png",
+                                  height: 50,
+                                  width: 50,
+                                  fit: BoxFit.cover,
+                                ),
+                                onTap: () {
+                                  // se as condiçoes forem verdadeiras, um pedido deve se iniciar redirecionando o usuario para pagina de produtos.
+                                  if (widget.tipoListagem ==
+                                      TipoListagem.CRIACAO_PEDIDO) {
+                                    carrinhoProvider
+                                        .createPedido(itemLista.idUsuario);
+                                    irParaCriacaoPedido();
+                                  } else {
+                                    mostrarDetalhes(itemLista);
+                                  }
+                                },
+                                title: Text(
+                                  itemLista.nome,
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                subtitle: Text(
+                                  'ID - ${itemLista.idUsuario}',
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize
+                                      .min, // Para ajustar o tamanho corretamente
+                                  children: [
+                                    // IconButton(
+                                    //   onPressed: () =>
+                                    //       mostrarDetalhes(itemLista),
+                                    //   icon: const Icon(
+                                    //     Icons.info_outline_rounded,
+                                    //     color: Colors.white,
+                                    //   ),
+                                    // ),
+                                    // Aqui você pode adicionar outros botões se necessário
+                                    widget.tipoListagem == TipoListagem.CONSULTA
+                                        ? ElevatedButton(
+                                            onPressed: () => {
+                                                  carrinhoProvider.createPedido(
+                                                      itemLista.idUsuario),
+                                                  irParaCriacaoPedido(),
+                                                },
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    Colors.blueAccent.shade400),
+                                            child: const Text(
+                                              'Fazer pedido',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 10.2),
+                                            ))
+                                        : const SizedBox.shrink(),
+                                    widget.tipoListagem ==
+                                            TipoListagem.CRIACAO_PEDIDO
+                                        ? const SizedBox.shrink()
+                                        : IconButton(
+                                            onPressed: () async {
+                                              await deleteUser(itemLista);
+                                              await funcaoMostrarUsuarios();
+                                            },
+                                            icon: const Icon(
+                                                Icons.delete_outline,
+                                                color: Colors.white),
+                                          ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  // busca os usuarios no banco
-  Future<List<Usuario>> funcaoMostrarUsuarios() async {
-    //limpa lista
-    listaUsuarios.clear();
+// // busca os usuarios no banco(Não está mais em uso)
+//   Future<List<Usuario>> funcaoMostrarUsuarios() async {
+//     //limpa lista
+//     listaUsuarios.clear();
 
-    final myHttp = MyHttpService<Usuario>();
+//     final myHttp = MyHttpService<Usuario>();
 
-    // final xlistaUsuarios =
+//     // final xlistaUsuarios =
 
-    // listaUsuarios.addAll(xlistaUsuarios);
+//     // listaUsuarios.addAll(xlistaUsuarios);
 
-    // setState(() {});
-    return await myHttp.get(entity: 'usuario', builder: Usuario.fromMap);
-  }
+//     // setState(() {});
+//     return await myHttp.get(entity: 'usuario', builder: Usuario.fromMap);
+//   }
 
   void irParaUsuariosCriarPedido() {
     Navigator.pushReplacement(
@@ -248,11 +256,10 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
     if (usuarioConfirmou! == true) {
       await myHttp.delete(entity: 'usuario', id: itemLista.idUsuario);
     }
-    await funcaoMostrarUsuarios();
   }
 
   void irParaCadastroUsuarios() {
-    Navigator.push(context,
+    Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (_) => const PaginaCadastrarUserPage()));
   }
 
@@ -260,7 +267,7 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
     return showDialog<bool>(
       context: context,
       barrierDismissible: false, // o usuario precisa pressionar sim ou não.
-      barrierColor: Colors.black,
+
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Atenção'),

@@ -103,13 +103,11 @@ class _PaginaCadastrarUserPageState extends State<PaginaCadastrarUserPage> {
     final usuarioConfirmou = await _showMyDialog();
 
     if (!usuarioConfirmou!) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const PaginaUsuariosPage(
-            tipoListagem: TipoListagem.CONSULTA,
-          ),
-        ),
-      );
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const PaginaUsuariosPage(
+                  tipoListagem: TipoListagem.CONSULTA)));
     }
   }
 

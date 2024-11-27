@@ -74,7 +74,8 @@ class _PaginaCadastrarProdutoPageState
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blueAccent.shade200),
-                  onPressed: () => funcaoCadastroProduto(),
+                  onPressed: () =>
+                      funcaoCadastroProduto(MyHttpService<Produto>()),
                   child: const Text(
                     'Cadastrar',
                     style: TextStyle(color: Colors.white, fontSize: 17),
@@ -88,8 +89,8 @@ class _PaginaCadastrarProdutoPageState
     );
   }
 
-  Future<void> funcaoCadastroProduto() async {
-    final myHttp = MyHttpService<Produto>();
+  Future<void> funcaoCadastroProduto(MyHttpService<Produto> myHttp) async {
+    // final myHttp = MyHttpService<Produto>();
 
     // instancia um produto com os atributos do TextField.
     final p = Produto(
@@ -119,14 +120,7 @@ class _PaginaCadastrarProdutoPageState
 
     // se for falso
     if (!usuarioConfirmou!) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const PaginaProdutosPage(
-            tipoLista: TipoLista.CONSULTA_PRODUTOS,
-          ),
-        ),
-      );
+      Navigator.pop(context);
     }
   }
 

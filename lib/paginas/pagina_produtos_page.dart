@@ -25,10 +25,10 @@ class PaginaProdutosPage extends StatefulWidget {
 class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
   // late CarrinhoRepositoryTeste carrinho;
   final listaProdutos = <Produto>[];
+  final myHttp = MyHttpService<Produto>();
 
   Future<void> funcaoMostrarProdutos() async {
-    final myHttp = MyHttpService<Produto>();
-
+    listaProdutos.clear();
     final produtosEncontrados =
         await myHttp.get(entity: 'produtos', builder: Produto.fromMap);
     produtosEncontrados.sort((a, b) => a.idProduto.compareTo(b.idProduto));
@@ -56,7 +56,7 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
         centerTitle: true,
         title: widget.tipoLista == TipoLista.CONSULTA_PRODUTOS
             ? Text(
-                'Requisição de produtos',
+                'Produtos',
                 style: TextStyle(color: Colors.white),
               )
             : Text(
@@ -180,8 +180,10 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
                                         ),
                                       )
                                     : IconButton(
-                                        onPressed: () =>
-                                            deleteProduto(itemProduto),
+                                        onPressed: () async {
+                                          await deleteProduto(itemProduto);
+                                          await funcaoMostrarProdutos();
+                                        },
                                         icon: Icon(Icons.delete_outline_rounded,
                                             color: Colors.white),
                                       ),
@@ -204,7 +206,8 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
                       final pedidoPronto = Pedido(
                           idUsuario: carrinhoProvider.pedido.idUsuario,
                           itens: carrinhoProvider.pedido.itens);
-                      await confirmarPedido(pedidoPronto);
+                      await confirmarPedido(
+                          MyHttpService<Pedido>(), pedidoPronto);
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blueAccent.shade400),
@@ -228,10 +231,12 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
   }
 
   Future<void> deleteProduto(itemProduto) async {
-    final myHttp = MyHttpService<Produto>();
+    // final myHttp = MyHttpService<Produto>();
 
-    await myHttp.delete(entity: 'produtos', id: itemProduto.idProduto);
-    await funcaoMostrarProdutos();
+    final usuarioConfirmou = await _showMyDialogDelete();
+    if (usuarioConfirmou!) {
+      await myHttp.delete(entity: 'produtos', id: itemProduto.idProduto);
+    }
   }
 
   void irParaInfoProdutos(Produto itemProduto) {
@@ -260,16 +265,9 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
   }
 
   // confirma o pedido
-  Future<void> confirmarPedido(Pedido pedido) async {
-    final myHttp = MyHttpService<Pedido>();
-
-    // percorre a lista de itens dentro do pedido validando cada item pedido.
-    // for (ItemPedido itemZerado in pedido.itens) {
-    //   if (itemZerado.quantidade < 1) {
-    //     // se a quantidade do item do pedido for abaixo de 1(igual a 0), o mesmo será removido da lista de item pedido.
-    //     pedido.itens.remove(itemZerado);
-    //   }
-    // }
+  Future<void> confirmarPedido(
+      MyHttpService<Pedido> myHttp, Pedido pedido) async {
+    // final myHttp = MyHttpService<Pedido>();
 
     // requisição
     await myHttp.post(model: pedido, entity: 'pedido');
@@ -344,6 +342,42 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
               child: const Text('Sim'),
               onPressed: () {
                 Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<bool?> _showMyDialogDelete() async {
+    return showDialog<bool>(
+      context: context,
+      barrierDismissible: false, // o usuario precisa pressionar sim ou não.
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Atenção'),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              mainAxis: Axis.vertical,
+              children: <Widget>[
+                Text('Você está prestes a excluir o produto'),
+                Text('Deseja continuar?'),
+              ],
+            ),
+          ),
+          // botões de ação
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Sim'),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+            TextButton(
+              child: const Text('Não'),
+              onPressed: () {
+                Navigator.of(context).pop(false);
               },
             ),
           ],
