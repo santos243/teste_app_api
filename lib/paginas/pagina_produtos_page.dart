@@ -248,7 +248,7 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
   }
 
   void irParaCadastroProduto() {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (_) => const PaginaCadastrarProdutoPage()),
     );
@@ -333,15 +333,15 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
           // botões de ação
           actions: <Widget>[
             TextButton(
-              child: const Text('Não'),
-              onPressed: () {
-                Navigator.of(context).pop(false);
-              },
-            ),
-            TextButton(
               child: const Text('Sim'),
               onPressed: () {
                 Navigator.of(context).pop(true);
+              },
+            ),
+            TextButton(
+              child: const Text('Não'),
+              onPressed: () {
+                Navigator.of(context).pop(false);
               },
             ),
           ],

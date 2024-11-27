@@ -120,7 +120,9 @@ class _PaginaCadastrarProdutoPageState
 
     // se for falso
     if (!usuarioConfirmou!) {
-      Navigator.pop(context);
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const PaginaProdutosPage(
+              tipoLista: TipoLista.CONSULTA_PRODUTOS)));
     }
   }
 
