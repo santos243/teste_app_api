@@ -39,36 +39,40 @@ class _PaginaCadastrarProdutoPageState
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text('Insira o nome do produto:',
-                    style: TextStyle(color: Colors.white)),
-              ),
-              TextField(
-                controller: controllerNome,
-                style: const TextStyle(color: Colors.white),
-              ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                    'Insira qual categoria o produto pertence\n ex: Marcenaria, Eletrodoméstico, Eletrônico, etc',
-                    style: TextStyle(color: Colors.white)),
-              ),
-              TextField(
-                controller: controllerCategoria,
-                style: const TextStyle(color: Colors.white),
-              ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  'Insira o valor do produto: \n\t\t\t\t\t\tminimo 1,00 real',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              TextField(
-                controller: controllerValor,
-                style: const TextStyle(color: Colors.white),
-              ),
+              // const Padding(
+              //   padding: EdgeInsets.all(8.0),
+              //   child: Text('Insira o nome do produto:',
+              //       style: TextStyle(color: Colors.white)),
+              // ),
+              widgetTextFieldNome(),
+              // TextField(
+              //   controller: controllerNome,
+              //   style: const TextStyle(color: Colors.white),
+              // ),
+              // const Padding(
+              //   padding: EdgeInsets.all(8.0),
+              //   child: Text(
+              //       'Insira qual categoria o produto pertence\n ex: Marcenaria, Eletrodoméstico, Eletrônico, etc',
+              //       style: TextStyle(color: Colors.white)),
+              // ),
+              widgetTextFieldCategoria(),
+              // TextField(
+              //   controller: controllerCategoria,
+              //   style: const TextStyle(color: Colors.white),
+              // ),
+              // const Padding(
+              //   padding: EdgeInsets.all(8.0),
+              //   child: Text(
+              //     'Insira o valor do produto: \n\t\t\t\t\t\tminimo 1,00 real',
+              //     style: TextStyle(color: Colors.white),
+              //   ),
+              // ),
+              widgetTextFieldValor(),
+              // TextFormField(
+              //   controller: controllerValor,
+              //   validator: (value) => validator(controllerValor.text),
+              //   style: const TextStyle(color: Colors.white),
+              // ),
               Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: ElevatedButton(
@@ -101,8 +105,7 @@ class _PaginaCadastrarProdutoPageState
 
     // valida se os campos estão preenchidos corretamente
     if (p.nome.length < 2 ||
-        p.categoria.length > 20 && p.categoria.length < 2 ||
-        p.valor < 1) {
+        p.categoria.length > 20 || p.categoria.length < 2) {
       throw Exception(
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -124,6 +127,54 @@ class _PaginaCadastrarProdutoPageState
           builder: (context) => const PaginaProdutosPage(
               tipoLista: TipoLista.CONSULTA_PRODUTOS)));
     }
+  }
+
+  Widget widgetTextFieldNome() {
+    return TextFormField(
+      controller: controllerNome,
+      autofocus: true,
+      decoration: const InputDecoration(
+          border: InputBorder.none,
+          icon: Icon(
+            Icons.abc,
+            color: Colors.white70,
+          ),
+          hintText: 'mín. 2 carácteres',
+          hintStyle: TextStyle(color: Colors.white70),
+          labelText: 'Insira o nome'),
+    );
+  }
+
+  Widget widgetTextFieldCategoria() {
+    return TextFormField(
+      controller: controllerCategoria,
+      autofocus: true,
+      decoration: const InputDecoration(
+          border: InputBorder.none,
+          icon: Icon(
+            Icons.category,
+            color: Colors.white70,
+          ),
+          hintText: 'ex: Marcenaria, Eletrodoméstico, Eletrônico, etc',
+          hintStyle: TextStyle(color: Colors.white70),
+          labelText: 'Insira a categoria'),
+    );
+  }
+
+  Widget widgetTextFieldValor() {
+    return TextFormField(
+      controller: controllerValor,
+      autofocus: true,
+      decoration: const InputDecoration(
+          border: InputBorder.none,
+          icon: Icon(
+            Icons.monetization_on,
+            color: Colors.white,
+          ),
+          hintText: 'mín. R\$1,00',
+          hintStyle: TextStyle(color: Colors.white70),
+          labelText: 'Insira o valor'),
+    );
   }
 
   Future<bool?> _showMessageDialog() async {

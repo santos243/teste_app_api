@@ -24,10 +24,14 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
   final listaUsuarios = <Usuario>[];
   final myHttp = MyHttpService<Usuario>();
 
+
+  
+  // busca os usuarios no banco
   Future<void> funcaoMostrarUsuarios() async {
     listaUsuarios.clear();
     final usuariosEncontrados =
         await myHttp.get(entity: 'usuario', builder: Usuario.fromMap);
+  // organiza os usuarios pelo id(do menor pro maior)
     usuariosEncontrados.sort((a, b) => a.idUsuario.compareTo(b.idUsuario));
     listaUsuarios.addAll(usuariosEncontrados);
     setState(() {});
@@ -184,7 +188,7 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
                                         ? const SizedBox.shrink()
                                         : IconButton(
                                             onPressed: () async {
-                                              await deleteUser(itemLista);
+                                              await deleteUser(myHttp ,itemLista);
                                               await funcaoMostrarUsuarios();
                                             },
                                             icon: const Icon(
@@ -249,9 +253,7 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
                 const PaginaProdutosPage(tipoLista: TipoLista.CRIACAO_PED)));
   }
 
-  Future<void> deleteUser(itemLista) async {
-    final myHttp = MyHttpService<Usuario>();
-
+  Future<void> deleteUser(MyHttpService<Usuario> myHttp ,itemLista) async {
     final usuarioConfirmou = await _showMyDialog();
     if (usuarioConfirmou! == true) {
       await myHttp.delete(entity: 'usuario', id: itemLista.idUsuario);

@@ -38,6 +38,14 @@ class Pedido extends IModel {
     };
   }
 
+  Map<String, dynamic> toMapTest() {
+    return <String, dynamic>{
+      'idPedido': idPedido,
+      'usuario': usuario!.toMap(),
+      'itens': itens.map((e) => e.toMapTest()).toList(),
+    };
+  }
+
   @override
   fromMap(Map<String, dynamic> map) {
     Pedido.fromMap(map);

@@ -19,9 +19,9 @@ class ItemPedido extends IModel {
 
   factory ItemPedido.fromMap(Map<String, dynamic> map) {
     return ItemPedido(
-        idItemPedido: map['idItemPedido'],
-        produto: Produto.fromMap(map['produtoEntity']),
-        quantidade: map['quantidade'],
+      idItemPedido: map['idItemPedido'],
+      produto: Produto.fromMap(map['produtoEntity']),
+      quantidade: map['quantidade'],
     );
   }
 
@@ -34,6 +34,15 @@ class ItemPedido extends IModel {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'idItemPedido': idItemPedido,
+      'idProduto': idProduto,
+      'quantidade': quantidade
+    };
+  }
+
+  Map<String, dynamic> toMapTest() {
+    return <String, dynamic>{
+      'idItemPedido': idItemPedido,
+      'produtoEntity': produto!.toMapTest(),
       'idProduto': idProduto,
       'quantidade': quantidade
     };

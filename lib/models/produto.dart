@@ -39,6 +39,15 @@ class Produto extends IModel {
     };
   }
 
+  Map<String, dynamic> toMapTest(){
+    return <String, dynamic> {
+      'idProduto': idProduto,
+      'nome':nome,
+      'categoria': categoria,
+      'valor': valor,
+    };
+  }
+
   String toJson() => jsonEncode(toMap());
 
   @override

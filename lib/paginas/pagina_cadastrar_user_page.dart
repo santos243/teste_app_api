@@ -39,27 +39,29 @@ class _PaginaCadastrarUserPageState extends State<PaginaCadastrarUserPage> {
             children: [
               const Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text(
-                  'Insira o nome do usuario:',
-                  style: TextStyle(color: Colors.white),
-                ),
+                // child: Text(
+                //   'Insira o nome do usuario:',
+                //   style: TextStyle(color: Colors.white),
+                // ),
               ),
-              TextField(
-                controller: controllerNome,
-                style: const TextStyle(color: Colors.white),
-              ),
+              widgetTextFormFieldNome(),
+              // TextField(
+              //   controller: controllerNome,
+              //   style: const TextStyle(color: Colors.white),
+              // ),
               const Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text(
-                  'Insira o CPF do usuario aqui:\n'
-                  '\t\t\t\t\t\t\t\t\t\t11 digitos',
-                  style: TextStyle(color: Colors.white),
-                ),
+                // child: Text(
+                //   'Insira o CPF do usuario aqui:\n'
+                //   '\t\t\t\t\t\t\t\t\t\t11 digitos',
+                //   style: TextStyle(color: Colors.white),
+                // ),
               ),
-              TextField(
-                controller: controllerCpf,
-                style: const TextStyle(color: Colors.white),
-              ),
+              widgetTextFormFieldCpf(),
+              // TextField(
+              //   controller: controllerCpf,
+              //   style: const TextStyle(color: Colors.white),
+              // ),
               ElevatedButton(
                 onPressed: () => funcaoCadastroUsuario(),
                 style: ElevatedButton.styleFrom(
@@ -109,6 +111,40 @@ class _PaginaCadastrarUserPageState extends State<PaginaCadastrarUserPage> {
               builder: (context) => const PaginaUsuariosPage(
                   tipoListagem: TipoListagem.CONSULTA)));
     }
+  }
+
+  Widget widgetTextFormFieldNome() {
+    return TextFormField(
+      autofocus: true,
+      controller: controllerNome,
+      decoration: const InputDecoration(
+        border: InputBorder.none,
+        icon: Icon(
+          Icons.perm_identity,
+          color: Colors.white70,
+        ),
+        hintText: 'mín. 8 carácteres',
+        hintStyle: TextStyle(color: Colors.white70),
+        labelText: 'Insira o nome',
+      ),
+    );
+  }
+
+  Widget widgetTextFormFieldCpf() {
+    return TextFormField(
+      autofocus: true,
+      controller: controllerCpf,
+      decoration: const InputDecoration(
+        border: InputBorder.none,
+        icon: Icon(
+          Icons.perm_identity,
+          color: Colors.white70,
+        ),
+        hintText: 'máx. 11 carácteres',
+        hintStyle: TextStyle(color: Colors.white70),
+        labelText: 'Insira o CPF',
+      ),
+    );
   }
 
   Future<bool?> _showMyDialog() async {
