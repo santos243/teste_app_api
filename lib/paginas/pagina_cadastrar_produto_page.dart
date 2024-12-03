@@ -1,7 +1,9 @@
 // ignore_for_file: use_build_context_synchronously, avoid_types_as_parameter_names, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:teste_app_api/abstract/IProdutoService.dart';
 import 'package:teste_app_api/core/http/application/my_http.dart';
+import 'package:teste_app_api/getit/setUpInjectors.dart';
 import 'package:teste_app_api/models/produto.dart';
 import 'package:teste_app_api/paginas/pagina_produtos_page.dart';
 
@@ -21,6 +23,8 @@ class _PaginaCadastrarProdutoPageState
 
   @override
   Widget build(BuildContext context) {
+    final produtoService = getIt<IProdutoService>();
+
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -78,8 +82,12 @@ class _PaginaCadastrarProdutoPageState
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blueAccent.shade200),
-                  onPressed: () =>
-                      funcaoCadastroProduto(MyHttpService<Produto>()),
+                  onPressed: () {
+                    produtoService.funcaoCadastroProduto(controllerNome.text,
+                        controllerCategoria.text, controllerValor.text);
+                        usuarioConfirmouDialog();
+                  },
+                  // funcaoCadastroProduto(MyHttpService<Produto>()),
                   child: const Text(
                     'Cadastrar',
                     style: TextStyle(color: Colors.white, fontSize: 17),
@@ -93,31 +101,7 @@ class _PaginaCadastrarProdutoPageState
     );
   }
 
-  Future<void> funcaoCadastroProduto(MyHttpService<Produto> myHttp) async {
-    // final myHttp = MyHttpService<Produto>();
-
-    // instancia um produto com os atributos do TextField.
-    final p = Produto(
-        idProduto: 1,
-        nome: controllerNome.text,
-        categoria: controllerCategoria.text,
-        valor: double.parse(controllerValor.text));
-
-    // valida se os campos estão preenchidos corretamente
-    if (p.nome.length < 2 ||
-        p.categoria.length > 20 || p.categoria.length < 2) {
-      throw Exception(
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-                "Verifique se os campos foram digitados corretamente e tente novamente"),
-          ),
-        ),
-      );
-    }
-
-    // requisição
-    await myHttp.post(model: p, entity: 'produtos');
+  Future<void> usuarioConfirmouDialog() async {
     // após a requisição, abre um dialog se o usuário quer efetuar um novo cadastro ou não.
     final usuarioConfirmou = await _showMessageDialog();
 

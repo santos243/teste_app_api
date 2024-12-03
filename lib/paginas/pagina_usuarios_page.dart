@@ -25,14 +25,14 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
   final myHttp = MyHttpService<Usuario>();
 
 
-  
+
   // busca os usuarios no banco
   Future<void> funcaoMostrarUsuarios() async {
     listaUsuarios.clear();
     final usuariosEncontrados =
         await myHttp.get(entity: 'usuario', builder: Usuario.fromMap);
   // organiza os usuarios pelo id(do menor pro maior)
-    usuariosEncontrados.sort((a, b) => a.idUsuario.compareTo(b.idUsuario));
+    usuariosEncontrados.sort((a, b) => a.idUsuario!.compareTo(b.idUsuario!));
     listaUsuarios.addAll(usuariosEncontrados);
     setState(() {});
   }
@@ -139,14 +139,14 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
                                   if (widget.tipoListagem ==
                                       TipoListagem.CRIACAO_PEDIDO) {
                                     carrinhoProvider
-                                        .createPedido(itemLista.idUsuario);
+                                        .createPedido(itemLista.idUsuario!);
                                     irParaCriacaoPedido();
                                   } else {
                                     mostrarDetalhes(itemLista);
                                   }
                                 },
                                 title: Text(
-                                  itemLista.nome,
+                                  itemLista.nome!,
                                   style: const TextStyle(color: Colors.white),
                                 ),
                                 subtitle: Text(
@@ -170,7 +170,7 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
                                         ? ElevatedButton(
                                             onPressed: () => {
                                                   carrinhoProvider.createPedido(
-                                                      itemLista.idUsuario),
+                                                      itemLista.idUsuario!),
                                                   irParaCriacaoPedido(),
                                                 },
                                             style: ElevatedButton.styleFrom(

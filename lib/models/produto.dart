@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:teste_app_api/models/i_model.dart';
 
-class Produto extends IModel {
+class Produto implements IModel {
   int idProduto;
   String nome;
   String categoria;
@@ -39,10 +39,10 @@ class Produto extends IModel {
     };
   }
 
-  Map<String, dynamic> toMapTest(){
-    return <String, dynamic> {
+  Map<String, dynamic> toMapTest() {
+    return <String, dynamic>{
       'idProduto': idProduto,
-      'nome':nome,
+      'nome': nome,
       'categoria': categoria,
       'valor': valor,
     };

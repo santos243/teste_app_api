@@ -85,7 +85,7 @@ class _PaginaPedidosEfetuadosPageState
                           padding: const EdgeInsets.all(8.0),
                           child: ListTile(
                             title: Text(
-                              pedido.usuario!.nome,
+                              pedido.usuario!.nome!,
                               style: const TextStyle(color: Colors.white),
                               textScaler: const TextScaler.linear(1.2),
                             ),

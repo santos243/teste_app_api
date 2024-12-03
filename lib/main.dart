@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:teste_app_api/getit/setUpInjectors.dart';
 import 'package:teste_app_api/paginas/pagina_inicial_page.dart';
 import 'package:teste_app_api/providers/PedidoProvider.dart';
 
 // teste
 void main() {
+  setUpInjectors();
   runApp(const MyApp());
 }
 
