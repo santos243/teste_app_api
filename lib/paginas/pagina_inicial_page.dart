@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:teste_app_api/models/usuario.dart';
 import 'package:teste_app_api/paginas/pagina_cadastrar_produto_page.dart';
 import 'package:teste_app_api/paginas/pagina_cadastrar_user_page.dart';
 import 'package:teste_app_api/paginas/pagina_pedidos_efetuados_page.dart';
@@ -16,7 +15,7 @@ class PaginaInicialPage extends StatefulWidget {
 }
 
 class _PaginaInicialPageState extends State<PaginaInicialPage> {
-  final listaUsuarios = <Usuario>[];
+  // final listaUsuarios = <Usuario>[];
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, avoid_types_as_parameter_names, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
-import 'package:teste_app_api/abstract/IProdutoService.dart';
+import 'package:teste_app_api/interface/i_produto_service.dart';
 import 'package:teste_app_api/core/http/application/my_http.dart';
 import 'package:teste_app_api/getit/setUpInjectors.dart';
 import 'package:teste_app_api/models/produto.dart';

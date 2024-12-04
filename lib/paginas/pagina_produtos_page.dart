@@ -2,7 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:teste_app_api/interface/i_produto_service.dart';
+import 'package:teste_app_api/interface/I_my_http_dart.dart';
 import 'package:teste_app_api/core/http/application/my_http.dart';
+import 'package:teste_app_api/getit/setUpInjectors.dart';
 import 'package:teste_app_api/models/ItemPedido.dart';
 import 'package:teste_app_api/models/pedido.dart';
 import 'package:teste_app_api/models/produto.dart';
@@ -25,12 +28,15 @@ class PaginaProdutosPage extends StatefulWidget {
 class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
   // late CarrinhoRepositoryTeste carrinho;
   final listaProdutos = <Produto>[];
-  final myHttp = MyHttpService<Produto>();
+  // final myHttp = MyHttpService<Produto>();
+  final myHttp = getIt<IProdutoService>();
 
   Future<void> funcaoMostrarProdutos() async {
     listaProdutos.clear();
-    final produtosEncontrados =
-        await myHttp.get(entity: 'produtos', builder: Produto.fromMap);
+
+    final produtosEncontrados = await myHttp.funcaoMostrarProdutos();
+    // final produtosEncontrados =
+    //     await myHttp.get(entity: 'produtos', builder: Produto.fromMap);
     produtosEncontrados.sort((a, b) => a.idProduto.compareTo(b.idProduto));
     listaProdutos.addAll(produtosEncontrados);
     setState(() {});
@@ -230,12 +236,12 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
     );
   }
 
-  Future<void> deleteProduto(itemProduto) async {
+  Future<void> deleteProduto(Produto itemProduto) async {
     // final myHttp = MyHttpService<Produto>();
 
     final usuarioConfirmou = await _showMyDialogDelete();
     if (usuarioConfirmou!) {
-      await myHttp.delete(entity: 'produtos', id: itemProduto.idProduto);
+      await myHttp.delete(itemProduto.idProduto);
     }
   }
 

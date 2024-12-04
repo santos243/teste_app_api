@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:teste_app_api/models/i_model.dart';
 
-class Produto implements IModel {
+class Produto extends IModel {
   int idProduto;
   String nome;
   String categoria;

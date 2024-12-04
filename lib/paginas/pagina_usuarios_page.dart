@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:teste_app_api/core/http/application/my_http.dart';
+import 'package:teste_app_api/getit/setUpInjectors.dart';
+import 'package:teste_app_api/interface/i_usuario_service.dart';
 import 'package:teste_app_api/models/usuario.dart';
 import 'package:teste_app_api/paginas/pagina_cadastrar_user_page.dart';
 import 'package:teste_app_api/paginas/pagina_info_usuarios_page.dart';
@@ -22,7 +24,7 @@ class PaginaUsuariosPage extends StatefulWidget {
 
 class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
   final listaUsuarios = <Usuario>[];
-  final myHttp = MyHttpService<Usuario>();
+  final myHttp = getIt<IUsuarioService>();
 
 
 
@@ -30,9 +32,9 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
   Future<void> funcaoMostrarUsuarios() async {
     listaUsuarios.clear();
     final usuariosEncontrados =
-        await myHttp.get(entity: 'usuario', builder: Usuario.fromMap);
+        await myHttp.funcaoMostrarUsuarios();
   // organiza os usuarios pelo id(do menor pro maior)
-    usuariosEncontrados.sort((a, b) => a.idUsuario!.compareTo(b.idUsuario!));
+    usuariosEncontrados.sort((a, b) => a.idUsuario.compareTo(b.idUsuario));
     listaUsuarios.addAll(usuariosEncontrados);
     setState(() {});
   }
@@ -146,7 +148,7 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
                                   }
                                 },
                                 title: Text(
-                                  itemLista.nome!,
+                                  itemLista.nome,
                                   style: const TextStyle(color: Colors.white),
                                 ),
                                 subtitle: Text(
@@ -170,7 +172,7 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
                                         ? ElevatedButton(
                                             onPressed: () => {
                                                   carrinhoProvider.createPedido(
-                                                      itemLista.idUsuario!),
+                                                      itemLista.idUsuario),
                                                   irParaCriacaoPedido(),
                                                 },
                                             style: ElevatedButton.styleFrom(
@@ -188,7 +190,8 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
                                         ? const SizedBox.shrink()
                                         : IconButton(
                                             onPressed: () async {
-                                              await deleteUser(myHttp ,itemLista);
+                                              await delete
+                                              (itemLista);
                                               await funcaoMostrarUsuarios();
                                             },
                                             icon: const Icon(
@@ -253,10 +256,10 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
                 const PaginaProdutosPage(tipoLista: TipoLista.CRIACAO_PED)));
   }
 
-  Future<void> deleteUser(MyHttpService<Usuario> myHttp ,itemLista) async {
+  Future<void> delete(Usuario itemLista) async {
     final usuarioConfirmou = await _showMyDialog();
     if (usuarioConfirmou! == true) {
-      await myHttp.delete(entity: 'usuario', id: itemLista.idUsuario);
+      await myHttp.funcaoDeleteUsuario(idUsuario: itemLista.idUsuario);
     }
   }
 
