@@ -3,6 +3,7 @@ import 'package:teste_app_api/interface/i_produto_service.dart';
 import 'package:teste_app_api/interface/I_my_http_dart.dart';
 import 'package:teste_app_api/core/http/application/my_http.dart';
 import 'package:teste_app_api/interface/i_usuario_service.dart';
+import 'package:teste_app_api/models/i_model.dart';
 import 'package:teste_app_api/services/produto_service.dart';
 import 'package:teste_app_api/services/usuario_service.dart';
 
@@ -17,11 +18,11 @@ void setUpInjectors() {
     print('Erro ao registrar IProdutoService: $e');
   }
   try {
-  getIt.registerLazySingleton<IUsuarioService>(
-      () => UsuarioService(getIt<IMyHttpDart>()));
-} catch (e) {
-  print('Erro ao registrar IUsuarioService: $e');
-}
+    getIt.registerLazySingleton<IUsuarioService>(
+        () => UsuarioService(getIt<IMyHttpDart>()));
+  } catch (e) {
+    print('Erro ao registrar IUsuarioService: $e');
+  }
   try {
     getIt.registerLazySingleton<IMyHttpDart>(() => MyHttpService());
   } catch (e) {

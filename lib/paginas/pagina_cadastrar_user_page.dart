@@ -1,10 +1,8 @@
 // ignore_for_file: use_build_context_synchronously,avoid_types_as_parameter_names, non_constant_identifier_names, empty_catches
 
 import 'package:flutter/material.dart';
-import 'package:teste_app_api/interface/I_my_http_dart.dart';
 import 'package:teste_app_api/getit/setUpInjectors.dart';
 import 'package:teste_app_api/interface/i_usuario_service.dart';
-import 'package:teste_app_api/models/usuario.dart';
 
 class PaginaCadastrarUserPage extends StatefulWidget {
   const PaginaCadastrarUserPage({super.key});

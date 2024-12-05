@@ -83,8 +83,8 @@ class _PaginaCadastrarProdutoPageState
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blueAccent.shade200),
                   onPressed: () {
-                    produtoService.funcaoCadastroProduto(controllerNome.text,
-                        controllerCategoria.text, controllerValor.text);
+                    produtoService.funcaoCadastroProduto(nome: controllerNome.text,
+                        categoria: controllerCategoria.text,valor: controllerValor.text);
                         usuarioConfirmouDialog();
                   },
                   // funcaoCadastroProduto(MyHttpService<Produto>()),

@@ -1,4 +1,4 @@
-// ignore_for_file: constant_identifier_names, depend_on_referenced_packages
+// ignore_for_file: constant_identifier_names, depend_on_referenced_packages, avoid_shadowing_type_parameters
 
 import 'dart:convert';
 import 'package:path/path.dart' as p;

@@ -1,3 +1,5 @@
+import 'package:teste_app_api/core/http/application/exceptions/CategoriaCaracteresException.dart';
+import 'package:teste_app_api/core/http/application/exceptions/SemNomeException.dart';
 import 'package:teste_app_api/interface/i_produto_service.dart';
 import 'package:teste_app_api/interface/I_my_http_dart.dart';
 import 'package:teste_app_api/getit/setUpInjectors.dart';
@@ -11,7 +13,7 @@ class ProdutoService implements IProdutoService {
 
   @override
   Future<void> funcaoCadastroProduto(
-      String nome, String categoria, String valor) async {
+      {required String nome, required String categoria, required String valor}) async {
     final p = Produto(
         idProduto: 1,
         nome: nome,
@@ -19,10 +21,18 @@ class ProdutoService implements IProdutoService {
         valor: double.tryParse(valor) ?? 0);
 
     // valida se os campos estão preenchidos corretamente
-    if (p.nome.length < 2 ||
-        p.categoria.length > 20 ||
-        p.categoria.length < 2) {
-      throw Exception();
+    if (p.nome.length < 2 || p.nome == '') {
+      throw SemNomeException(
+          'Campo nome não obedece os padrões pré-estabelecidos', 300);
+    }
+    if (p.categoria.length > 20) {
+      throw CategoriaCaracteresException(
+          'Campo categoria excedeu o limite de caracteres', 304);
+    }
+    if (p.categoria.length < 2) {
+      throw CategoriaCaracteresException(
+          'Campo categoria não atingiu o minimo de caracteres necesssarios',
+          304);
     }
 
     await httpProdutoService.post(model: p, entity: 'produtos');

@@ -41,7 +41,7 @@ final List<Produto> produto = [
 ];
 
 // lista de usuarios
-final List<Usuario> usuario = [
+final List<Usuario> usuarios = [
   Usuario(idUsuario: 3, nome: 'Beatriz Souza', cpf: '456.789.123-00'),
   Usuario(idUsuario: 4, nome: 'Diego Costa', cpf: '789.123.456-00'),
   Usuario(idUsuario: 5, nome: 'Fernanda Lima', cpf: '321.654.987-00'),

@@ -1,4 +1,6 @@
 
+// ignore_for_file: avoid_shadowing_type_parameters
+
 import 'package:teste_app_api/models/i_model.dart';
 
 typedef ModelBuilder<T> = T Function(Map<String, dynamic> map);

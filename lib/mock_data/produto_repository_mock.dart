@@ -2,12 +2,12 @@ import 'package:teste_app_api/interface/i_produto_service.dart';
 import 'package:teste_app_api/mock_data/mock_data.dart';
 import 'package:teste_app_api/models/produto.dart';
 
-class ProdutoServiceTest implements IProdutoService {
+class ProdutoRepositoryMock implements IProdutoService {
   final List<Produto> _produtos = produto;
 
   @override
   Future<void> funcaoCadastroProduto(
-      String nome, String categoria, String valor) async {
+      {required String nome, required String categoria, required String valor}) async {
     _produtos.add(Produto(
         idProduto: 0,
         nome: nome,
@@ -26,8 +26,7 @@ class ProdutoServiceTest implements IProdutoService {
   }
 
   @override
-  Future<Produto> funcaoBuscarProdutoPorId(int idProduto) {
-    // TODO: implement funcaoBuscarProdutoPorId
-    throw UnimplementedError();
+  Future<Produto> funcaoBuscarProdutoPorId(int idProduto) async {
+    return _produtos.firstWhere((p) => p.idProduto == idProduto);
   }
 }
