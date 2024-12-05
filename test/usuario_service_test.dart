@@ -21,6 +21,4 @@ void main() {
             nome: u.nome, cpf: '111222333444'),
         throwsA(isA<CpfInvalidoException>()));
   });
-
-  test('', () {});
 }
