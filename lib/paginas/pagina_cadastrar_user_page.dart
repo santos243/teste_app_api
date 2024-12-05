@@ -1,11 +1,8 @@
 // ignore_for_file: use_build_context_synchronously,avoid_types_as_parameter_names, non_constant_identifier_names, empty_catches
 
 import 'package:flutter/material.dart';
-import 'package:teste_app_api/abstract/I_my_http_dart.dart';
-import 'package:teste_app_api/core/http/application/my_http.dart';
 import 'package:teste_app_api/getit/setUpInjectors.dart';
-import 'package:teste_app_api/models/usuario.dart';
-import 'package:teste_app_api/paginas/pagina_usuarios_page.dart';
+import 'package:teste_app_api/interface/i_usuario_service.dart';
 
 class PaginaCadastrarUserPage extends StatefulWidget {
   const PaginaCadastrarUserPage({super.key});
@@ -18,10 +15,10 @@ class PaginaCadastrarUserPage extends StatefulWidget {
 class _PaginaCadastrarUserPageState extends State<PaginaCadastrarUserPage> {
   var controllerNome = TextEditingController();
   var controllerCpf = TextEditingController();
+  final httpUsuarioService = getIt<IUsuarioService>();
 
   @override
   Widget build(BuildContext context) {
-    final iHttpService = getIt<IMyHttpDart>();
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -66,12 +63,9 @@ class _PaginaCadastrarUserPageState extends State<PaginaCadastrarUserPage> {
               //   style: const TextStyle(color: Colors.white),
               // ),
               ElevatedButton(
-                onPressed: () {
-                  final u = Usuario(
-                      idUsuario: 1,
-                      nome: controllerNome.text,
-                      cpf: controllerCpf.text);
-                  iHttpService.post(model: u, entity: 'usuario');
+                onPressed: () async {
+                  await funcaoCadastroUsuario();
+                  await _showMyDialog();
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blueAccent.shade400),
@@ -121,6 +115,11 @@ class _PaginaCadastrarUserPageState extends State<PaginaCadastrarUserPage> {
   //                 tipoListagem: TipoListagem.CONSULTA)));
   //   }
   // }
+
+  Future<void> funcaoCadastroUsuario() async {
+    await httpUsuarioService.funcaoCadastroUsuario(
+        nome: controllerNome.text, cpf: controllerCpf.text);
+  }
 
   Widget widgetTextFormFieldNome() {
     return TextFormField(

@@ -7,6 +7,7 @@ import 'package:teste_app_api/providers/PedidoProvider.dart';
 // teste
 void main() {
   setUpInjectors();
+  // a inicialização morre antes de executar o runApp
   runApp(const MyApp());
 }
 
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
+
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),

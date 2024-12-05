@@ -1,15 +1,30 @@
 import 'package:get_it/get_it.dart';
-import 'package:teste_app_api/abstract/IProdutoService.dart';
-import 'package:teste_app_api/abstract/I_my_http_dart.dart';
-import 'package:teste_app_api/core/http/application/my_http.dart';
-import 'package:teste_app_api/models/i_model.dart';
-import 'package:teste_app_api/models/usuario.dart';
-import 'package:teste_app_api/services/auth_produto_service.dart';
+import 'package:teste_app_api/interface/i_produto_service.dart';
+import 'package:teste_app_api/interface/I_my_http_dart.dart';
+import 'package:teste_app_api/core/http/application/my_http_service.dart';
+import 'package:teste_app_api/interface/i_usuario_service.dart';
+import 'package:teste_app_api/services/produto_service_impl.dart';
+import 'package:teste_app_api/services/usuario_service_impl.dart';
 
+final GetIt getIt = GetIt.instance;
 
-final getIt = GetIt.instance;
-
+// fazer injeção de dependencia para criar uma interface service para classe de pedidos.
 void setUpInjectors() {
-getIt.registerSingleton<IProdutoService>(AuthProdutoService());
-getIt.registerSingleton<IMyHttpDart>(MyHttpService());
+  try {
+    getIt.registerLazySingleton<IProdutoService>(
+        () => ProdutoServiceImpl(getIt<IMyHttpDart>()));
+  } catch (e) {
+    print('Erro ao registrar IProdutoService: $e');
+  }
+  try {
+    getIt.registerLazySingleton<IUsuarioService>(
+        () => UsuarioServiceImpl(getIt<IMyHttpDart>()));
+  } catch (e) {
+    print('Erro ao registrar IUsuarioService: $e');
+  }
+  try {
+    getIt.registerLazySingleton<IMyHttpDart>(() => MyHttpService());
+  } catch (e) {
+    print('Erro ao registrar IMyHttpDart: $e');
+  }
 }
