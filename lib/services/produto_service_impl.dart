@@ -1,14 +1,14 @@
-import 'package:teste_app_api/core/http/application/exceptions/CategoriaCaracteresException.dart';
-import 'package:teste_app_api/core/http/application/exceptions/SemNomeException.dart';
+import 'package:teste_app_api/exceptions/CategoriaCaracteresException.dart';
+import 'package:teste_app_api/exceptions/SemNomeException.dart';
 import 'package:teste_app_api/interface/i_produto_service.dart';
 import 'package:teste_app_api/interface/I_my_http_dart.dart';
 import 'package:teste_app_api/getit/setUpInjectors.dart';
 import 'package:teste_app_api/models/produto.dart';
 
-class ProdutoService implements IProdutoService {
+class ProdutoServiceImpl implements IProdutoService {
   final IMyHttpDart iMyHttp;
 
-  ProdutoService(this.iMyHttp);
+  ProdutoServiceImpl(this.iMyHttp);
   final httpProdutoService = getIt<IMyHttpDart>();
 
   @override

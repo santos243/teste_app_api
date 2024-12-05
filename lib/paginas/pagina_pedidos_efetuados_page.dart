@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:teste_app_api/core/http/application/my_http.dart';
+import 'package:teste_app_api/core/http/application/my_http_service.dart';
 import 'package:teste_app_api/models/pedido.dart';
 import 'package:teste_app_api/paginas/pagina_info_pedido_page.dart';
 import 'package:teste_app_api/paginas/pagina_usuarios_page.dart';

@@ -1,14 +1,14 @@
-import 'package:teste_app_api/core/http/application/exceptions/SemCpfException.dart';
-import 'package:teste_app_api/core/http/application/exceptions/SemNomeException.dart';
+import 'package:teste_app_api/exceptions/CpfInvalidoException.dart';
+import 'package:teste_app_api/exceptions/SemNomeException.dart';
 import 'package:teste_app_api/getit/setUpInjectors.dart';
 import 'package:teste_app_api/interface/I_my_http_dart.dart';
 import 'package:teste_app_api/interface/i_usuario_service.dart';
 import 'package:teste_app_api/models/usuario.dart';
 
-class UsuarioService implements IUsuarioService {
+class UsuarioServiceImpl implements IUsuarioService {
   final IMyHttpDart iMyHttp;
 
-  UsuarioService(this.iMyHttp);
+  UsuarioServiceImpl(this.iMyHttp);
   final httpUsuarioService = getIt<IMyHttpDart>();
 
   @override
@@ -29,7 +29,7 @@ class UsuarioService implements IUsuarioService {
       throw SemNomeException('Campo de nome incorreto ou invalido', 300);
     }
     if (u.cpf.length != 11) {
-      throw SemCpfException('O cpf deve conter apenas 11 numeros', 305);
+      throw CpfInvalidoException('O cpf deve conter apenas 11 numeros', 305);
     }
 
     return httpUsuarioService.post(model: u, entity: 'usuario');

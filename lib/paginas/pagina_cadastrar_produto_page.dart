@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:teste_app_api/interface/i_produto_service.dart';
-import 'package:teste_app_api/core/http/application/my_http.dart';
+import 'package:teste_app_api/core/http/application/my_http_service.dart';
 import 'package:teste_app_api/getit/setUpInjectors.dart';
 import 'package:teste_app_api/models/produto.dart';
 import 'package:teste_app_api/paginas/pagina_produtos_page.dart';
