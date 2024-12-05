@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:teste_app_api/interface/i_pedido_service.dart';
 import 'package:teste_app_api/interface/i_produto_service.dart';
-import 'package:teste_app_api/interface/I_my_http_dart.dart';
 import 'package:teste_app_api/core/http/application/my_http_service.dart';
 import 'package:teste_app_api/getit/setUpInjectors.dart';
 import 'package:teste_app_api/models/ItemPedido.dart';
@@ -28,17 +28,21 @@ class PaginaProdutosPage extends StatefulWidget {
 class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
   // late CarrinhoRepositoryTeste carrinho;
   final listaProdutos = <Produto>[];
-  // final myHttp = MyHttpService<Produto>();
-  final myHttp = getIt<IProdutoService>();
+  final httpProdutoService = getIt<IProdutoService>();
+  final httpPedidoService = getIt<IPedidoService>();
 
+  // busca todos os produtos do banco e adiciona na lista instanciada como "listaProdutos"
   Future<void> funcaoMostrarProdutos() async {
+    // limpa a lista toda vez que o método for chamado
     listaProdutos.clear();
 
-    final produtosEncontrados = await myHttp.funcaoMostrarProdutos();
-    // final produtosEncontrados =
-    //     await myHttp.get(entity: 'produtos', builder: Produto.fromMap);
+    // requisição
+    final produtosEncontrados = await httpProdutoService.funcaoMostrarProdutos();
+    // ordena a lista pelo id, do menor pro maior
     produtosEncontrados.sort((a, b) => a.idProduto.compareTo(b.idProduto));
+    // adiciona todos os produtos encontrados na lista instanciada
     listaProdutos.addAll(produtosEncontrados);
+    // atualiza o estado da tela toda
     setState(() {});
   }
 
@@ -212,8 +216,7 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
                       final pedidoPronto = Pedido(
                           idUsuario: carrinhoProvider.pedido.idUsuario,
                           itens: carrinhoProvider.pedido.itens);
-                      await confirmarPedido(
-                          MyHttpService<Pedido>(), pedidoPronto);
+                      await confirmarPedido(pedidoPronto);
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blueAccent.shade400),
@@ -237,11 +240,11 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
   }
 
   Future<void> deleteProduto(Produto itemProduto) async {
-    // final myHttp = MyHttpService<Produto>();
-
+    // mostra um dialog de confirmação.
     final usuarioConfirmou = await _showMyDialogDelete();
     if (usuarioConfirmou!) {
-      await myHttp.delete(itemProduto.idProduto);
+      // se o usuario confirmou, a requisição é feita.
+      await httpProdutoService.delete(itemProduto.idProduto);
     }
   }
 
@@ -271,12 +274,10 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
   }
 
   // confirma o pedido
-  Future<void> confirmarPedido(
-      MyHttpService<Pedido> myHttp, Pedido pedido) async {
-    // final myHttp = MyHttpService<Pedido>();
+  Future<void> confirmarPedido(Pedido pedido) async {
 
     // requisição
-    await myHttp.post(model: pedido, entity: 'pedido');
+    await httpPedidoService.funcaoCriarPedido(pedido: pedido);
 
     // depois que a requisição é feita, o carrinho é restaurado.
     pedido.itens.clear();
