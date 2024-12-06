@@ -39,6 +39,7 @@ class ItemPedido extends IModel {
     };
   }
 
+  // é utilizado apenas para transformar um objeto em um mapa, para poder simular um fromMap.
   Map<String, dynamic> toMapTest() {
     return <String, dynamic>{
       'idItemPedido': idItemPedido,

@@ -38,8 +38,6 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
 
     // requisição
     final produtosEncontrados = await httpProdutoService.funcaoMostrarProdutos();
-    // ordena a lista pelo id, do menor pro maior
-    produtosEncontrados.sort((a, b) => a.idProduto.compareTo(b.idProduto));
     // adiciona todos os produtos encontrados na lista instanciada
     listaProdutos.addAll(produtosEncontrados);
     // atualiza o estado da tela toda

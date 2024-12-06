@@ -12,7 +12,8 @@ final p3 = Produto(
     idProduto: 10, nome: 'Luminária', categoria: 'Decoração', valor: 120.00);
 
 // usuarios instanciados separadamente para facilitar outros processos que precisam de um usuario
-final u1 = Usuario(idUsuario: 1, nome: 'Ana Silva', cpf: '123.456.789-00');
+final usuarioMockado =
+    Usuario(idUsuario: 1, nome: 'Ana Silva', cpf: '123.456.789-00');
 final u2 = Usuario(idUsuario: 2, nome: 'Carlos Pereira', cpf: '987.654.321-00');
 
 // lista de produtos
@@ -84,12 +85,26 @@ final List<ItemPedido> itemPedidos2 = [
   ),
 ];
 
+final pedidoMockado = Pedido(
+  idPedido: 2,
+  usuario: usuarioMockado,
+  idUsuario: usuarioMockado.idUsuario,
+  itens: [],
+);
+
+final pedidoMockado2 = Pedido(
+  idPedido: 2,
+  usuario: usuarioMockado,
+  idUsuario: null,
+  itens: itemPedidos2,
+);
+
 // lista de pedidos
 final List<Pedido> pedidos = [
   Pedido(
     idPedido: 2,
-    usuario: u1,
-    idUsuario: u1.idUsuario,
+    usuario: usuarioMockado,
+    idUsuario: usuarioMockado.idUsuario,
     itens: itemPedidos1,
   ),
   Pedido(
