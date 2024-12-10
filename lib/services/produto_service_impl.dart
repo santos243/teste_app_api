@@ -1,19 +1,20 @@
+import 'package:teste_app_api/core/http/application/produto_repository.dart';
 import 'package:teste_app_api/exceptions/CategoriaCaracteresException.dart';
 import 'package:teste_app_api/exceptions/SemNomeException.dart';
 import 'package:teste_app_api/interface/i_produto_service.dart';
-import 'package:teste_app_api/interface/I_my_http_dart.dart';
-import 'package:teste_app_api/getit/setUpInjectors.dart';
 import 'package:teste_app_api/models/produto.dart';
 
 class ProdutoServiceImpl implements IProdutoService {
-  final IMyHttpDart iMyHttp;
+  final ProdutoRepository produtoRepository;
 
-  ProdutoServiceImpl(this.iMyHttp);
-  final httpProdutoService = getIt<IMyHttpDart>();
+  ProdutoServiceImpl(this.produtoRepository);
+
 
   @override
   Future<void> funcaoCadastroProduto(
-      {required String nome, required String categoria, required String valor}) async {
+      {required String nome,
+      required String categoria,
+      required String valor}) async {
     final p = Produto(
         idProduto: 1,
         nome: nome,
@@ -34,26 +35,24 @@ class ProdutoServiceImpl implements IProdutoService {
           'Campo categoria não atingiu o minimo de caracteres necesssarios',
           304);
     }
-
-    await httpProdutoService.post(model: p, entity: 'produtos');
+    // requisição
+    await produtoRepository.post(produto: p);
   }
 
   @override
   Future<List<Produto>> funcaoMostrarProdutos() async {
-    final response = await httpProdutoService.get(
-        entity: 'produtos', builder: Produto.fromMap);
+    final response = await produtoRepository.get();
     return response;
   }
 
   @override
   Future<void> delete(int idProduto) async {
-    await httpProdutoService.delete(entity: 'produtos', id: idProduto);
+    await produtoRepository.delete(idProduto: idProduto);
   }
 
   @override
   Future<Produto> funcaoBuscarProdutoPorId(int idProduto) async {
-    final produtos = await httpProdutoService.get(
-        entity: 'produtos', builder: Produto.fromMap);
+    final produtos = await produtoRepository.get();
     return produtos.firstWhere((p) => p.idProduto == idProduto);
   }
 }

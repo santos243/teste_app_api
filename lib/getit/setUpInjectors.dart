@@ -1,4 +1,6 @@
 import 'package:get_it/get_it.dart';
+import 'package:teste_app_api/core/http/application/produto_repository.dart';
+import 'package:teste_app_api/core/http/application/produto_repository_http.dart';
 import 'package:teste_app_api/interface/i_pedido_service.dart';
 import 'package:teste_app_api/interface/i_produto_service.dart';
 import 'package:teste_app_api/interface/I_my_http_dart.dart';
@@ -13,8 +15,16 @@ final GetIt getIt = GetIt.instance;
 // fazer injeção de dependencia para criar uma interface service para classe de pedidos.
 void setUpInjectors() {
   try {
+    // getIt.registerLazySingleton<ProdutoRepository>(
+    //     () => ProdutoRepositoryHttp(getIt<IMyHttpDart>()));
+    getIt.registerLazySingleton<ProdutoRepository>(
+        () => ProdutoRepositoryHttp(getIt<IMyHttpDart>()));
+  } catch (e) {
+    print('Erro ao registrar ProdutoRepository: $e');
+  }
+  try {
     getIt.registerLazySingleton<IProdutoService>(
-        () => ProdutoServiceImpl(getIt<IMyHttpDart>()));
+        () => ProdutoServiceImpl(getIt<ProdutoRepository>()));
   } catch (e) {
     print('Erro ao registrar IProdutoService: $e');
   }

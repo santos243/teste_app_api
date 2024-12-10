@@ -2,11 +2,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:teste_app_api/exceptions/CategoriaCaracteresException.dart';
 import 'package:teste_app_api/exceptions/SemNomeException.dart';
 import 'package:teste_app_api/getit/setUpInjectors.dart';
+import 'package:teste_app_api/getit/setUpInjectorsTest.dart';
 import 'package:teste_app_api/interface/i_produto_service.dart';
 import 'package:teste_app_api/models/produto.dart';
 
 void main() {
-  setUpInjectors();
+  setUpInjectorsTest();
+
 
   final httpProdutoService = getIt<IProdutoService>();
   final p =

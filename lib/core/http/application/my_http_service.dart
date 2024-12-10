@@ -8,7 +8,7 @@ import 'package:teste_app_api/models/i_model.dart';
 
 typedef ModelBuilder<T> = T Function(Map<String, dynamic> map);
 
-class MyHttpService<T extends IModel> extends IMyHttpDart<T> {
+class MyHttpService<T extends IModel> implements IMyHttpDart<T> {
   static const String URL = '192.168.0.236:8080';
 
   // retorna uma lista de T(qualquer coisa que herda IModel).
