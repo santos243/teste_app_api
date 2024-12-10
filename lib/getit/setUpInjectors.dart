@@ -6,6 +6,7 @@ import 'package:teste_app_api/interface/i_produto_service.dart';
 import 'package:teste_app_api/interface/I_my_http_dart.dart';
 import 'package:teste_app_api/core/http/application/my_http_service.dart';
 import 'package:teste_app_api/interface/i_usuario_service.dart';
+import 'package:teste_app_api/mock_data/produto_repository_mock.dart';
 import 'package:teste_app_api/services/pedido_service_impl.dart';
 import 'package:teste_app_api/services/produto_service_impl.dart';
 import 'package:teste_app_api/services/usuario_service_impl.dart';
@@ -18,7 +19,7 @@ void setUpInjectors() {
     // getIt.registerLazySingleton<ProdutoRepository>(
     //     () => ProdutoRepositoryHttp(getIt<IMyHttpDart>()));
     getIt.registerLazySingleton<ProdutoRepository>(
-        () => ProdutoRepositoryHttp(getIt<IMyHttpDart>()));
+        () => ProdutoRepositoryMock());
   } catch (e) {
     print('Erro ao registrar ProdutoRepository: $e');
   }

@@ -21,8 +21,7 @@ class ProdutoRepositoryMock implements ProdutoRepository {
     _produtos.removeWhere((produto) => produto.idProduto == idProduto);
   }
 
-  // @override
-  // Future<Produto> funcaoBuscarProdutoPorId(int idProduto) async {
-  //   return _produtos.firstWhere((p) => p.idProduto == idProduto);
-  // }
+  Future<Produto> funcaoBuscarProdutoPorId(int idProduto) async {
+    return _produtos.firstWhere((p) => p.idProduto == idProduto);
+  }
 }
