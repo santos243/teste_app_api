@@ -1,23 +1,21 @@
+import 'package:teste_app_api/core/http/application/usuario_repository.dart';
 import 'package:teste_app_api/exceptions/CpfInvalidoException.dart';
 import 'package:teste_app_api/exceptions/SemNomeException.dart';
-import 'package:teste_app_api/getit/setUpInjectors.dart';
-import 'package:teste_app_api/interface/I_my_http_dart.dart';
 import 'package:teste_app_api/interface/i_usuario_service.dart';
 import 'package:teste_app_api/models/usuario.dart';
 
 class UsuarioServiceImpl implements IUsuarioService {
-  final IMyHttpDart iMyHttp;
+  final UsuarioRepository usuarioRepository;
 
-  UsuarioServiceImpl(this.iMyHttp);
-  final httpUsuarioService = getIt<IMyHttpDart>();
+  UsuarioServiceImpl(this.usuarioRepository);
 
-  @override
+  // @override
   // retorna um usuario pelo id(ainda não está em uso)
-  Future<Usuario> funcaoBuscarUsuarioPorId({required int idUsuario}) async {
-    final usuarios = await httpUsuarioService.get(
-        entity: 'usuario', builder: Usuario.fromMap);
-    return usuarios.firstWhere((u) => u.idUsuario == idUsuario);
-  }
+  // Future<Usuario> funcaoBuscarUsuarioPorId({required int idUsuario}) async {
+  //   final usuarios = await usuarioRepository.get(
+  //       entity: 'usuario', builder: Usuario.fromMap);
+  //   return usuarios.firstWhere((u) => u.idUsuario == idUsuario);
+  // }
 
   @override
   // cadastra usuario
@@ -32,14 +30,14 @@ class UsuarioServiceImpl implements IUsuarioService {
       throw CpfInvalidoException('O cpf deve conter apenas 11 numeros', 305);
     }
 
-    return httpUsuarioService.post(model: u, entity: 'usuario');
+    return usuarioRepository.post(usuario: u);
   }
 
   @override
   // deleta o usuario do banco pelo id
   Future<void> funcaoDeleteUsuario({required int idUsuario}) async {
     try {
-      await httpUsuarioService.delete(entity: 'usuario', id: idUsuario);
+      await usuarioRepository.delete(id: idUsuario);
     } catch (e) {
       print(
           'Erro ao deletar usuario do banco, talvez não exista ou o código esteja se perdendo no tipo de requisição');
@@ -49,7 +47,13 @@ class UsuarioServiceImpl implements IUsuarioService {
   @override
   // retorna uma lista de usuarios do banco
   Future<List<Usuario>> funcaoMostrarUsuarios() async {
-    return await httpUsuarioService.get(
-        entity: 'usuario', builder: Usuario.fromMap);
+    return await usuarioRepository.getAll();
+  }
+
+  // não utilizado
+  @override
+  Future<Usuario> funcaoBuscarUsuarioPorId({required int idUsuario}) async {
+    final u = await usuarioRepository.getAll();
+    return u.firstWhere((usuario) => usuario.idUsuario == idUsuario);
   }
 }

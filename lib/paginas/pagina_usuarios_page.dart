@@ -256,9 +256,12 @@ class _PaginaUsuariosPageState extends State<PaginaUsuariosPage> {
                 const PaginaProdutosPage(tipoLista: TipoLista.CRIACAO_PED)));
   }
 
+  /// Deleta usuário.
   Future<void> delete(Usuario itemLista) async {
+    /// guarda o retorno do dialog.
     final usuarioConfirmou = await _showMyDialog();
     if (usuarioConfirmou! == true) {
+      /// se o usuario confirmou, executa a deleção.
       await myHttp.funcaoDeleteUsuario(idUsuario: itemLista.idUsuario);
     }
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:teste_app_api/core/http/application/my_http_service.dart';
+import 'package:teste_app_api/getit/setUpInjectors.dart';
+import 'package:teste_app_api/interface/i_pedido_service.dart';
 import 'package:teste_app_api/models/pedido.dart';
 import 'package:teste_app_api/paginas/pagina_info_pedido_page.dart';
 import 'package:teste_app_api/paginas/pagina_usuarios_page.dart';
@@ -16,12 +17,11 @@ class PaginaPedidosEfetuadosPage extends StatefulWidget {
 class _PaginaPedidosEfetuadosPageState
     extends State<PaginaPedidosEfetuadosPage> {
   final listaPedidos = <Pedido>[];
+  final pedidosRepositoryHttp = getIt<IPedidoService>();
 
   Future<void> funcaoMostrarPedidos() async {
-    final myHttp = MyHttpService<Pedido>();
-
     final pedidosEncontrados =
-        await myHttp.get(entity: 'pedido', builder: Pedido.fromMap);
+        await pedidosRepositoryHttp.funcaoMostrarPedidos();
 
     pedidosEncontrados.sort((a, b) => a.idPedido!.compareTo(b.idPedido!));
 
@@ -85,7 +85,7 @@ class _PaginaPedidosEfetuadosPageState
                           padding: const EdgeInsets.all(8.0),
                           child: ListTile(
                             title: Text(
-                              pedido.usuario!.nome!,
+                              pedido.usuario!.nome,
                               style: const TextStyle(color: Colors.white),
                               textScaler: const TextScaler.linear(1.2),
                             ),
@@ -143,10 +143,53 @@ class _PaginaPedidosEfetuadosPageState
             builder: (_) => PaginaInfoPedidoPage(pedido: pedido)));
   }
 
+  /// Deleta pedido
   Future<void> deletarPedido(Pedido pedido) async {
-    final myHttp = MyHttpService<Pedido>();
+    /// aguarda o retorno do dialog antes de executar a exclusão do pedido.
+    final usuarioConfirmou = await _showMyDialog();
 
-    await myHttp.delete(entity: 'pedido', id: pedido.idPedido!);
+    if (usuarioConfirmou! == true) {
+      /// se o usuario confirmou
+      await pedidosRepositoryHttp.funcaoDeletarPedido(
+          idPedido: pedido.idPedido!);
+    }
     listaPedidos.clear();
+  }
+
+  Future<bool?> _showMyDialog() async {
+    return showDialog<bool>(
+      context: context,
+      barrierDismissible: false, // o usuario precisa pressionar sim ou não.
+
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Atenção'),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              mainAxis: Axis.vertical,
+              children: <Widget>[
+                Text('Você está prestes a excluir um pedido'),
+                Text('Deseja continuar?'),
+              ],
+            ),
+          ),
+          // botões de ação
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Sim'),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+            TextButton(
+              child: const Text('Não'),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

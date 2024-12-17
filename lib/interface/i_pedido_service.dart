@@ -6,4 +6,6 @@ abstract class IPedidoService {
 
   Future<List<Pedido>> funcaoMostrarPedidos();
 
+  Future<void> funcaoDeletarPedido({required int idPedido});
+
 }
