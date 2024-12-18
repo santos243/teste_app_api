@@ -18,23 +18,23 @@ class UsuarioServiceImpl implements IUsuarioService {
   // }
 
   @override
-  // cadastra usuario
-  Future<void> funcaoCadastroUsuario(
+  /// cadastra usuario
+  Future<Usuario?> funcaoCadastroUsuario(
       {required String nome, required String cpf}) async {
     final u = Usuario(idUsuario: 0, nome: nome, cpf: cpf);
-    if (u.nome == "" || u.nome.isEmpty) {
-      // criar exception
-      throw SemNomeException('Campo de nome incorreto ou invalido', 300);
+    if (u.nome.length < 3) {
+      /// criar exception
+      throw SemNomeException('Nome inválido, preencha com seu nome completo');
     }
     if (u.cpf.length != 11) {
-      throw CpfInvalidoException('O cpf deve conter apenas 11 numeros', 305);
+      throw CpfInvalidoException('O CPF deve conter exatamente 11 números');
     }
-
-    return usuarioRepository.post(usuario: u);
+    usuarioRepository.post(usuario: u);
+    return u;
   }
 
   @override
-  // deleta o usuario do banco pelo id
+  /// deleta o usuario do banco pelo id
   Future<void> funcaoDeleteUsuario({required int idUsuario}) async {
     try {
       await usuarioRepository.delete(id: idUsuario);
@@ -45,12 +45,12 @@ class UsuarioServiceImpl implements IUsuarioService {
   }
 
   @override
-  // retorna uma lista de usuarios do banco
+  /// retorna uma lista de usuarios do banco
   Future<List<Usuario>> funcaoMostrarUsuarios() async {
     return await usuarioRepository.getAll();
   }
 
-  // não utilizado
+  /// não utilizado
   @override
   Future<Usuario> funcaoBuscarUsuarioPorId({required int idUsuario}) async {
     final u = await usuarioRepository.getAll();

@@ -10,17 +10,19 @@ import 'package:teste_app_api/interface/i_produto_service.dart';
 import 'package:teste_app_api/interface/I_my_http_dart.dart';
 import 'package:teste_app_api/core/http/application/my_http_service.dart';
 import 'package:teste_app_api/interface/i_usuario_service.dart';
+import 'package:teste_app_api/mock_data/pedido_repository_mock.dart';
+import 'package:teste_app_api/mock_data/produto_repository_mock.dart';
+import 'package:teste_app_api/mock_data/usuario_repository_mock.dart';
 import 'package:teste_app_api/services/pedido_service_impl.dart';
 import 'package:teste_app_api/services/produto_service_impl.dart';
 import 'package:teste_app_api/services/usuario_service_impl.dart';
 
 final GetIt getIt = GetIt.instance;
 
-// fazer injeção de dependencia para criar uma interface service para classe de pedidos.
+/// fazer injeção de dependencia para criar uma interface service para classe de pedidos.
 void setUpInjectors() {
   try {
-        getIt.registerLazySingleton<PedidoRepository>(
-        () => PedidoRepositoryHttp(getIt<IMyHttpDart>()));
+    getIt.registerLazySingleton<PedidoRepository>(() => PedidoRepositoryHttp(getIt<IMyHttpDart>()));
   } catch (e) {
     print('Erro ao registrar PedidoRepository: $e');
   }

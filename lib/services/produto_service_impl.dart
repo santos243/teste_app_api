@@ -9,36 +9,38 @@ class ProdutoServiceImpl implements IProdutoService {
 
   ProdutoServiceImpl(this.produtoRepository);
 
-
   @override
-  Future<void> funcaoCadastroProduto(
+  Future<Produto> funcaoCadastroProduto(
       {required String nome,
       required String categoria,
       required String valor}) async {
+    /// montando o objeto
     final p = Produto(
         idProduto: 1,
         nome: nome,
         categoria: categoria,
         valor: double.tryParse(valor) ?? 0);
 
-    // valida se os campos estão preenchidos corretamente
-    if (p.nome.length < 2 || p.nome == '') {
+    /// verifica se os campos estão preenchidos corretamente.
+    if (p.nome.length < 2) {
       throw SemNomeException(
-          'Campo nome não obedece os padrões pré-estabelecidos', 300);
+          'Campo nome não obedece os padrões pré-estabelecidos');
     }
     if (p.categoria.length > 20) {
       throw CategoriaCaracteresException(
-          'Campo categoria excedeu o limite de caracteres', 304);
+          'Campo categoria excedeu o limite de caracteres');
     }
     if (p.categoria.length < 2) {
       throw CategoriaCaracteresException(
-          'Campo categoria não atingiu o minimo de caracteres necesssarios',
-          304);
+          'Campo categoria não atingiu o minimo de 5 caracteres necesssarios');
     }
-    // requisição
+
+    /// enviando pro repository fazer a requisição.
     await produtoRepository.post(produto: p);
+    return p;
   }
 
+  /// Retorna todos os produtos
   @override
   Future<List<Produto>> funcaoMostrarProdutos() async {
     final response = await produtoRepository.get();

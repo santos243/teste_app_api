@@ -1,8 +1,9 @@
-// ignore_for_file: use_build_context_synchronously,avoid_types_as_parameter_names, non_constant_identifier_names, empty_catches
+// ignore_for_file: use_build_context_synchronously,avoid_types_as_parameter_names, non_constant_identifier_names, empty_catches, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
 import 'package:teste_app_api/getit/setUpInjectors.dart';
 import 'package:teste_app_api/interface/i_usuario_service.dart';
+import 'package:teste_app_api/models/usuario.dart';
 
 class PaginaCadastrarUserPage extends StatefulWidget {
   const PaginaCadastrarUserPage({super.key});
@@ -65,7 +66,6 @@ class _PaginaCadastrarUserPageState extends State<PaginaCadastrarUserPage> {
               ElevatedButton(
                 onPressed: () async {
                   await funcaoCadastroUsuario();
-                  await _showMyDialog();
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blueAccent.shade400),
@@ -81,50 +81,32 @@ class _PaginaCadastrarUserPageState extends State<PaginaCadastrarUserPage> {
     );
   }
 
-  // apenas para teste
-  // void printarDadosDigitados() {
-  //   print('nome: ${controllerNome.text}\n cpf: ${controllerCpf.text}');
-  // }
-
-  // Future<void> funcaoCadastroUsuario() async {
-  //   final myHttp = MyHttpService<Usuario>();
-
-  //   final u = Usuario(
-  //       idUsuario: 1, nome: controllerNome.text, cpf: controllerCpf.text);
-
-  //   if (u.nome.length < 8 || u.cpf.length != 11) {
-  //     throw Exception(
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(
-  //           content: Text(
-  //               "CPF ou nome invalido, por favor preencha os campos corretamente."),
-  //         ),
-  //       ),
-  //     );
-  //   }
-
-  //   await myHttp.post(model: u, entity: 'usuario');
-
-  //   final usuarioConfirmou = await _showMyDialog();
-
-  //   if (!usuarioConfirmou!) {
-  //     Navigator.pushReplacement(
-  //         context,
-  //         MaterialPageRoute(
-  //             builder: (context) => const PaginaUsuariosPage(
-  //                 tipoListagem: TipoListagem.CONSULTA)));
-  //   }
-  // }
-
   Future<void> funcaoCadastroUsuario() async {
-    await httpUsuarioService.funcaoCadastroUsuario(
-        nome: controllerNome.text, cpf: controllerCpf.text);
+    /// variável usada para guardar o valor retornado no try catch, permitindo que o mesmo seja utilizado
+    /// como uma condição para o dialog aparecer.
+    var response;
+
+    /// gambiarra pra poder lançar o erro em uma snackbar no app e o usuário ter consciência do que ocorreu.
+    try {
+      response = await httpUsuarioService.funcaoCadastroUsuario(
+          nome: controllerNome.text, cpf: controllerCpf.text);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Ocorreu um erro: $e')),
+      );
+    }
+
+    /// condição para mostrar dialog.
+    if (response != null) {
+      await _showMyDialog();
+    }
   }
 
   Widget widgetTextFormFieldNome() {
     return TextFormField(
       autofocus: true,
       controller: controllerNome,
+      style: const TextStyle(color: Colors.white),
       decoration: const InputDecoration(
         border: InputBorder.none,
         icon: Icon(
@@ -142,6 +124,7 @@ class _PaginaCadastrarUserPageState extends State<PaginaCadastrarUserPage> {
     return TextFormField(
       autofocus: true,
       controller: controllerCpf,
+      style: const TextStyle(color: Colors.white),
       decoration: const InputDecoration(
         border: InputBorder.none,
         icon: Icon(

@@ -10,6 +10,13 @@ final p2 =
     Produto(idProduto: 9, nome: 'Livro', categoria: 'Educação', valor: 50.00);
 final p3 = Produto(
     idProduto: 10, nome: 'Luminária', categoria: 'Decoração', valor: 120.00);
+final p4 = Produto(
+    idProduto: 17, nome: 'SSD', categoria: 'Armazenamento', valor: 600.0);
+final p5 = Produto(
+    idProduto: 16,
+    nome: 'HD Externo',
+    categoria: 'Armazenamento',
+    valor: 450.0);
 
 // usuarios instanciados separadamente para facilitar outros processos que precisam de um usuario
 final usuarioMockado =
@@ -39,6 +46,36 @@ final List<Produto> produto = [
       valor: 200.00),
   Produto(
       idProduto: 7, nome: 'Relógio', categoria: 'Acessórios', valor: 400.00),
+  Produto(
+      idProduto: 8, nome: 'Notebook', categoria: 'Eletrônicos', valor: 4500.0),
+  Produto(
+      idProduto: 9,
+      nome: 'Smartphone',
+      categoria: 'Eletrônicos',
+      valor: 2500.0),
+  Produto(idProduto: 10, nome: 'Mouse', categoria: 'Acessórios', valor: 150.0),
+  Produto(
+      idProduto: 11, nome: 'Teclado', categoria: 'Acessórios', valor: 200.0),
+  Produto(
+      idProduto: 12, nome: 'Monitor', categoria: 'Eletrônicos', valor: 1200.0),
+  Produto(
+      idProduto: 13,
+      nome: 'Impressora',
+      categoria: 'Periféricos',
+      valor: 800.0),
+  Produto(
+      idProduto: 14, nome: 'Cadeira Gamer', categoria: 'Móveis', valor: 1300.0),
+  Produto(
+      idProduto: 15,
+      nome: 'Mesa de Escritório',
+      categoria: 'Móveis',
+      valor: 900.0),
+  Produto(
+      idProduto: 16,
+      nome: 'HD Externo',
+      categoria: 'Armazenamento',
+      valor: 450.0),
+  Produto(idProduto: 17, nome: 'SSD', categoria: 'Armazenamento', valor: 600.0),
 ];
 
 // lista de usuarios
@@ -62,6 +99,10 @@ final List<ItemPedido> itemPedidos1 = [
     quantidade: 4,
   ),
   ItemPedido(
+      idItemPedido: 7, produto: p4, idProduto: p4.idProduto, quantidade: 3),
+  ItemPedido(
+      idItemPedido: 5, produto: p5, idProduto: p5.idProduto, quantidade: 3),
+  ItemPedido(
     idItemPedido: 3,
     produto: p2,
     idProduto: p2.idProduto,
@@ -83,6 +124,10 @@ final List<ItemPedido> itemPedidos2 = [
     idProduto: p3.idProduto,
     quantidade: 2,
   ),
+  ItemPedido(
+      idItemPedido: 3, produto: p2, idProduto: p2.idProduto, quantidade: 4),
+  ItemPedido(
+      idItemPedido: 1, produto: p4, idProduto: p4.idProduto, quantidade: 8),
 ];
 
 final pedidoMockado = Pedido(

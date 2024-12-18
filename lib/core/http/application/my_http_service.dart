@@ -11,36 +11,36 @@ typedef ModelBuilder<T> = T Function(Map<String, dynamic> map);
 class MyHttpService<T extends IModel> implements IMyHttpDart<T> {
   static const String URL = '192.168.0.236:8080';
 
-  // retorna uma lista de T(qualquer coisa que herda IModel).
+  /// retorna uma lista de T(qualquer coisa que herda IModel).
   @override
   Future<List<T>> get<T>(
       {required String entity, required ModelBuilder<T> builder}) async {
-    // instanciando uma lista de T(qualquer coisa que extends IModel).
+    /// instanciando uma lista de T(qualquer coisa que extends IModel).
     final lista = <T>[];
     final result = await http.get(_getUri(path: entity));
 
-    // de json para map
+    /// de json para map
     final jsonResposta = json.decode(result.body);
 
-    // Percorre a lista do json
+    /// Percorre a lista do json
     for (final itemResposta in jsonResposta) {
-      // de map para objeto Dart
+      /// de map para objeto Dart
       final t = builder(itemResposta);
-      // adiciona os objetos dentro da lista
+      /// adiciona os objetos dentro da lista
       lista.add(t);
     }
-    // retorna essa lista
+    /// retorna essa lista
     return lista;
   }
 
   @override
   Future<void> post({required T model, required String entity}) async {
-    // model T para um mapa
+    /// model T para um mapa
     final typeModel = model;
     final body = typeModel.toMap();
-    // mapa para json
+    /// mapa para json
     final json = jsonEncode(body);
-    // requisição
+    /// requisição
     final response = await http.post(
       _getUri(path: entity),
       body: json,
@@ -48,7 +48,7 @@ class MyHttpService<T extends IModel> implements IMyHttpDart<T> {
         "Content-Type": "application/json",
       },
     );
-    // caso ocorra algum erro na requisiçao
+    /// caso ocorra algum erro na requisiçao
     if (response.statusCode == 400) {
       throw Exception("Campo invalido ou nao preenchido.");
     }

@@ -1,3 +1,8 @@
 class SemNomeException extends FormatException {
-  SemNomeException(super.message, int codErro);
+  SemNomeException(super.message);
+
+  @override
+  String toString(){
+    return 'preencha seu nome completo!';
+  }
 }

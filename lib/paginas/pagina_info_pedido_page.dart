@@ -16,6 +16,7 @@ class PaginaInfoPedidoPage extends StatefulWidget {
 class _PaginaInfoPedidoPageState extends State<PaginaInfoPedidoPage> {
   @override
   Widget build(BuildContext context) {
+    /// organiza os itens do que tem maior quantidade primeiro e a menor por ultimo.
     widget.pedido.itens.sort((a, b) => b.quantidade.compareTo(a.quantidade));
 
     return Scaffold(

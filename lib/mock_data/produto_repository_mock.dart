@@ -9,8 +9,10 @@ class ProdutoRepositoryMock implements ProdutoRepository {
   Future<void> post(
       {required Produto produto}) async {
     _produtos.add(produto);
+    throw Exception('Produto meramente ilustrativo');
   }
 
+  /// Produtos meramente ilustrativos
   @override
   Future<List<Produto>> get() async {
     return _produtos;

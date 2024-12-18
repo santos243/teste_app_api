@@ -1,10 +1,8 @@
-// ignore_for_file: use_build_context_synchronously, avoid_types_as_parameter_names, non_constant_identifier_names
+// ignore_for_file: use_build_context_synchronously, avoid_types_as_parameter_names, non_constant_identifier_names, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
 import 'package:teste_app_api/interface/i_produto_service.dart';
-import 'package:teste_app_api/core/http/application/my_http_service.dart';
 import 'package:teste_app_api/getit/setUpInjectors.dart';
-import 'package:teste_app_api/models/produto.dart';
 import 'package:teste_app_api/paginas/pagina_produtos_page.dart';
 
 class PaginaCadastrarProdutoPage extends StatefulWidget {
@@ -20,11 +18,10 @@ class _PaginaCadastrarProdutoPageState
   var controllerNome = TextEditingController();
   var controllerCategoria = TextEditingController();
   var controllerValor = TextEditingController();
+  final produtoService = getIt<IProdutoService>();
 
   @override
   Widget build(BuildContext context) {
-    final produtoService = getIt<IProdutoService>();
-
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -82,10 +79,8 @@ class _PaginaCadastrarProdutoPageState
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blueAccent.shade200),
-                  onPressed: () {
-                    produtoService.funcaoCadastroProduto(nome: controllerNome.text,
-                        categoria: controllerCategoria.text,valor: controllerValor.text);
-                        usuarioConfirmouDialog();
+                  onPressed: () async {
+                    await funcaoCadastroProduto();
                   },
                   // funcaoCadastroProduto(MyHttpService<Produto>()),
                   child: const Text(
@@ -101,11 +96,34 @@ class _PaginaCadastrarProdutoPageState
     );
   }
 
+  Future<void> funcaoCadastroProduto() async {
+    /// variável utilizada para guardar o valor do retonro da requisição
+    /// posteriormente o valor pode ser usado para criar uma condição em que o dialog aparece.
+    var response;
+
+    try {
+      response = await produtoService.funcaoCadastroProduto(
+          nome: controllerNome.text,
+          categoria: controllerCategoria.text,
+          valor: controllerValor.text);
+    } on FormatException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Ocorreu um erro: ( ͡° ͜ʖ ͡°)  $e')),
+      );
+    }
+
+    /// condição para o dialog aparecer.
+    if (response != null) {
+      await usuarioConfirmouDialog();
+    }
+  }
+
+  /// verifica se o usuório confirmou o dialog(clicou em sim).
   Future<void> usuarioConfirmouDialog() async {
-    // após a requisição, abre um dialog se o usuário quer efetuar um novo cadastro ou não.
+    /// após a requisição, abre um dialog se o usuário quer efetuar um novo cadastro ou não.
     final usuarioConfirmou = await _showMessageDialog();
 
-    // se for falso
+    /// se for falso
     if (!usuarioConfirmou!) {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const PaginaProdutosPage(
@@ -117,6 +135,7 @@ class _PaginaCadastrarProdutoPageState
     return TextFormField(
       controller: controllerNome,
       autofocus: true,
+      style: TextStyle(color: Colors.white),
       decoration: const InputDecoration(
           border: InputBorder.none,
           icon: Icon(
@@ -125,7 +144,9 @@ class _PaginaCadastrarProdutoPageState
           ),
           hintText: 'mín. 2 carácteres',
           hintStyle: TextStyle(color: Colors.white70),
-          labelText: 'Insira o nome'),
+          labelText: 'Insira o nome',
+          ),
+
     );
   }
 
@@ -142,6 +163,7 @@ class _PaginaCadastrarProdutoPageState
           hintText: 'ex: Marcenaria, Eletrodoméstico, Eletrônico, etc',
           hintStyle: TextStyle(color: Colors.white70),
           labelText: 'Insira a categoria'),
+
     );
   }
 

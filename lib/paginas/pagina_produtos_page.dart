@@ -25,21 +25,23 @@ class PaginaProdutosPage extends StatefulWidget {
 }
 
 class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
-  // late CarrinhoRepositoryTeste carrinho;
+  /// late CarrinhoRepositoryTeste carrinho;
   final listaProdutos = <Produto>[];
   final httpProdutoService = getIt<IProdutoService>();
   final httpPedidoService = getIt<IPedidoService>();
 
-  // busca todos os produtos do banco e adiciona na lista instanciada como "listaProdutos"
+
+  /// busca todos os produtos do banco e adiciona na lista instanciada como "listaProdutos"
   Future<void> funcaoMostrarProdutos() async {
-    // limpa a lista toda vez que o método for chamado
+    /// limpa a lista toda vez que o método for chamado
     listaProdutos.clear();
 
-    // requisição
-    final produtosEncontrados = await httpProdutoService.funcaoMostrarProdutos();
-    // adiciona todos os produtos encontrados na lista instanciada
+    /// requisição
+    final produtosEncontrados =
+        await httpProdutoService.funcaoMostrarProdutos();
+    /// adiciona todos os produtos encontrados na lista instanciada
     listaProdutos.addAll(produtosEncontrados);
-    // atualiza o estado da tela toda
+    /// atualiza o estado da tela toda
     setState(() {});
   }
 
@@ -119,14 +121,6 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
                                 height: 50,
                                 width: 50,
                                 fit: BoxFit.cover),
-                            // onTap: () {
-                            // setState(() {});
-                            // if (widget.tipoLista ==
-                            //     TipoLista.CRIACAO_PED) {
-                            //   print(itemProduto);
-                            //   setState(() {});
-                            // }
-                            // },
                             title: Text(
                                 '${itemProduto.nome}  -  ${itemProduto.idProduto}'),
                             subtitle: Text('R\$ ${itemProduto.valor}'),
@@ -175,7 +169,8 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
                                         onPressed: () {
                                           var counter = 0;
                                           counter++;
-                                          // adicionar item ao carrinho, e mostrar o total adicionado ao lado
+
+                                          /// adicionar item ao carrinho, e mostrar o total adicionado ao lado
                                           carrinhoProvider.addItem(ItemPedido(
                                               produto: itemProduto,
                                               idProduto: itemProduto.idProduto,
@@ -236,15 +231,17 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
     );
   }
 
+  /// deleta produto
   Future<void> deleteProduto(Produto itemProduto) async {
-    // mostra um dialog de confirmação.
+    /// mostra um dialog de confirmação.
     final usuarioConfirmou = await _showMyDialogDelete();
     if (usuarioConfirmou!) {
-      // se o usuario confirmou, a requisição é feita.
+      /// se o usuario confirmou, a requisição é feita.
       await httpProdutoService.delete(itemProduto.idProduto);
     }
   }
 
+  /// rota
   void irParaInfoProdutos(Produto itemProduto) {
     Navigator.push(
       context,
@@ -253,6 +250,7 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
     );
   }
 
+  /// rota
   void irParaCadastroProduto() {
     Navigator.pushReplacement(
       context,
@@ -260,6 +258,7 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
     );
   }
 
+  /// rota
   void irParaEfetuarPedido() {
     Navigator.pushReplacement(
       context,
@@ -270,30 +269,30 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
     );
   }
 
-  // confirma o pedido
+  /// confirma o pedido
   Future<void> confirmarPedido(Pedido pedido) async {
-
-    // requisição
+    /// requisição
     await httpPedidoService.funcaoCriarPedido(pedido: pedido);
 
-    // depois que a requisição é feita, o carrinho é restaurado.
+    /// depois que a requisição é feita, o carrinho é restaurado.
     pedido.itens.clear();
 
-    // quando terminar a requisição, será mostrado um dialog
+    /// quando terminar a requisição, será mostrado um dialog
     final usuarioConfirmou = await _showMyDialog();
 
-    // se for falso*
+    /// se for falso*
     if (!usuarioConfirmou!) {
-      // fecha a tela do carrinho se a condição for satisfeita.
+      /// fecha a tela do carrinho se a condição for satisfeita.
       Navigator.pop(context);
     }
-    // se a condição anterior for satisfeita, agora fechará a tela de usuários, senão fecha apenas a tela de produtos.
+
+    /// se a condição anterior for satisfeita, agora fechará a tela de usuários, senão fecha apenas a tela de produtos.
     Navigator.pop(context);
   }
 
-  // widget contador que exibe a quantidade de cada produto no carrinho(PedidoProvider).
+  /// widget contador que exibe a quantidade de cada produto no carrinho(PedidoProvider).
   Widget getItemPedidoQtdWidget(Produto produto) {
-    // consome informações do PedidoProvider
+    /// consome informações do PedidoProvider
     return Consumer<PedidoProvider>(
       builder: (_, provider, child) {
         final itemPedido = provider.getItemPedido(produto);
@@ -305,7 +304,7 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
     );
   }
 
-  // widget contador que calcula o valor total de todos os itens dentro do carrinho.
+  /// widget contador que calcula o valor total de todos os itens dentro do carrinho.
   Widget getValorTotalPedido(List<ItemPedido> itens) {
     return Consumer<PedidoProvider>(
       builder: (context, value, child) {
@@ -318,10 +317,13 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
     );
   }
 
+  /// aparece o dialog quando um pedido é efetuado.
   Future<bool?> _showMyDialog() async {
     return showDialog<bool>(
       context: context,
-      barrierDismissible: false, // o usuario precisa pressionar sim ou não.
+      barrierDismissible: false,
+
+      /// o usuario precisa pressionar sim ou não.
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Atenção'),
@@ -334,7 +336,8 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
               ],
             ),
           ),
-          // botões de ação
+
+          /// botões de ação
           actions: <Widget>[
             TextButton(
               child: const Text('Sim'),
@@ -354,10 +357,13 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
     );
   }
 
+  /// aparece dialog caso seja chaamda função delete.
   Future<bool?> _showMyDialogDelete() async {
     return showDialog<bool>(
       context: context,
-      barrierDismissible: false, // o usuario precisa pressionar sim ou não.
+      barrierDismissible: false,
+
+      /// o usuario precisa pressionar sim ou não.
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Atenção'),
@@ -370,7 +376,8 @@ class _PaginaProdutosPageState extends State<PaginaProdutosPage> {
               ],
             ),
           ),
-          // botões de ação
+
+          /// botões de ação
           actions: <Widget>[
             TextButton(
               child: const Text('Sim'),

@@ -24,7 +24,7 @@ class PedidoRepositoryMock implements PedidoRepository {
     return p.firstWhere((pedido) => pedido.idPedido == idPedido);
   }
 
-  /// Deleta um pedido específico no repositório mockado.
+  /// Deleta um pedido específico no repositório 
   @override
   Future<void> delete({required int idPedido}) async {
     pedidos.removeWhere((pedido) => pedido.idPedido == idPedido);
