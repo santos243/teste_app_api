@@ -1,4 +1,4 @@
-import 'package:teste_app_api/core/http/application/produto_repository.dart';
+import 'package:teste_app_api/interface/produto_repository.dart';
 import 'package:teste_app_api/interface/I_my_http_dart.dart';
 import 'package:teste_app_api/models/produto.dart';
 

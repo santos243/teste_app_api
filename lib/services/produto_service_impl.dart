@@ -1,4 +1,4 @@
-import 'package:teste_app_api/core/http/application/produto_repository.dart';
+import 'package:teste_app_api/interface/produto_repository.dart';
 import 'package:teste_app_api/exceptions/CategoriaCaracteresException.dart';
 import 'package:teste_app_api/exceptions/SemNomeException.dart';
 import 'package:teste_app_api/interface/i_produto_service.dart';
@@ -11,7 +11,7 @@ class ProdutoServiceImpl implements IProdutoService {
 
 
   @override
-  Future<void> funcaoCadastroProduto(
+  Future<Produto> funcaoCadastroProduto(
       {required String nome,
       required String categoria,
       required String valor}) async {
@@ -37,6 +37,7 @@ class ProdutoServiceImpl implements IProdutoService {
     }
     // requisição
     await produtoRepository.post(produto: p);
+    return p;
   }
 
   @override

@@ -1,4 +1,4 @@
-import 'package:teste_app_api/core/http/application/pedido_repository.dart';
+import 'package:teste_app_api/interface/pedido_repository.dart';
 import 'package:teste_app_api/exceptions/SemIdUsuarioNoPedido.dart';
 import 'package:teste_app_api/exceptions/SemItensNoPedidoException.dart';
 import 'package:teste_app_api/interface/i_pedido_service.dart';
@@ -14,8 +14,7 @@ class PedidoServiceImpl extends IPedidoService {
   Future<void> funcaoCriarPedido({required Pedido pedido}) async {
     if (pedido.itens.isEmpty) {
       throw SemItensNoPedidoException(
-          'erro ao cadastrar pedido pois nao foram selecionados nenhum item ',
-          codErro: 300);
+          'erro ao cadastrar pedido pois nao foram selecionados nenhum item ');
     }
     if (pedido.idUsuario == null) {
       throw SemIdUsuarioNoPedido(

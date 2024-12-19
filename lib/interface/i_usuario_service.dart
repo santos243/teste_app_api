@@ -9,5 +9,5 @@ abstract class IUsuarioService {
   // deleta o usuario do banco pelo id.
   Future<void> funcaoDeleteUsuario({required int idUsuario});
   // cadastra usuario.
-  Future<void> funcaoCadastroUsuario({required String nome, required String cpf});
+  Future<Usuario> funcaoCadastroUsuario({required String nome, required String cpf});
 }

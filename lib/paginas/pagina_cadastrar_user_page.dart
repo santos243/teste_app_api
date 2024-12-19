@@ -117,8 +117,13 @@ class _PaginaCadastrarUserPageState extends State<PaginaCadastrarUserPage> {
   // }
 
   Future<void> funcaoCadastroUsuario() async {
-    await httpUsuarioService.funcaoCadastroUsuario(
-        nome: controllerNome.text, cpf: controllerCpf.text);
+    var response;
+    try {
+    response = await httpUsuarioService.funcaoCadastroUsuario(
+      nome: controllerNome.text, cpf: controllerCpf.text);
+} on FormatException catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Ocorreu um erro:  $e')));
+}
   }
 
   Widget widgetTextFormFieldNome() {

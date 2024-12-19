@@ -5,7 +5,7 @@ import 'package:teste_app_api/models/produto.dart';
 
 abstract class IProdutoService {
   // cadastra produto.
-  Future<void> funcaoCadastroProduto(
+  Future<Produto> funcaoCadastroProduto(
       {required String nome,required String categoria, required String valor});
   // retorna uma lista de produto do banco.
   Future<List<Produto>> funcaoMostrarProdutos();

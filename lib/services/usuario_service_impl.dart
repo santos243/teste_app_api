@@ -1,4 +1,4 @@
-import 'package:teste_app_api/core/http/application/usuario_repository.dart';
+import 'package:teste_app_api/interface/usuario_repository.dart';
 import 'package:teste_app_api/exceptions/CpfInvalidoException.dart';
 import 'package:teste_app_api/exceptions/SemNomeException.dart';
 import 'package:teste_app_api/interface/i_usuario_service.dart';
@@ -19,7 +19,7 @@ class UsuarioServiceImpl implements IUsuarioService {
 
   @override
   // cadastra usuario
-  Future<void> funcaoCadastroUsuario(
+  Future<Usuario> funcaoCadastroUsuario(
       {required String nome, required String cpf}) async {
     final u = Usuario(idUsuario: 0, nome: nome, cpf: cpf);
     if (u.nome == "" || u.nome.isEmpty) {
@@ -29,8 +29,8 @@ class UsuarioServiceImpl implements IUsuarioService {
     if (u.cpf.length != 11) {
       throw CpfInvalidoException('O cpf deve conter apenas 11 numeros', 305);
     }
-
-    return usuarioRepository.post(usuario: u);
+    usuarioRepository.post(usuario: u);
+    return u;
   }
 
   @override

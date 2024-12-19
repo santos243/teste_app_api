@@ -1,4 +1,4 @@
-import 'package:teste_app_api/core/http/application/pedido_repository.dart';
+import 'package:teste_app_api/interface/pedido_repository.dart';
 import 'package:teste_app_api/interface/I_my_http_dart.dart';
 import 'package:teste_app_api/models/pedido.dart';
 

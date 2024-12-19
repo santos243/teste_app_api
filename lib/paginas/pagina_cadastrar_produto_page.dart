@@ -2,9 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:teste_app_api/interface/i_produto_service.dart';
-import 'package:teste_app_api/core/http/application/my_http_service.dart';
 import 'package:teste_app_api/getit/setUpInjectors.dart';
-import 'package:teste_app_api/models/produto.dart';
 import 'package:teste_app_api/paginas/pagina_produtos_page.dart';
 
 class PaginaCadastrarProdutoPage extends StatefulWidget {
@@ -20,11 +18,10 @@ class _PaginaCadastrarProdutoPageState
   var controllerNome = TextEditingController();
   var controllerCategoria = TextEditingController();
   var controllerValor = TextEditingController();
+  final produtoService = getIt<IProdutoService>();
 
   @override
   Widget build(BuildContext context) {
-    final produtoService = getIt<IProdutoService>();
-
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -83,9 +80,11 @@ class _PaginaCadastrarProdutoPageState
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blueAccent.shade200),
                   onPressed: () {
-                    produtoService.funcaoCadastroProduto(nome: controllerNome.text,
-                        categoria: controllerCategoria.text,valor: controllerValor.text);
-                        usuarioConfirmouDialog();
+                    produtoService.funcaoCadastroProduto(
+                        nome: controllerNome.text,
+                        categoria: controllerCategoria.text,
+                        valor: controllerValor.text);
+                    usuarioConfirmouDialog();
                   },
                   // funcaoCadastroProduto(MyHttpService<Produto>()),
                   child: const Text(
@@ -99,6 +98,27 @@ class _PaginaCadastrarProdutoPageState
         ),
       ),
     );
+  }
+  /// método que envia a request de cadastro do produto o produto
+  Future<void> funcaoCadastroProduto() async {
+    /// variável usada para guardar o valor que a requisição retornar
+    /// posteriormente esse valor é utilizado como condição para mostar o dialog
+    var response;
+
+
+    try {
+      response = await produtoService.funcaoCadastroProduto(
+          nome: controllerNome.text,
+          categoria: controllerCategoria.text,
+          valor: controllerValor.text);
+    } on FormatException catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Ocorreu um erro:  $e')));
+    }
+
+    if (response != null) {
+      usuarioConfirmouDialog();
+    }
   }
 
   Future<void> usuarioConfirmouDialog() async {

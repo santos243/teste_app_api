@@ -1,9 +1,9 @@
 import 'package:get_it/get_it.dart';
-import 'package:teste_app_api/core/http/application/pedido_repository.dart';
+import 'package:teste_app_api/interface/pedido_repository.dart';
 import 'package:teste_app_api/core/http/application/pedido_repository_http.dart';
-import 'package:teste_app_api/core/http/application/produto_repository.dart';
+import 'package:teste_app_api/interface/produto_repository.dart';
 import 'package:teste_app_api/core/http/application/produto_repository_http.dart';
-import 'package:teste_app_api/core/http/application/usuario_repository.dart';
+import 'package:teste_app_api/interface/usuario_repository.dart';
 import 'package:teste_app_api/core/http/application/usuario_repository_http.dart';
 import 'package:teste_app_api/interface/i_pedido_service.dart';
 import 'package:teste_app_api/interface/i_produto_service.dart';
