@@ -154,6 +154,7 @@ class _PaginaCadastrarProdutoPageState
     return TextFormField(
       controller: controllerCategoria,
       autofocus: true,
+      style: const TextStyle(color: Colors.white),
       decoration: const InputDecoration(
           border: InputBorder.none,
           icon: Icon(
@@ -171,6 +172,7 @@ class _PaginaCadastrarProdutoPageState
     return TextFormField(
       controller: controllerValor,
       autofocus: true,
+      style: const TextStyle(color: Colors.white),
       decoration: const InputDecoration(
           border: InputBorder.none,
           icon: Icon(
