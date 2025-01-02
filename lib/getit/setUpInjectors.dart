@@ -22,15 +22,16 @@ final GetIt getIt = GetIt.instance;
 /// fazer injeção de dependencia para criar uma interface service para classe de pedidos.
 void setUpInjectors() {
   try {
-    getIt.registerLazySingleton<PedidoRepository>(() => PedidoRepositoryHttp(getIt<IMyHttpDart>()));
+    // getIt.registerLazySingleton<PedidoRepository>(() => PedidoRepositoryHttp(getIt<IMyHttpDart>()));
+    getIt.registerLazySingleton<PedidoRepository>(() => PedidoRepositoryMock());
   } catch (e) {
     print('Erro ao registrar PedidoRepository: $e');
   }
   try {
-    getIt.registerLazySingleton<ProdutoRepository>(
-        () => ProdutoRepositoryHttp(getIt<IMyHttpDart>()));
     // getIt.registerLazySingleton<ProdutoRepository>(
-    //     () => ProdutoRepositoryMock());
+    //     () => ProdutoRepositoryHttp(getIt<IMyHttpDart>()));
+    getIt.registerLazySingleton<ProdutoRepository>(
+        () => ProdutoRepositoryMock());
   } catch (e) {
     print('Erro ao registrar ProdutoRepository: $e');
   }
@@ -53,8 +54,9 @@ void setUpInjectors() {
     print('Erro ao registrar IUsuarioService: $e');
   }
   try {
-    getIt.registerLazySingleton<UsuarioRepository>(
-        () => UsuarioRepositoryHttp(getIt<IMyHttpDart>()));
+    // getIt.registerLazySingleton<UsuarioRepository>(
+    //     () => UsuarioRepositoryHttp(getIt<IMyHttpDart>()));
+        getIt.registerLazySingleton<UsuarioRepository>(() => UsuarioRepositoryMock());
   } catch (e) {
     print('Erro ao registrar UsuarioRepository: $e');
   }

@@ -23,7 +23,7 @@ class _PaginaPedidosEfetuadosPageState
     final pedidosEncontrados =
         await pedidosRepositoryHttp.funcaoMostrarPedidos();
 
-    pedidosEncontrados.sort((a, b) => a.idPedido!.compareTo(b.idPedido!));
+    // pedidosEncontrados.sort((a, b) => a.idPedido!.compareTo(b.idPedido!));
 
     listaPedidos.addAll(pedidosEncontrados);
 

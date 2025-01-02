@@ -30,7 +30,7 @@ class PedidoServiceImpl extends IPedidoService {
     /// requisição.
     final pLista = await pedidoRepository.getAll();
     /// ordena o pedido pelo id do menor para o maior.
-    pLista.sort((a, b) => a.idPedido!.compareTo(b.idPedido!));
+    // pLista.sort((a, b) => a.idPedido!.compareTo(b.idPedido!));
     return pLista;
   }
 
