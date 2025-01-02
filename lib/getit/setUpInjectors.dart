@@ -12,6 +12,7 @@ import 'package:teste_app_api/core/http/application/my_http_service.dart';
 import 'package:teste_app_api/interface/i_usuario_service.dart';
 import 'package:teste_app_api/mock_data/pedido_repository_mock.dart';
 import 'package:teste_app_api/mock_data/produto_repository_mock.dart';
+import 'package:teste_app_api/mock_data/usuario_repository_mock.dart';
 import 'package:teste_app_api/services/pedido_service_impl.dart';
 import 'package:teste_app_api/services/produto_service_impl.dart';
 import 'package:teste_app_api/services/usuario_service_impl.dart';
@@ -53,8 +54,9 @@ void setUpInjectors() {
     print('Erro ao registrar IUsuarioService: $e');
   }
   try {
-    getIt.registerLazySingleton<UsuarioRepository>(
-        () => UsuarioRepositoryHttp(getIt<IMyHttpDart>()));
+    // getIt.registerLazySingleton<UsuarioRepository>(
+    //     () => UsuarioRepositoryHttp(getIt<IMyHttpDart>()));
+        getIt.registerLazySingleton<UsuarioRepository>(() => UsuarioRepositoryMock());
   } catch (e) {
     print('Erro ao registrar UsuarioRepository: $e');
   }
